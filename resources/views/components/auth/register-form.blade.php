@@ -3,22 +3,22 @@
     action="{{ route('/register') }}" method="POST">
 
     <div class="w-full mb-20">
-        <input class="border-b-2 py-2 border-[#555] w-full  text-right outline-none focus:outline-none" name="name"  placeholder="* اسم المستخدم" required/>
+        <input class="border-b-2 py-2 border-[#555] w-full  text-right outline-none focus:outline-none" name="name"  placeholder="* اسم المستخدم" value="sgouzi" required/>
     </div>
     <div class="w-full mb-20">
-        <input class="border-b-2 py-2 border-[#555] w-full  text-right outline-none focus:outline-none" name="email" type="email" placeholder="* البريد الإلكتروني" required/>
+        <input class="border-b-2 py-2 border-[#555] w-full  text-right outline-none focus:outline-none" name="email" type="email" placeholder="* البريد الإلكتروني" value="helloworld@gmail.com" required/>
     </div>
     <div class="w-full mb-20">
-        <input class="border-b-2 py-2 border-[#555] w-full  text-right outline-none focus:outline-none" name="password"  placeholder="* كلمة المرور" required/>
+        <input class="border-b-2 py-2 border-[#555] w-full  text-right outline-none focus:outline-none" name="password"  placeholder="* كلمة المرور" value="123456789" required/>
     </div>
     <div class="w-full mb-20">
-        <input class="border-b-2 py-2 border-[#555] w-full  text-right outline-none focus:outline-none" name="confirm"  placeholder="* تأكيد كلمة المرور" required/>
+        <input class="border-b-2 py-2 border-[#555] w-full  text-right outline-none focus:outline-none" name="confirm"  placeholder="* تأكيد كلمة المرور" value="123456789" required/>
     </div>
     <div class="w-full mb-20">
-        <input class="border-b-2 py-2 border-[#555] w-full  text-right outline-none focus:outline-none" name="phone" placeholder="* رقم الهاتف" required/>
+        <input class="border-b-2 py-2 border-[#555] w-full  text-right outline-none focus:outline-none" name="phone" placeholder="* رقم الهاتف" value="0627748714" required/>
     </div>
     <div class="w-full mb-20">
-        <input class="border-b-2 py-2 border-[#555] w-full  text-right outline-none focus:outline-none" name="password"  placeholder="المدينة" required/>
+        <input class="border-b-2 py-2 border-[#555] w-full  text-right outline-none focus:outline-none" name="city"  placeholder="المدينة" value="rabat" required/>
     </div>
     <div class="w-full mb-20">
         <select class="bg-transparent border-b-2 border-[#555] w-full text-right outline-none focus:outline-none text-gray" name="country" dir="rtl" required>
@@ -48,7 +48,14 @@
             <option value="">غير محدد</option>
         </select>
     </div>
-    <button class="bg-[#0292cf] text-white items-end self-end px-3 py-2 rounded">تسجيل</button>
+        <div class="self-end flex items-center gap-10">
+            <a href="{{ route('/login') }}">
+                <button
+                    class="transition duration-150 hover:border-b-2 border-b-black-700" 
+                    type="button">لديك حساب؟ سجل الدخول</button>
+            </a>
+            <button class="bg-[#0292cf] text-white px-3 py-2 rounded">تسجيل</button>
+    </div>
     <div class="text-red-700 self-end opacity-70 mt-5 text-right">
         <ul>
             @foreach ($errors->all() as $error)
@@ -56,4 +63,5 @@
             @endforeach
         </ul>
     </div>
+    @csrf
 </form>

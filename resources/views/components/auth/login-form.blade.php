@@ -8,7 +8,15 @@
     <div class="w-full mb-20">
         <input class="border-b-2 py-2 border-[#555] w-full  text-right outline-none focus:outline-none" name="password"  placeholder="* كلمة المرور" required/>
     </div>
-    <button class="bg-[#0292cf] text-white items-end self-end px-3 py-2 rounded">تسجيل الدخول</button>
+    <div class="self-end flex items-center gap-10">
+        <a href="{{ route('/register') }}">
+            <button
+                class="transition duration-150 hover:border-b-2 border-b-black-700" 
+                type="button">لا تملك حساباً؟ سجل الآن</button>
+        </a>
+        <button class="bg-[#0292cf] text-white  px-3 py-2 rounded">تسجيل الدخول</button>
+    </div>
+    
     @csrf
     @if ($errors->any())
     <div class="text-red-700 self-end opacity-70 mt-5 text-right">

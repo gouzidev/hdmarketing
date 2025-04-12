@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    function getLoginPage(Request $req)
+    public function getLoginPage(Request $req)
     {
         return view("login");
     }
 
-    function login(Request $req)
+    public function login(Request $req)
     {
         $messages = [
             'email.required' => '* البريد الإلكتروني مطلوب',
@@ -36,21 +38,21 @@ class AuthController extends Controller
         }
         $validated = $validator->validated();
 
-        if (Auth::attempt(['email' => $validated->email, 'password' => $validated->password]))
+        if (Auth::attempt(['email' => $validated["email"], 'password' => $validated["password"]]))
             return redirect()->intended('/dashboard')->with('success', 'تم تسجيل الدخول بنجاح');
         return redirect()->back()
             ->withErrors(['auth' => 'البريد الإلكتروني أو كلمة المرور غير صحيحة'])
-            ->withInput(['email' => $credentials['email']]);
+            ->withInput(['email' => $validated['email']]);
     
     }
-    function logout(Request $req)
+    public function logout(Request $req)
     {
         Auth::logout();
         $req->session()->invalidate();
         $req->session()->regenerateToken();
         return redirect()->route('/login')->with('sucess', 'تم تسجيل الدخول بنجاح');
     }
-    function register(Request $req)
+    public function register(Request $req)
     {
         $messages = [
             'name.required' => '* اسم المستخدم مطلوب',
@@ -59,6 +61,7 @@ class AuthController extends Controller
             'email.required' => '* البريد الإلكتروني مطلوب',
             'email.email' => '* يرجى إدخال بريد إلكتروني صالح',
             'email.max' => '* يجب ألا يتجاوز البريد الإلكتروني 50 حرفًا',
+            'email.unique' => 'هذا البريد الإلكتروني موجود بالفعل!',
             'password.required' => '* كلمة المرور مطلوبة',
             'password.min' => '* يجب أن تحتوي كلمة المرور على الأقل 8 أحرف',
             'password.max' => '* يجب ألا تتجاوز كلمة المرور 30 حرفًا',
@@ -72,7 +75,7 @@ class AuthController extends Controller
     
         $validator = Validator::make($req->all(), [
             'name' => 'required|min:3|max:50',
-            'email' => 'required|email|max:50',
+            'email' => 'required|email|max:50|unique:users,email',
             'password' => 'required|min:8|max:30',
             'confirm' => 'required|same:password',
             'phone' => 'required|regex:/^[0-9\+\-\s]+$/',
@@ -88,12 +91,13 @@ class AuthController extends Controller
         }
         
         $validated = $validator->validated();
-        
         // Add your registration logic here
-        
-        return view("dashboard");
+        $user = User::create($validated);
+        $user->save();
+        Session()->user_id = $user->id;
+        return redirect("/dashboard");
     }
-    function getRegisterPage(Request $req)
+    public function getRegisterPage(Request $req)
     {
         return view("register");
     }
