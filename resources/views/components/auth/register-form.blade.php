@@ -49,10 +49,10 @@
         </select>
     </div>
     <button class="bg-[#0292cf] text-white items-end self-end px-3 py-2 rounded">تسجيل</button>
-    <div class="text-red-700 self-start opacity-70">
+    <div class="text-red-700 self-end opacity-70 mt-5 text-right">
         <ul>
             @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
+                <li class="mt-1">{{ $error }}</li>
             @endforeach
         </ul>
     </div>
