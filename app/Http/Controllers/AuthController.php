@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -37,9 +38,11 @@ class AuthController extends Controller
                 ->withInput();
         }
         $validated = $validator->validated();
-
         if (Auth::attempt(['email' => $validated["email"], 'password' => $validated["password"]]))
+        {
+            $req->session()->regenerate();
             return redirect()->intended('/dashboard')->with('success', 'تم تسجيل الدخول بنجاح');
+        }
         return redirect()->back()
             ->withErrors(['auth' => 'البريد الإلكتروني أو كلمة المرور غير صحيحة'])
             ->withInput(['email' => $validated['email']]);
@@ -50,7 +53,7 @@ class AuthController extends Controller
         Auth::logout();
         $req->session()->invalidate();
         $req->session()->regenerateToken();
-        return redirect()->route('/login')->with('sucess', 'تم تسجيل الدخول بنجاح');
+        return redirect()->route('login')->with('sucess', 'تم تسجيل الدخول بنجاح');
     }
     public function register(Request $req)
     {
@@ -91,10 +94,8 @@ class AuthController extends Controller
         }
         
         $validated = $validator->validated();
-        // Add your registration logic here
         $user = User::create($validated);
-        $user->save();
-        Session()->user_id = $user->id;
+        Auth::login($user);
         return redirect("/dashboard");
     }
     public function getRegisterPage(Request $req)

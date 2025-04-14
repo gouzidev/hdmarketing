@@ -12,6 +12,7 @@
     
     <body class=" overflow-x-hidden relative">
         <x-nav :isHome="false"/>
+        <x-profile.edit-form :user='$user' />
+        <script src="{{ asset('js/profile/edit.js') }}"></script>
     </body>
-
 </html>
