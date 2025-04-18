@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ImageController;
+use App\Http\Controllers\ProductController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\ProfileController;
 
@@ -37,6 +39,14 @@ Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function ()
     Route::get('/admin-requests', [AdminController::class, 'getAdminReqsPage'])->name('admin-requests');
     Route::post('/admin-requests/{user}/approve', [AdminController::class, 'approveAdminReq'])->name('requests.approve');
     Route::delete('/admin-requests/{user}/reject', [AdminController::class, 'rejectAdminReq'])->name('requests.reject');
+
+    Route::get("/products", [ProductController::class, 'index'])->name('products.index');
+    Route::get("/products/create", [ProductController::class, 'create'])->name('products.create');
+    Route::get("/products/store", [ProductController::class, 'store'])->name('products.store');
+    Route::get("/products/{product}/show", [ProductController::class, 'show'])->name('products.show');
+    Route::post("/products", [ProductController::class, 'store'])->name('products.store');
+
+    
     Route::prefix('users')->name('users.')->group(function () {
         // Active users
         Route::get('/', [AdminController::class, 'getUsersPage'])->name('index');
@@ -64,5 +74,4 @@ Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function ()
     });
     
     // Products routes would go here
-    Route::get('/products', [AdminController::class, 'getProductsPage'])->name('products');
 });
