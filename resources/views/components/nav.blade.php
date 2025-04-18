@@ -17,10 +17,10 @@
                 <a href="{{ route('dashboard') }}"><button class="cursor-pointer">لوحة التحكم</button></a>
                 <a href="{{ route('admin.users.index') }}"><button class="cursor-pointer">المستخدمين</button></a>
                 <a href="{{ route('admin.users.index') }}"><button class="cursor-pointer">منتجات</button></a>
-                <a href="{{ route('admin.users.index') }}"><button class="cursor-pointer">طلبات الانضمام للإدارة</button></a>
+                <a href="{{ route('admin.admin-requests') }}"><button class="cursor-pointer">طلبات الانضمام للإدارة</button></a>
                 <a href="{{ route('admin.users.deleted') }}"><button class="cursor-pointer">الحسابات المحذوفة</button></a>
                 <a href="{{ route('profile') }}"><button class="cursor-pointer">حسابي</button></a>
-                @else
+            @else
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
                     <button type="submit" class="cursor-pointer rounded-xl bg-red-500 px-3 py-2 ">تسجيل الخروج</button>

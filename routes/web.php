@@ -25,50 +25,24 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 Route::middleware(['auth'])->group(function () {
-    Route::get("/dashboard", function () 
-    {
-        return view("dashboard");
-    })->name('dashboard'); 
+    Route::get("/dashboard", [ProfileController::class, 'serveDashboard'])->name('dashboard'); 
+    Route::post("/request-admin/{user}", [ProfileController::class, 'requestAdmin'])->name('request-admin'); 
     Route::get("/profile", [ProfileController::class, 'index'])->name('profile'); 
     Route::post("/profile/edit", [ProfileController::class, 'edit'])->name('profile.edit'); 
 });
 
 
-
-// Route::middleware(['admin'])->prefix('admin')->group(function () {
-//     // List all users
-//     Route::get('/users', [AdminController::class, 'getUsersPage'])->name('admin.users');
-//     Route::get('/admin/deleted-users', [AdminController::class, 'getDeletedUsersPage'])->name('admin.users.deleted');
-        
-
-//     Route::get('/deleted-users', [AdminController::class, 'getDeletedUsersPage'])->name('admin.deleted-users');
-//     // User operations
-//     Route::prefix('user/{user}')->group(function () {
-//         // Restore user
-//         Route::post('/restore', [AdminController::class, 'restore'])->name('admin.users.restore');
-//         // Permanent delete
-//         Route::delete('/force-delete', [AdminController::class, 'forceDelete'])->name('admin.users.force-delete');
-//         // Delete user
-//         Route::delete('/', [AdminController::class, 'destroy'])->name('admin.users.destroy');
-//         // Edit user page
-//         Route::get('/edit', [AdminController::class, 'getEditUserPage']);
-//         Route::put('/edit', [AdminController::class, 'edit'])->name('admin.users.edit');
-        
-//         // Toggle verification
-//         Route::patch('/verify', [AdminController::class, 'toggleVerification'])->name('admin.users.verify');
-//     });
-// });
-
-
 Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function () {
     // User Management Routes
+    Route::get('/admin-requests', [AdminController::class, 'getAdminReqsPage'])->name('admin-requests');
+    Route::post('/admin-requests/{user}/approve', [AdminController::class, 'approveAdminReq'])->name('requests.approve');
+    Route::delete('/admin-requests/{user}/reject', [AdminController::class, 'rejectAdminReq'])->name('requests.reject');
     Route::prefix('users')->name('users.')->group(function () {
         // Active users
         Route::get('/', [AdminController::class, 'getUsersPage'])->name('index');
         // Deleted users
         Route::get('/deleted', [AdminController::class, 'getDeletedUsersPage'])->name('deleted');
         Route::get('/search', [AdminController::class, 'getSearchedPage'])->name('search');
-        
         // User operations
         Route::prefix('{user}')->group(function () {
             // Edit user

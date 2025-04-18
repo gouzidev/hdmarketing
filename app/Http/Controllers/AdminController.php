@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use \App\Models\User;
+use \App\Models\AdminRequest;
 use App\Http\Middleware\AdminMiddleware;
-
+use Hash;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -73,7 +75,7 @@ class AdminController extends Controller
             return redirect()->back()
             ->withErrors(['error' => 'لا يمكن تعديل حالة حساب مدير'])
             ->withInput();
-        if (!auth()->user()->is_admin)
+        if (!Auth::user()->is_admin)
         {
             return redirect()->back()
             ->withErrors(['error' => 'غير مصرح بهذا الإجراء'])
@@ -104,7 +106,7 @@ class AdminController extends Controller
         // Conditional validation rules
         $rules = [
             'name' => 'nullable|string|max:255|min:3',
-            'email' => 'nullable|email|max:255|unique:users,email,'.auth()->id(),
+            'email' => 'nullable|email|max:255|unique:users,email,'.Auth::id(),
             'phone' => 'nullable|string|max:20|min:10',
             'city' => 'nullable|string|max:255',
             'country' => 'nullable|string|size:2',
@@ -143,5 +145,67 @@ class AdminController extends Controller
         return view("admin.index", 
             ['users' => $users],
             ['search' => $search]);
+    }
+
+    public function getAdminReqsPage(Request $request)
+    {
+        $requests_for_user = AdminRequest::with(['user' => function($query) {
+                $query->select('id', 'name', 'email'); // Only get these user fields
+            }])
+            ->paginate(10);
+        return view("admin.manage_admin_requests", ["requests" => $requests_for_user]);
+    }
+
+    public function approveAdminReq(Request $request, $request_id)
+    {
+        $adminRequest = AdminRequest::with('user')->find($request_id);
+        
+        if (!$adminRequest) {
+            return back()->with('error', 'طلب غير موجود');
+        }
+    
+        if ($adminRequest->status !== 'pending') {
+            return back()->with('error', 'لا يمكن معالجة هذا الطلب');
+        }
+    
+        \DB::transaction(function () use ($adminRequest) {
+            // Update user
+            $adminRequest->user->update([
+                'is_admin' => true,
+                // Remove verified updates unless intentional
+            ]);
+    
+            // Update request
+            $adminRequest->update([
+                'status' => 'accepted',
+                'admin_id' => Auth::id(),
+                'processed_at' => now(),
+                'active' => false
+            ]);
+        });
+    
+        return back()->with('success', 'تم قبول الطلب بنجاح');
+    }
+    
+    public function rejectAdminReq(Request $request, $request_id)
+    {
+        $adminRequest = AdminRequest::find($request_id);
+        
+        if (!$adminRequest) {
+            return back()->with('error', 'طلب غير موجود');
+        }
+    
+        if ($adminRequest->status !== 'pending') {
+            return back()->with('error', 'لا يمكن معالجة هذا الطلب');
+        }
+    
+        $adminRequest->update([
+            'status' => 'rejected',
+            'admin_id' => Auth::id(),
+            'processed_at' => now(),
+            'active' => false
+        ]);
+    
+        return back()->with('success', 'تم رفض الطلب بنجاح');
     }
 }

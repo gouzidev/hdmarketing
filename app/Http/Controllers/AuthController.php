@@ -12,9 +12,16 @@ class AuthController extends Controller
 {
     public function getLoginPage(Request $req)
     {
+        if (Auth::user())
+            return redirect("/dashboard");
         return view("login");
     }
-
+    public function getRegisterPage(Request $req)
+    {
+        if (Auth::user())
+            return redirect("/dashboard");
+        return view("register");
+    }
     public function login(Request $req)
     {
         $messages = [
@@ -43,10 +50,19 @@ class AuthController extends Controller
             $req->session()->regenerate();
             return redirect()->intended('/dashboard')->with('success', 'تم تسجيل الدخول بنجاح');
         }
-        return redirect()->back()
-            ->withErrors(['auth' => 'البريد الإلكتروني أو كلمة المرور غير صحيحة'])
-            ->withInput(['email' => $validated['email']]);
-    
+        $user = User::withTrashed()
+            ->where('email', $validated['email'])
+            ->first();
+
+        if ($user?->trashed()) {
+            return back()
+                ->withInput()
+                ->withErrors(['auth' => 'هذا الحساب مغلق']);
+        }
+
+        return back()
+            ->withInput()
+            ->withErrors(['auth' => 'البريد الإلكتروني أو كلمة المرور غير صحيحة']);
     }
     public function logout(Request $req)
     {
@@ -97,9 +113,5 @@ class AuthController extends Controller
         $user = User::create($validated);
         Auth::login($user);
         return redirect("/dashboard");
-    }
-    public function getRegisterPage(Request $req)
-    {
-        return view("register");
     }
 }

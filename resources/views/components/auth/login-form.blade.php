@@ -22,7 +22,7 @@
     @csrf
     @if($errors->any())
     <div class="w-full mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-        <h3 class="text-red-700 font-medium mb-2">يوجد أخطاء في المدخلات:</h3>
+        <h3 class="text-red-700 font-medium mb-2">يوجد خطأ:</h3>
         <ul class="text-red-600 list-disc pr-5 space-y-1">
             @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
@@ -34,5 +34,4 @@
             {{ session('success') }}
         </div>
     @endif
-@endif
 </form>

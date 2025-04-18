@@ -21,7 +21,7 @@
         <input class="border-b-2 py-2 border-[#555] w-full  text-right outline-none focus:outline-none" name="city"  placeholder="المدينة" value="rabat" />
     </div>
     <div class="w-full mb-20">
-        <x-select-country :country="" />
+        <x-select-country country="" />
     </div>
     <div class="flex items-center gap-10">
         <a href="{{ route('login') }}">

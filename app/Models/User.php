@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\AdminRequest;
+
 
 class User extends Authenticatable
 {
@@ -61,5 +64,34 @@ class User extends Authenticatable
     public function isAdmin()
     {
         return $this->is_admin;
+    }
+
+    public function adminRequests() : HasMany
+    {
+        return $this->hasMany(AdminRequest::class);
+    }
+
+    public function approvedRequests(): HasMany
+    {
+        return $this->hasMany(AdminRequest::class, 'admin_at');
+    }
+    protected static function boot()
+    {
+        parent::boot();
+        static::deleting(
+            function($user) 
+            {
+                if ($user->isForceDeleting()) {
+                    // Hard delete - handled by database cascade
+                    $user->adminRequests()->forceDelete();
+                } else {
+                    // Soft delete - manually delete related requests
+                    $user->adminRequests()->delete();
+                }
+            }
+        );
+        // When user is restored
+        static::restoring(function($user) {
+        });
     }
 }
