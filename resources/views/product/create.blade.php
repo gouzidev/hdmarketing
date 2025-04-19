@@ -18,7 +18,7 @@
                 إضافة منتج جديد
             </h2>
             @if (auth()->user()->is_admin)
-                <a href="{{ route('admin.products.index') }}" ><button class="" >المنتجات</button></a>
+                <a href="{{ route('products.index') }}" ><button class="" >المنتجات</button></a>
             @endif
         </header>
 
@@ -28,7 +28,7 @@
             <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
-                        <form id="productForm" method="POST" action="{{ route('admin.products.store') }}" enctype="multipart/form-data" class="flex flex-col gap-6">
+                        <form id="productForm" method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data" class="flex flex-col gap-6">
                             @csrf
                             <h3 class="text-lg font-medium text-gray-900">معلومات المنتج</h3>
                             
@@ -56,7 +56,11 @@
                                 <!-- Stock -->
                                 <div class="flex flex-col">
                                     <label for="stock" class="block text-sm font-medium text-gray-700 mb-1">المخزون</label>
-                                    <input value="24" type="number" name="stock" id="stock" class="text-right w-full rounded-md shadow-sm focus:border-b-1 border-[yellow] focus:outline-none" min="0" required>
+                                    <input value="24" type="number" 
+                                        name="stock" id="stock" 
+                                        class="
+                                            [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
+                                            text-right w-full rounded-md shadow-sm focus:border-b-1 border-[yellow] focus:outline-none" min="0" required>
                                 </div>
                                 
                                 <!-- Description -->
@@ -70,19 +74,39 @@
                             <div class="flex flex-col gap-4">
                                 <h3 class="text-lg font-medium text-gray-900">صور المنتج</h3>
                                 
-                                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center" id="dropzone">
-                                    <input type="file" name="images[]" id="images" multiple accept="image/*" class="hidden">
-                                    <label for="images" class="cursor-pointer">
-                                        <div class="flex flex-col items-center gap-1">
-                                            <i class="fas fa-cloud-upload-alt text-3xl text-gray-400"></i>
-                                            <p class="text-sm text-gray-600">اسحب وأفلت الصور هنا أو انقر للاختيار</p>
-                                            <p class="text-xs text-gray-500">يمكنك تحميل عدة صور (jpg, png)</p>
-                                        </div>
-                                    </label>
+                                <!-- Primary Image Field -->
+                                <div class="flex flex-col">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">الصورة الرئيسية (مطلوبة)</label>
+                                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center" id="primary-dropzone">
+                                        <input type="file" name="primary_image" id="primary_image" accept="image/*" class="hidden" required>
+                                        <label for="primary_image" class="cursor-pointer">
+                                            <div class="flex flex-col items-center gap-1">
+                                                <i class="fas fa-cloud-upload-alt text-3xl text-gray-400"></i>
+                                                <p class="text-sm text-gray-600">انقر لاختيار الصورة الرئيسية</p>
+                                                <p class="text-xs text-gray-500">jpg, png (حجم أقل من 2MB)</p>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <!-- Primary Image Preview -->
+                                    <div id="primary-preview" class="mt-2 flex flex-wrap gap-4"></div>
                                 </div>
                                 
-                                <!-- Image Preview Area -->
-                                <div id="image-preview" class="flex flex-wrap gap-4"></div>
+                                <!-- Additional Images Field -->
+                                <div class="flex flex-col">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">صور إضافية (اختيارية)</label>
+                                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center" id="additional-dropzone">
+                                        <input type="file" name="additional_images[]" id="additional_images" multiple accept="image/*" class="hidden">
+                                        <label for="additional_images" class="cursor-pointer">
+                                            <div class="flex flex-col items-center gap-1">
+                                                <i class="fas fa-cloud-upload-alt text-3xl text-gray-400"></i>
+                                                <p class="text-sm text-gray-600">اسحب وأفلت الصور هنا أو انقر للاختيار</p>
+                                                <p class="text-xs text-gray-500">يمكنك تحميل عدة صور (jpg, png)</p>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <!-- Additional Images Preview -->
+                                    <div id="additional-preview" class="mt-2 flex flex-wrap gap-4"></div>
+                                </div>
                             </div>
                             
                             <!-- Submit Buttons -->
@@ -103,28 +127,92 @@
         </div>
     
         <script>
-            // Image preview functionality
-            document.getElementById('images').addEventListener('change', function(e) {
-                const previewContainer = document.getElementById('image-preview');
-                previewContainer.innerHTML = ''; // Clear existing previews
-                
-                for (const file of this.files) {
-                    if (file.type.startsWith('image/')) {
+        // Primary Image Preview with better styling
+        document.getElementById('primary_image').addEventListener('change', function(e) {
+            const previewContainer = document.getElementById('primary-preview');
+            previewContainer.innerHTML = '';
+            
+            if (this.files.length > 0) {
+                const file = this.files[0];
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        const previewItem = document.createElement('div');
+                        previewItem.className = 'relative group w-40 border-2 border-yellow-400 rounded-lg p-1';
+                        
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.className = 'h-40 w-full object-cover rounded-md';
+                        img.alt = 'Primary product image';
+                        
+                        const badge = document.createElement('div');
+                        badge.className = 'absolute top-2 left-2 bg-yellow-500 text-white text-xs px-2 py-1 rounded';
+                        badge.textContent = 'رئيسية';
+                        
+                        const removeButton = document.createElement('button');
+                        removeButton.type = 'button';
+                        removeButton.className = 'absolute top-2 right-2 bg-red-500 text-white rounded-full p-1';
+                        removeButton.innerHTML = '<i class="fas fa-times"></i>';
+                        removeButton.onclick = function() {
+                            previewContainer.innerHTML = '';
+                            document.getElementById('primary_image').value = '';
+                        };
+                        
+                        previewItem.appendChild(img);
+                        previewItem.appendChild(badge);
+                        previewItem.appendChild(removeButton);
+                        previewContainer.appendChild(previewItem);
+                    }
+                    
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
+
+        // Additional Images Preview
+        document.getElementById('additional_images').addEventListener('change', function(e) {
+            const previewContainer = document.getElementById('additional-preview');
+            
+            // Clear existing previews but keep track of existing files
+            const existingPreviews = Array.from(previewContainer.children);
+            
+            // Process new files
+            for (let i = 0; i < this.files.length; i++) {
+                const file = this.files[i];
+                if (file.type.startsWith('image/')) {
+                    // Check if this file already has a preview
+                    const alreadyHasPreview = existingPreviews.some(preview => {
+                        return preview.dataset.filename === file.name;
+                    });
+                    
+                    if (!alreadyHasPreview) {
                         const reader = new FileReader();
                         
                         reader.onload = function(e) {
                             const previewItem = document.createElement('div');
-                            previewItem.className = 'relative group';
+                            previewItem.className = 'relative group w-40 border border-gray-200 rounded-lg p-1';
+                            previewItem.dataset.filename = file.name;
                             
                             const img = document.createElement('img');
                             img.src = e.target.result;
-                            img.className = 'h-40 w-full object-cover rounded-lg';
+                            img.className = 'h-40 w-full object-cover rounded-md';
+                            img.alt = 'Additional product image';
                             
                             const removeButton = document.createElement('button');
                             removeButton.type = 'button';
                             removeButton.className = 'absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity';
                             removeButton.innerHTML = '<i class="fas fa-times"></i>';
                             removeButton.onclick = function() {
+                                // Remove the file from the input
+                                const dataTransfer = new DataTransfer();
+                                const input = document.getElementById('additional_images');
+                                for (let j = 0; j < input.files.length; j++) {
+                                    if (input.files[j].name !== file.name) {
+                                        dataTransfer.items.add(input.files[j]);
+                                    }
+                                }
+                                input.files = dataTransfer.files;
                                 previewItem.remove();
                             };
                             
@@ -136,66 +224,67 @@
                         reader.readAsDataURL(file);
                     }
                 }
-            });
-    
-            // Drag and drop functionality
-            const dropzone = document.getElementById('dropzone');
-            
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                dropzone.addEventListener(eventName, preventDefaults, false);
-            });
-            
-            function preventDefaults(e) {
-                e.preventDefault();
-                e.stopPropagation();
             }
+        });
+
+        // Drag and drop functionality for additional images
+        const additionalDropzone = document.getElementById('additional-dropzone');
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            additionalDropzone.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            additionalDropzone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            additionalDropzone.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight() {
+            additionalDropzone.classList.add('border-yellow-500', 'bg-yellow-50');
+        }
+
+        function unhighlight() {
+            additionalDropzone.classList.remove('border-yellow-500', 'bg-yellow-50');
+        }
+
+        additionalDropzone.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            const fileInput = document.getElementById('additional_images');
             
-            ['dragenter', 'dragover'].forEach(eventName => {
-                dropzone.addEventListener(eventName, highlight, false);
-            });
+            // Create a DataTransfer object to update the FileList of the input element
+            const dataTransfer = new DataTransfer();
             
-            ['dragleave', 'drop'].forEach(eventName => {
-                dropzone.addEventListener(eventName, unhighlight, false);
-            });
-            
-            function highlight() {
-                dropzone.classList.add('border-yellow-500', 'bg-yellow-50');
-            }
-            
-            function unhighlight() {
-                dropzone.classList.remove('border-yellow-500', 'bg-yellow-50');
-            }
-            
-            dropzone.addEventListener('drop', handleDrop, false);
-            
-            function handleDrop(e) {
-                const dt = e.dataTransfer;
-                const files = dt.files;
-                const fileInput = document.getElementById('images');
-                
-                // Create a DataTransfer object to update the FileList of the input element
-                const dataTransfer = new DataTransfer();
-                
-                // Add existing files if any
-                if (fileInput.files) {
-                    for (let i = 0; i < fileInput.files.length; i++) {
-                        dataTransfer.items.add(fileInput.files[i]);
-                    }
+            // Add existing files if any
+            if (fileInput.files) {
+                for (let i = 0; i < fileInput.files.length; i++) {
+                    dataTransfer.items.add(fileInput.files[i]);
                 }
-                
-                // Add new files
-                for (let i = 0; i < files.length; i++) {
-                    if (files[i].type.startsWith('image/')) {
-                        dataTransfer.items.add(files[i]);
-                    }
-                }
-                
-                fileInput.files = dataTransfer.files;
-                
-                // Trigger change event
-                const event = new Event('change');
-                fileInput.dispatchEvent(event);
             }
+            
+            // Add new files
+            for (let i = 0; i < files.length; i++) {
+                if (files[i].type.startsWith('image/')) {
+                    dataTransfer.items.add(files[i]);
+                }
+            }
+            
+            fileInput.files = dataTransfer.files;
+            
+            // Trigger change event
+            const event = new Event('change');
+            fileInput.dispatchEvent(event);
+        }
         </script>
     </body>
 </html>

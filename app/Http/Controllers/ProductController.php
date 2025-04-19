@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use PHPUnit\Framework\Constraint\FileExists;
+use Storage;
 
 class ProductController extends Controller
 {
@@ -14,7 +16,12 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::with('images')->paginate(10);
-        return view('product.index', ["products" => $products]);
+        return view('product.index', 
+            [
+                "products" => $products,
+                "search" => ""
+            ]
+        );
     }
     /**
      * Show the form for creating a new resource.
@@ -34,30 +41,41 @@ class ProductController extends Controller
             'desc' => 'nullable|min:3|max:1000|string',
             'stock' => 'numeric|min:0|max:100000',
             'price' => 'numeric|required|min:0.1|max:9999999',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+            'primary_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'additional_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
-        $product = Product::create(
-        [
+        
+        $product = Product::create([
             'user_id' => Auth::user()->id,
             'name' => $validated['name'],
             'desc' => $validated['desc'],
             'stock' => $validated['stock'],
             'price' => $validated['price'],
-        ]
-        );
-        if ($request->hasFile('images'))
-        {
-            foreach ($request->file('images') as $image) {
-                // Store the image
+        ]);
+        
+        // Store primary image
+        if ($request->hasFile('primary_image')) {
+            $path = $request->file('primary_image')->store('products/' . $product->id, 'private');
+            $product->images()->create([
+                'path' => $path,
+                'is_primary' => true,
+                'display_order' => 0
+            ]);
+        }
+        
+        // Store additional images
+        if ($request->hasFile('additional_images')) {
+            foreach ($request->file('additional_images') as $index => $image) {
                 $path = $image->store('products/' . $product->id, 'private');
-                
-                // Create image record
                 $product->images()->create([
                     'path' => $path,
+                    'is_primary' => false,
+                    'display_order' => $index + 1
                 ]);
             }
         }
-        return redirect()->route('admin.products.show', $product)
+        
+        return redirect()->route('products.product.show', $product)
             ->with('success', 'Product created successfully');
     }
 
@@ -66,9 +84,18 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        dd($product);
+        return view('product.product', ['product' => $product]);
     }
 
+    static public function default_img()
+    {
+        $storage = Storage::disk('public');
+        $img_path = "default-product.png";
+        $fullpath = $storage->path($img_path);
+        if ($storage->exists($img_path))
+            return response()->file($fullpath);
+        abort(404);
+    }
     /**
      * Show the form for editing the specified resource.
      */
@@ -84,7 +111,20 @@ class ProductController extends Controller
     {
         //
     }
-
+    public function search(Request $request)
+    {
+        if (!$request->filled('search'))
+        {
+            return redirect()->back()
+                ->withErrors(['error' => 'يجب إدخال نص للبحث'])
+                ->withInput();
+        }
+        $search = $request->input('search');
+        $products = Product::with('images')->where('name', 'like', "%{$search}%")->paginate(10);
+        return view("product.index", 
+            ['products' => $products],
+            ['search' => $search]);
+    }
     /**
      * Remove the specified resource from storage.
      */

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
+use Storage;
 
 class ProductImageController extends Controller
 {
@@ -34,11 +36,29 @@ class ProductImageController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ProductImage $productImage)
+    public function show($img_path)
     {
-        //
+        $storage = Storage::disk('private');
+        $fullpath = $storage->path($img_path);
+        if ($storage->exists($img_path))
+            return response()->file($fullpath);
+        abort(404);
     }
+    
+    public function thumbnail(Product $product)
+    {
+        $primary_img = $product->primary_image;
+        if (!$primary_img)
+        {
+            return response()->file(public_path('images/default-product.jpg'));
+        }
+        // $path = $image->store('products/' . $product->id, 'private');
 
+        $path = storage_path('app/private/' . $primary_img->path);
+        if (!$path)
+            abort(404);
+        return response()->file($path);
+    }
     /**
      * Show the form for editing the specified resource.
      */

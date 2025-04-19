@@ -14,4 +14,14 @@ class Product extends Model
     {
         return $this->hasMany(ProductImage::class);
     }
+
+    public function primary_image()
+    {
+        return $this->hasOne(ProductImage::class)->where('is_primary', true);
+    }
+
+    public function additional_imgs()
+    {
+        return $this->hasMany(ProductImage::class)->where('is_primary', false)->orderBy('display_order');
+    }
 }

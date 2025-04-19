@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductImageController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\ProfileController;
 
@@ -31,6 +32,25 @@ Route::middleware(['auth'])->group(function () {
     Route::post("/request-admin/{user}", [ProfileController::class, 'requestAdmin'])->name('request-admin'); 
     Route::get("/profile", [ProfileController::class, 'index'])->name('profile'); 
     Route::post("/profile/edit", [ProfileController::class, 'edit'])->name('profile.edit'); 
+
+
+
+
+    Route::get("/products", [ProductController::class, 'index'])->name('products.index');
+    Route::get("/products/create", [ProductController::class, 'create'])->name('products.create');
+    Route::get("/products/store", [ProductController::class, 'store'])->name('products.store');
+    Route::get("/products/{product}/show", [ProductController::class, 'show'])->name('products.product.show');
+    Route::get("/products/search", [ProductController::class, 'search'])->name('products.search');
+    Route::post("/products", [ProductController::class, 'store'])->name('products.store');
+    
+    Route::get('products/images/default', [ProductController::class, 'default_img'])->name('products.images.default');
+    Route::get('products/image/{path}', [ProductImageController::class, 'show'])
+    ->where('path', '.*')
+    ->name('products.images.show');
+
+    Route::get('products/thumbnail/{product}', [ProductImageController::class, 'thumbnail'])
+    ->name('products.thumbnail');
+
 });
 
 
@@ -40,13 +60,8 @@ Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function ()
     Route::post('/admin-requests/{user}/approve', [AdminController::class, 'approveAdminReq'])->name('requests.approve');
     Route::delete('/admin-requests/{user}/reject', [AdminController::class, 'rejectAdminReq'])->name('requests.reject');
 
-    Route::get("/products", [ProductController::class, 'index'])->name('products.index');
-    Route::get("/products/create", [ProductController::class, 'create'])->name('products.create');
-    Route::get("/products/store", [ProductController::class, 'store'])->name('products.store');
-    Route::get("/products/{product}/show", [ProductController::class, 'show'])->name('products.show');
-    Route::post("/products", [ProductController::class, 'store'])->name('products.store');
 
-    
+
     Route::prefix('users')->name('users.')->group(function () {
         // Active users
         Route::get('/', [AdminController::class, 'getUsersPage'])->name('index');

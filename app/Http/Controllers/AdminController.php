@@ -20,7 +20,7 @@ class AdminController extends Controller
     }
     public function getProductsPage(Request $req)
     {
-        return view("admin.products");
+        return view("products");
     }
     public function getDeletedUsersPage(Request $req)
     {
