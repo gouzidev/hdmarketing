@@ -26,7 +26,6 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 
-
 Route::middleware(['auth'])->group(function () {
     Route::get("/dashboard", [ProfileController::class, 'serveDashboard'])->name('dashboard'); 
     Route::post("/request-admin/{user}", [ProfileController::class, 'requestAdmin'])->name('request-admin'); 
@@ -41,6 +40,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get("/products/store", [ProductController::class, 'store'])->name('products.store');
     Route::get("/products/{product}/show", [ProductController::class, 'show'])->name('products.product.show');
     Route::get("/products/{product}/edit", [ProductController::class, 'edit'])->name('products.product.edit');
+    Route::put("/products/{product}/update", [ProductController::class, 'update'])->name('products.product.update');
     Route::get("/products/search", [ProductController::class, 'search'])->name('products.search');
     Route::post("/products", [ProductController::class, 'store'])->name('products.store');
     

@@ -44,15 +44,15 @@
     <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 bg-white border-b border-gray-200">
-                <form id="productForm" method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data" class="flex flex-col gap-6">
+                <form id="productForm" method="POST" action="{{ route('products.product.update', $product) }}" class="flex flex-col gap-6">
                     @csrf
+                    @method('PUT')
                     <h3 class="text-lg font-medium text-gray-900">معلومات المنتج</h3>
-                    
                     <div class="flex flex-col gap-4">
                         <!-- Product Name -->
                         <div class="flex flex-col">
                             <label for="name" class="block text-sm font-medium text-gray-700 mb-1">اسم المنتج</label>
-                            <input type="text" value="Ex Drops" name="name" id="name" class="text-right w-full rounded-md shadow-sm focus:border-b-1 border-[yellow] focus:outline-none" required>
+                            <input type="text" value="{{ $product->name }}" name="name" id="name" class="text-right w-full rounded-md shadow-sm focus:border-b-1 border-[yellow] focus:outline-none" required>
                         </div>
                         
                         <!-- Price -->
@@ -62,7 +62,9 @@
                                 <input value="700.00" type="number" step="any" name="price" id="price" 
                                     class="text-right w-full rounded-md shadow-sm focus:border-b-1
                                         [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
-                                    border-[yellow] focus:outline-none" min="0" required>
+                                    border-[yellow] focus:outline-none" min="0" required
+                                    value={{ $product->price }}
+                                    >
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <span class="text-gray-500 sm:text-sm">بالدولار $</span>
                                 </div>
@@ -72,7 +74,9 @@
                         <!-- Stock -->
                         <div class="flex flex-col">
                             <label for="stock" class="block text-sm font-medium text-gray-700 mb-1">المخزون</label>
-                            <input value="24" type="number" 
+                            <input 
+                                value={{ $product->stock }}
+                                value="24" type="number" 
                                 name="stock" id="stock" 
                                 class="
                                     [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
@@ -82,12 +86,19 @@
                         <!-- Description -->
                         <div class="flex flex-col">
                             <label for="desc" class="block text-sm font-medium text-gray-700 mb-1">وصف المنتج</label>
-                            <textarea  name="desc" id="desc" class="px-2 text-right w-full h-20 shadow-sm focus:border-b-1 border-[yellow] transition focus:outline-none"></textarea>
+                            <textarea name="desc" id="desc" class="px-2 text-right w-full h-20 shadow-sm focus:border-b-1 border-[yellow] transition focus:outline-none">
+                                {{ $product->desc }}
+                            </textarea>
                         </div>
                     </div>
                     
                     <!-- Image Upload Section -->
-                    <div class="flex flex-col gap-4">
+
+                    <div class="w-100 h-100 flex justify-center items-center">
+                        <img class="
+                        h-full w-full object-contain" src="{{ route('products.thumbnail', $product) }}" alt="">
+                    </div>
+                    {{-- <div class="flex flex-col gap-4">
                         <h3 class="text-lg font-medium text-gray-900">صور المنتج</h3>
                         
                         <!-- Primary Image Field -->
@@ -126,7 +137,7 @@
                             <!-- Additional Images Preview -->
                             <div id="additional-preview" class="mt-2 flex flex-wrap gap-4"></div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     @if($errors->any())
                     <div class="w-full mb-6 p-4 bg-red-50 border border-red-200 rounded-lg self-start">

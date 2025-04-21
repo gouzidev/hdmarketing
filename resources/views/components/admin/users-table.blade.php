@@ -24,7 +24,14 @@
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
             @foreach($users as $user)
-            <tr class="hover:bg-gray-50">
+            <tr class=
+            "{{ $user->is_admin ?
+                    $user->id == auth()->user()->id ?
+                        'bg-yellow-50 hover:bg-yellow-100' : 
+                    'hover:bg-gray-50 bg-gray-50' : 'hover:bg-gray-50'
+            }}
+            cursor-pointer
+            ">
                 <td class="px-6 py-4 whitespace-nowrap">
                     <div class="flex items-center">
                         <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
@@ -55,11 +62,32 @@
                     <div class="text-gray-400">{{ $user->country ?? 'N/A' }}</div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <button onclick="openModal('{{ route('admin.users.destroy', $user) }}')" 
-                                class="text-red-600 hover:text-red-900">
+                    @if ($user->id != auth()->user()->id)
+                        @if ($user->is_admin)
+                        <button 
+                            disabled
+                            onclick="openModal('{{ route('admin.users.destroy', $user) }}')" 
+                            class="text-red-600 p-1 hover:text-red-900 cursor-not-allowed opacity-20" >
                             <i class="fas fa-trash"></i>
                         </button>
-                        <a href="{{ route('admin.users.edit', $user) }}" class="text-indigo-600 hover:text-indigo-900 ml-3"><i class="fas fa-edit"></i></a>
+                        <a href=""  onclick="return false;"
+                            class="
+                                text-indigo-600 hover:text-indigo-900 ml-3 cursor-not-allowed  opacity-20"
+                        >
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        @else
+                            <button 
+                                onclick="openModal('{{ route('admin.users.destroy', $user) }}')" 
+                                class="text-red-600 p-1 hover:text-red-900">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                            <a href="{{ route('admin.users.edit', $user) }}" 
+                                class="text-indigo-600 hover:text-indigo-900 ml-3">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        @endif
+                    @endif
                 </td>
             </tr>
             @endforeach

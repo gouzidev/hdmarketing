@@ -50,13 +50,14 @@ class ProfileController extends Controller
     
         // Validate the request
         $validator = Validator::make($req->all(), $rules, $messages);
-        if ($validator->fails()) {
+        if ($validator->fails())
+        {
             return back()->withErrors($validator)->withInput();
         }
-    
+
         $validatedData = $validator->validated();
-    
-        if (isset($validatedData['password'])) {
+
+        if (isset($validatedData['password'])){
             if (isset($validatedData['confirm']))
             {
                 if ($validatedData['password'] == $validatedData['confirm'])
@@ -65,6 +66,7 @@ class ProfileController extends Controller
         } else {
             unset($validatedData['password']);
         }
+        auth()->user()->update($validatedData);
         return back()->with('success', 'تم تحديث البيانات بنجاح');
     }
     public function serveDashboard(Request $req)

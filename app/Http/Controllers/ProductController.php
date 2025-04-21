@@ -10,6 +10,7 @@ use Storage;
 use PHPUnit\Event\Code\Throwable;
 use Illuminate\Validation\ValidationException;
 use \Illuminate\Support\Facades\Log;
+use Str;
 
 class ProductController extends Controller
 {
@@ -77,6 +78,8 @@ class ProductController extends Controller
                 'additional_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
             ], $error_messages, $attributes);
 
+            $validated['name'] = Str::trim($validated['name']);
+            $validated['desc'] = Str::trim($validated['desc']);
             $product = Product::create([
                 'user_id' => Auth::user()->id,
                 'name' => $validated['name'],
@@ -98,7 +101,7 @@ class ProductController extends Controller
             } catch (Throwable $e) {
                 // If primary image upload fails, delete the product and return with error
                 $product->delete();
-                return back()->withErrors(['primary_image' => 'Failed to upload primary image. Please try again.']);
+                return back()->withErrors(['primary_image' => 'فشل تحميل الصورة الأساسية. يُرجى المحاولة مرة أخرى.']);
             }
             
             // Store additional images with error handling
@@ -124,7 +127,7 @@ class ProductController extends Controller
             
             return redirect()->route('products.product.show', $product)
                 ->with('success', 'Product created successfully');
-        } catch (\Illuminate\Validation\ValidationException $e) {
+        } catch (ValidationException $e) {
             // Laravel automatically handles this, but we're being explicit
             return back()->withErrors($e->errors())->withInput();
         } catch (Throwable $e) {
@@ -164,7 +167,60 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+            try {
+            // Laravel's validate method already handles returning back with errors
+            // You don't need to do it manually with if(!$validated)
+
+            $error_messages = [
+                'required' => 'حقل :attribute مطلوب.',
+                'min' => [
+                    'string' => 'يجب أن يكون :attribute على الأقل :min حروف.',
+                    'numeric' => 'يجب أن تكون قيمة :attribute على الأقل :min.',
+                ],
+                'max' => [
+                    'string' => 'يجب أن لا يتجاوز :attribute :max حروف.',
+                    'numeric' => 'قيمة :attribute كبيرة جدًا.',
+                    // 'file' => 'يجب أن لا يتجاوز حجم ملف :attribute :max كيلوبايت.',
+                ],
+                'string' => 'يجب أن يكون :attribute نصًا.',
+                'numeric' => 'يجب أن يكون :attribute رقمًا.',
+                // 'image' => 'يجب أن يكون :attribute صورة.',
+                // 'mimes' => 'يجب أن يكون :attribute من نوع: :values.',
+            ];
+            $attributes = [
+                'name' => 'الاسم',
+                'desc' => 'الوصف',
+                'stock' => 'المخزون',
+                'price' => 'السعر',
+                // 'primary_image' => 'الصورة الرئيسية',
+                // 'additional_images.*' => 'الصور الإضافية',
+            ];
+            $validated = $request->validate([
+                'name' => 'required|min:3|max:255|string',
+                'desc' => 'nullable|min:3|max:2000|string',
+                'stock' => 'numeric|min:0|max:100000',
+                'price' => 'numeric|required|min:0.1|max:9999999',
+                // 'primary_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                // 'additional_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            ], $error_messages, $attributes);
+
+            $validated['name'] = Str::trim($validated['name']);
+            $validated['desc'] = Str::trim($validated['desc']);
+            $product->update([
+                'user_id' => Auth::user()->id,
+                'name' => $validated['name'],
+                'desc' => $validated['desc'] ?? null,
+                'stock' => $validated['stock'] ?? 0,
+                'price' => $validated['price'],
+            ]);
+        }
+        catch (ValidationException $e)
+        {
+            Log::error('Product creation failed: ' . $e->getMessage());
+            return redirect()->back()->withErrors(['general' => 'فشل في إنشاء المنتج. يرجى المحاولة مرة أخرى.'])->withInput();
+        }
+
+        return back()->with('success', 'تم تحديث المنتج بنجاح');
     }
     public function search(Request $request)
     {
