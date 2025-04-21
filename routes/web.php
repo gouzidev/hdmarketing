@@ -40,6 +40,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get("/products/create", [ProductController::class, 'create'])->name('products.create');
     Route::get("/products/store", [ProductController::class, 'store'])->name('products.store');
     Route::get("/products/{product}/show", [ProductController::class, 'show'])->name('products.product.show');
+    Route::get("/products/{product}/edit", [ProductController::class, 'edit'])->name('products.product.edit');
     Route::get("/products/search", [ProductController::class, 'search'])->name('products.search');
     Route::post("/products", [ProductController::class, 'store'])->name('products.store');
     

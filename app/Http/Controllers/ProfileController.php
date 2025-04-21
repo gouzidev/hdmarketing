@@ -17,7 +17,7 @@ class ProfileController extends Controller
         {
             /** @var \App\Models\User $user */
             $user = Auth::user()->only(['name', 'email', 'phone', 'city', 'country']);
-            return view('profile', ['user' => $user]);
+            return view('profile.profile', ['user' => $user]);
         }
         return redirect()->route('login')->with('error', 'يجب تسجيل الدخول للوصول إلى صفحة الملف الشخصي');
     }
@@ -74,7 +74,7 @@ class ProfileController extends Controller
         ->where('status', 'pending')
         ->exists();
         ;
-        return view("dashboard", ['hasPendingRequest' => $hasPendingRequest]);
+        return view("profile.dashboard", ['hasPendingRequest' => $hasPendingRequest]);
     }
     public function requestAdmin($id)
     {

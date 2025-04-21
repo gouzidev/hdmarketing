@@ -43,7 +43,7 @@
                                 <div class="flex flex-col">
                                     <label for="price" class="block text-sm font-medium text-gray-700 mb-1">السعر</label>
                                     <div class="relative">
-                                        <input value="700.00" type="number" name="price" id="price" 
+                                        <input value="700.00" type="number" step="any" name="price" id="price" 
                                             class="text-right w-full rounded-md shadow-sm focus:border-b-1
                                                 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
                                             border-[yellow] focus:outline-none" min="0" required>
@@ -78,7 +78,10 @@
                                 <div class="flex flex-col">
                                     <label class="block text-sm font-medium text-gray-700 mb-1">الصورة الرئيسية (مطلوبة)</label>
                                     <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center" id="primary-dropzone">
-                                        <input type="file" name="primary_image" id="primary_image" accept="image/*" class="hidden" required>
+                                        <input type="file" 
+                                            name="primary_image" 
+                                            id="primary_image" accept="image/*"
+                                            class="hidden" required>
                                         <label for="primary_image" class="cursor-pointer">
                                             <div class="flex flex-col items-center gap-1">
                                                 <i class="fas fa-cloud-upload-alt text-3xl text-gray-400"></i>
@@ -108,7 +111,30 @@
                                     <div id="additional-preview" class="mt-2 flex flex-wrap gap-4"></div>
                                 </div>
                             </div>
-                            
+
+                            @if($errors->any())
+                            <div class="w-full mb-6 p-4 bg-red-50 border border-red-200 rounded-lg self-start">
+                                <h3 class="text-red-700 font-medium mb-2">يوجد أخطاء في المدخلات:</h3>
+                                <ul class="text-red-600 list-disc pr-5 space-y-1">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            @elseif (@session('error'))
+                                <div class="mt-4 p-4 bg-red-50 text-red-700 rounded-lg">
+                                    {{ session('error') }}
+                                </div>
+                            @elseif (@session('warning'))
+                                <div class="mt-4 p-4 bg-yellow-50 text-yellow-700 rounded-lg">
+                                   test
+                                </div>
+                            @elseif (session('success'))
+                                <div class="text-green-600 mb-4 self-start">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
+
                             <!-- Submit Buttons -->
                             <div class="flex justify-end gap-3">
                                 <button type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150 mr-3">

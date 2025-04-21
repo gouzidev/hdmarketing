@@ -85,39 +85,41 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 @foreach ($products as $product)
                 <div class="bg-white rounded-lg shadow-md overflow-hidden product-card transition-all duration-300">
-                    <!-- Product Image -->
-                    <div class="relative h-48 bg-gray-100 overflow-hidden">
-                        <img src="{{ route('products.thumbnail', $product) }}" 
-                             alt="{{ $product->name }}" 
-                             class="w-full h-full object-cover hover:opacity-90 transition-opacity">
-                        @if($product->stock <= 0)
-                            <span class="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded">
-                                نفذ من المخزون
-                            </span>
-                        @endif
-                    </div>
-                    
-                    <!-- Product Info -->
-                    <div class="p-4">
-                        <h3 class="font-medium text-gray-900 mb-1 truncate">{{ $product->name }}</h3>
-                        <p class="text-gray-600 text-sm mb-2 line-clamp-2 h-10">{{ $product->desc }}</p>
-                        
-                        <div class="flex items-center justify-between mt-4">
-                            <span class="font-bold text-gray-900">{{ number_format($product->price, 2) }} $</span>
-                            <span class="text-sm text-gray-500">
-                                <i class="fas fa-box ml-1"></i> {{ $product->stock }}
-                            </span>
+                    <a href="{{ route('products.product.show', $product) }}" class="block">
+                        <!-- Product Image -->
+                        <div class="relative h-48 bg-gray-100 overflow-hidden">
+                            <img src="{{ route('products.thumbnail', $product) }}" 
+                                 alt="{{ $product->name }}" 
+                                 class="w-full h-full object-cover hover:opacity-90 transition-opacity">
+                            @if($product->stock <= 0)
+                                <span class="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded">
+                                    نفذ من المخزون
+                                </span>
+                            @endif
                         </div>
-                    </div>
+                        
+                        <!-- Product Info -->
+                        <div class="p-4">
+                            <h3 class="font-medium text-gray-900 mb-1 truncate">{{ $product->name }}</h3>
+                            <p class="text-gray-600 text-sm mb-2 line-clamp-2 h-10">{{ $product->desc }}</p>
+                            
+                            <div class="flex items-center justify-between mt-4">
+                                <span class="font-bold text-gray-900">{{ number_format($product->price, 2) }} $</span>
+                                <span class="text-sm text-gray-500">
+                                    <i class="fas fa-box ml-1"></i> {{ $product->stock }}
+                                </span>
+                            </div>
+                        </div>
+                    </a>
                     
-                    <!-- Action Buttons -->
+                    <!-- Action Buttons (outside the main link) -->
                     <div class="px-4 pb-4 border-t border-gray-100">
                         <div class="flex justify-between gap-2 mt-3">
                             <a href="{{ route('products.product.show', $product) }}" class="flex-1 text-center py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-md text-sm font-medium transition-colors">
                                 <i class="fas fa-eye ml-1"></i> عرض
                             </a>
                             @if(auth()->user()->is_admin)
-                            <a href="{{ route('products.product.show', $product) }}" class="flex-1 text-center py-2 bg-blue-100 hover:bg-blue-200 text-blue-800 rounded-md text-sm font-medium transition-colors">
+                            <a href="{{ route('products.product.edit', $product) }}" class="flex-1 text-center py-2 bg-blue-100 hover:bg-blue-200 text-blue-800 rounded-md text-sm font-medium transition-colors">
                                 <i class="fas fa-edit ml-1"></i> تعديل
                             </a>
                             @endif

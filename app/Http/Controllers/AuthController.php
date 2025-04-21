@@ -14,13 +14,13 @@ class AuthController extends Controller
     {
         if (Auth::user())
             return redirect("/dashboard");
-        return view("login");
+        return view("auth.login");
     }
     public function getRegisterPage(Request $req)
     {
         if (Auth::user())
             return redirect("/dashboard");
-        return view("register");
+        return view("auth.register");
     }
     public function login(Request $req)
     {

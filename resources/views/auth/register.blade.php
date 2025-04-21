@@ -10,7 +10,6 @@
         <!-- Configure Tailwind -->
         <x-tailwind-script />
         <x-fonts-import />
-
         </head>
     <body class=" overflow-x-hidden relative">
         <x-auth.cta title="صفحة التسجيل" message="انضم إلى منصتنا وابدأ بجني الأرباح الآن!" />
