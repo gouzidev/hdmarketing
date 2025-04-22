@@ -2,9 +2,10 @@
 <html lang="ar" dir="rtl">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{{ $product->name }} - متجرنا</title>
         <script src="https://cdn.tailwindcss.com"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
         <style>
             .image-gallery {
@@ -120,45 +121,46 @@
                         <div class="mb-6">
                             @if($product->stock > 0)
                                 <span class="text-green-600 flex items-center">
-                                    <i class="fas fa-check-circle mr-2"></i> متوفر في المخزون
+                                    <i class="fas fa-check-circle ml-2"></i>متوفر في المخزون ({{ $product->stock }}) 
                                 </span>
                             @else
                                 <span class="text-red-600 flex items-center">
-                                    <i class="fas fa-times-circle mr-2"></i> غير متوفر
+                                    <i class="fas fa-times-circle ml-2"></i> غير متوفر
                                 </span>
                             @endif
                         </div>
 
                         <!-- Add to Cart -->
-                        <div class="border-t border-gray-200 pt-6">
-                            <div class="flex items-center mb-4">
-                                <span class="text-gray-700 mr-3">الكمية:</span>
-                                <div class="flex items-center border border-gray-300 rounded-md">
-                                    <button class="px-3 py-1 text-gray-600 hover:bg-gray-100">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <input type="number" value="1" min="1" max="{{ $product->stock }}" 
-                                        class="
-                                                [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none 
-                                            w-12 text-center border-0 focus:ring-0">
-                                    <button class="px-3 py-1 text-gray-600 hover:bg-gray-100">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
+                        @if (!auth()->user()->is_admin)
+                            <div class="border-t border-gray-200 pt-6">
+                                <div class="flex items-center mb-4">
+                                    <span class="text-gray-700 mr-3">الكمية:</span>
+                                    <div class="flex items-center border border-gray-300 rounded-md">
+                                        <button class="px-3 py-1 text-gray-600 hover:bg-gray-100">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input type="number" value="1" min="1" max="{{ $product->stock }}" 
+                                            class="
+                                                    [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none 
+                                                w-12 text-center border-0 focus:ring-0">
+                                        <button class="px-3 py-1 text-gray-600 hover:bg-gray-100">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
                                 </div>
+
+                                <button class="w-full bg-yellow-600 hover:bg-yellow-700 text-white py-3 px-4 rounded-md font-medium flex items-center justify-center">
+                                    <i class="fas fa-shopping-cart ml-2"></i>
+                                    أضف إلى السلة
+                                </button>
+
+                                <button class="w-full mt-3 bg-white border border-gray-300 hover:bg-gray-50 text-gray-800 py-3 px-4 rounded-md font-medium flex items-center justify-center">
+                                    <i class="far fa-heart ml-2"></i>
+                                    إضافة إلى المفضلة
+                                </button>
                             </div>
-
-                            <button class="w-full bg-yellow-600 hover:bg-yellow-700 text-white py-3 px-4 rounded-md font-medium flex items-center justify-center">
-                                <i class="fas fa-shopping-cart ml-2"></i>
-                                أضف إلى السلة
-                            </button>
-
-                            <button class="w-full mt-3 bg-white border border-gray-300 hover:bg-gray-50 text-gray-800 py-3 px-4 rounded-md font-medium flex items-center justify-center">
-                                <i class="far fa-heart ml-2"></i>
-                                إضافة إلى المفضلة
-                            </button>
-                        </div>
-
-                        <!-- Product Meta -->
+                            <!-- Product Meta -->
+                            @endif 
                         <div class="mt-6 pt-6 border-t border-gray-200">
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
@@ -167,7 +169,7 @@
                                 </div>
                                 <div>
                                     <span class="text-gray-600">القسم:</span>
-                                    <span class="font-medium">غير مصنف</span>
+                                    <span class="font-medium">{{ $product->category }}</span>
                                 </div>
                             </div>
                         </div>

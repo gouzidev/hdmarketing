@@ -28,7 +28,7 @@
             "{{ $user->is_admin ?
                     $user->id == auth()->user()->id ?
                         'bg-yellow-50 hover:bg-yellow-100' : 
-                    'hover:bg-gray-50 bg-gray-50' : 'hover:bg-gray-50'
+                    'hover:bg-gray-200 bg-gray-50' : 'hover:bg-gray-100'
             }}
             cursor-pointer
             ">

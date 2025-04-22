@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\category_tr;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -10,10 +11,24 @@ use Storage;
 use PHPUnit\Event\Code\Throwable;
 use Illuminate\Validation\ValidationException;
 use \Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 use Str;
 
 class ProductController extends Controller
 {
+    static private function getTranslatedCategories($cat)
+    {
+        $arr  = 
+        [
+            'clothes'       => 'ملابس',
+            'kitchen_home'  => 'المنزل والمطبخ',
+            'beauty_health' => 'الصحة والجمال',
+            'electronics'   => 'هواتف وأجهزة ذكية',
+            'real_estate'   => 'بيع العقار',
+            'cars'          => 'بيع السيارات'
+        ];
+        return $arr[$cat];
+    }
     /**
      * Display a listing of the resource.
      */
@@ -43,9 +58,8 @@ class ProductController extends Controller
         try {
             // Laravel's validate method already handles returning back with errors
             // You don't need to do it manually with if(!$validated)
-
-
             $error_messages = [
+                'in' => 'قيمة :attribute غير صالحة. يجب أن تكون واحدة من: :values',
                 'required' => 'حقل :attribute مطلوب.',
                 'min' => [
                     'string' => 'يجب أن يكون :attribute على الأقل :min حروف.',
@@ -66,6 +80,7 @@ class ProductController extends Controller
                 'desc' => 'الوصف',
                 'stock' => 'المخزون',
                 'price' => 'السعر',
+                'category' => 'التصنيف',
                 'primary_image' => 'الصورة الرئيسية',
                 'additional_images.*' => 'الصور الإضافية',
             ];
@@ -74,6 +89,7 @@ class ProductController extends Controller
                 'desc' => 'nullable|min:3|max:2000|string',
                 'stock' => 'numeric|min:0|max:100000',
                 'price' => 'numeric|required|min:0.1|max:9999999',
+                'category' => ['required', Rule::in(['clothes', 'kitchen_home', 'beauty_health', 'electronics', 'real_estate', 'cars'])],
                 'primary_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'additional_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
             ], $error_messages, $attributes);
@@ -85,6 +101,7 @@ class ProductController extends Controller
                 'name' => $validated['name'],
                 'desc' => $validated['desc'] ?? null,
                 'stock' => $validated['stock'] ?? 0,
+                'category' => $validated['category'] ?? 0,
                 'price' => $validated['price'],
             ]);
             
@@ -142,6 +159,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
+        $product->category = ProductController::getTranslatedCategories($product->category);
         return view('product.product', ['product' => $product]);
     }
 
@@ -172,6 +190,7 @@ class ProductController extends Controller
             // You don't need to do it manually with if(!$validated)
 
             $error_messages = [
+                'in' => 'قيمة :attribute غير صالحة. يجب أن تكون واحدة من: :values',
                 'required' => 'حقل :attribute مطلوب.',
                 'min' => [
                     'string' => 'يجب أن يكون :attribute على الأقل :min حروف.',
@@ -200,6 +219,7 @@ class ProductController extends Controller
                 'desc' => 'nullable|min:3|max:2000|string',
                 'stock' => 'numeric|min:0|max:100000',
                 'price' => 'numeric|required|min:0.1|max:9999999',
+                'category' => ['required', Rule::in(['clothes', 'kitchen_home', 'beauty_health', 'electronics', 'real_estate', 'cars'])]
                 // 'primary_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
                 // 'additional_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
             ], $error_messages, $attributes);
@@ -216,7 +236,7 @@ class ProductController extends Controller
         }
         catch (ValidationException $e)
         {
-            Log::error('Product creation failed: ' . $e->getMessage());
+            Log::error('Product creation failed: ');
             return redirect()->back()->withErrors(['general' => 'فشل في إنشاء المنتج. يرجى المحاولة مرة أخرى.'])->withInput();
         }
 

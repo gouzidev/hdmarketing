@@ -1,35 +1,77 @@
-<nav class="{{ $isHome ? 'absolute' : 'bg-gray-800' }} h-20 w-full">
+<nav class="{{ $isHome ? 'absolute' : 'bg-gray-800' }} w-full lg:h-20">
     @if ($isHome)
-        <div class="bg-black absolute w-full h-full h-20 opacity-5 z-20"></div>
-    @else
-        {{-- <div class="bg-black  w-full h-full h-20 opacity-100 z-20"></div> --}}
-    @endif    
-    <div class="px-10 flex justify-between h-20">
-        <div class="self-center flex gap-10 z-20 text-white text-sm items-center">
+        <div class="bg-black absolute w-full h-full lg:h-20 opacity-5 z-20"></div>
+    @endif
+    
+    <div dir="ltr" class="px-4 lg:px-10 flex justify-between items-center relative h-16 lg:h-20">
+        <img class="h-12 lg:h-16 z-30 invert" src="{{asset('images/logo.png')}}" alt="Logo" />
+        
+        <!-- Hamburger Icon (visible on mobile) -->
+        <button id="hamburger-button" class="lg:hidden z-30 focus:outline-none">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+        
+        <!-- Navigation Menu -->
+        <div id="nav-menu" class="
+            fixed lg:static top-16 right-0
+            h-[calc(100vh-4rem)] lg:h-auto w-full 
+            lg:w-auto bg-gray-800 lg:bg-transparent 
+            transform lg:transform-none transition-transform 
+            duration-300 ease-in-out translate-x-full 
+            lg:translate-x-0 z-20 text-white text-sm flex
+            flex-col lg:flex-row-reverse items-center 
+            lg:items-stretch pt-4 lg:pt-0 gap-6 lg:gap-10">
             @guest
-                <a href="{{route('register')}}"> <button class="cursor-pointer rounded-xl bg-blue-500 px-3 py-2 ">انشاء حساب جديد</button></a>
-                <a href="{{route('login')}}"><button class="cursor-pointer">تسجيل الدخول</button></a>
+                <a href="{{route('register')}}" class="mt-4 lg:mt-0">
+                    <button class="cursor-pointer rounded-xl bg-blue-500 px-3 py-2 hover:bg-blue-600 transition">انشاء حساب جديد</button>
+                </a>
+                <a href="{{route('login')}}" class="lg:mr-4">
+                    <button class="cursor-pointer hover:text-gray-300 py-2 transition">تسجيل الدخول</button>
+                </a>
             @elseif (auth()->user()->is_admin)
-                <form action="{{ route('logout') }}" method="POST">
+                <form action="{{ route('logout') }}" method="POST" class="lg:mr-4">
                     @csrf
-                    <button type="submit" class="cursor-pointer rounded-xl bg-red-500 px-3 py-2 ">تسجيل الخروج</button>
+                    <button type="submit" class="cursor-pointer rounded-xl bg-red-500 px-3 py-2 hover:bg-red-600 transition">تسجيل الخروج</button>
                 </form>
-                <a href="{{ route('dashboard') }}"><button class="cursor-pointer">لوحة التحكم</button></a>
-                <a href="{{ route('admin.users.index') }}"><button class="cursor-pointer">المستخدمين</button></a>
-                <a href="{{ route('products.index') }}"><button class="cursor-pointer">منتجات</button></a>
-                <a href="{{ route('admin.admin-requests') }}"><button class="cursor-pointer">طلبات الانضمام للإدارة</button></a>
-                <a href="{{ route('admin.users.deleted') }}"><button class="cursor-pointer">الحسابات المحذوفة</button></a>
-                <a href="{{ route('profile') }}"><button class="cursor-pointer">حسابي</button></a>
+                <a href="{{ route('dashboard') }}" class="flex items-center hover:text-gray-300 transition">لوحة التحكم</a>
+                <a href="{{ route('admin.users.index') }}" class="flex items-center hover:text-gray-300 transition">المستخدمين</a>
+                <a href="{{ route('products.index') }}" class="flex items-center hover:text-gray-300 transition">منتجات</a>
+                <a href="{{ route('admin.admin-requests') }}" class="flex items-center hover:text-gray-300 transition">طلبات الانضمام للإدارة</a>
+                <a href="{{ route('admin.users.deleted') }}" class="flex items-center hover:text-gray-300 transition">الحسابات المحذوفة</a>
+                <a href="{{ route('profile') }}" class="flex items-center hover:text-gray-300 transition">حسابي</a>
+                <a href="{{ route('contact-us') }}" class="flex items-center hover:text-gray-300 transition">تواصل معنا</a>
             @else
-                <form action="{{ route('logout') }}" method="POST">
+                <form action="{{ route('logout') }}" method="POST" class="lg:mr-4">
                     @csrf
-                    <button type="submit" class="cursor-pointer rounded-xl bg-red-500 px-3 py-2 ">تسجيل الخروج</button>
+                    <button type="submit" class="cursor-pointer rounded-xl bg-red-500 px-3 py-2 hover:bg-red-600 transition">تسجيل الخروج</button>
                 </form>
-                <a href="{{ route('dashboard') }}"><button class="cursor-pointer">لوحة التحكم</button></a>
-                <a href="{{ route('products.index') }}"><button class="cursor-pointer">منتجات</button></a>
-                <a href="{{ route('profile') }}"><button class="cursor-pointer">حسابي</button></a>
-            @endguest
+                <a href="{{ route('dashboard') }}" class="flex items-center hover:text-gray-300 transition">لوحة التحكم</a>
+                <a href="{{ route('products.index') }}" class="flex items-center hover:text-gray-300 transition">منتجات</a>
+                <a href="{{ route('profile') }}" class="flex items-center hover:text-gray-300 transition">حسابي</a>
+                <a href="{{ route('contact-us') }}" class="flex items-center hover:text-gray-300 transition">تواصل معنا</a>
+                @endguest
         </div>
-        <img class="z-30 invert" src="{{asset('images/logo.png')}}" />
     </div>
+
+    <script>
+        const hamburgerButton = document.getElementById('hamburger-button');
+        const navMenu = document.getElementById('nav-menu');
+        
+        hamburgerButton.addEventListener('click', () => {
+            navMenu.classList.toggle('translate-x-full');
+            navMenu.classList.toggle('translate-x-0');
+        });
+        
+        // Close menu when clicking on a link (for mobile)
+        document.querySelectorAll('#nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth < 1024) {
+                    navMenu.classList.add('translate-x-full');
+                    navMenu.classList.remove('translate-x-0');
+                }
+            });
+        });
+    </script>
 </nav>

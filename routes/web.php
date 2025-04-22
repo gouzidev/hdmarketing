@@ -13,6 +13,11 @@ Route::get('/', function () {
     return view('home');
 }) -> name("home");
 
+Route::get('/contact', function () {
+    return view('profile.contact-us');
+}) -> name("contact-us");
+
+
 Route::get('/login', [AuthController::class, 'getLoginPage']);
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');

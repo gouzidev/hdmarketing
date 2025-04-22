@@ -2,9 +2,10 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>إدارة المستخدمين</title>
     <script src="https://cdn.tailwindcss.com"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <x-tailwind-script />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <x-fonts-import />
@@ -83,7 +84,8 @@
         </div>
 
         <!-- Main Edit Form (Separate from verification) -->
-        <form class="w-full bg-white p-6 rounded-lg shadow border border-gray-200" action="{{ route('admin.users.edit', $user) }}" method="POST">
+        <form class="w-full bg-white p-6 rounded-lg shadow border border-gray-200" 
+            action="{{ route('admin.users.update', $user) }}" method="POST">
             <!-- Form Header -->
             <div class="w-full mb-6 text-right">
                 <h2 class="text-2xl font-bold text-gray-800">تعديل الملف الشخصي</h2>

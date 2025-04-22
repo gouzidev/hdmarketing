@@ -2,9 +2,10 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>إدارة المستخدمين</title>
     <script src="https://cdn.tailwindcss.com"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <x-tailwind-script />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <x-fonts-import />
@@ -34,18 +35,19 @@
                             
                             <div class="flex flex-col gap-4">
                                 <!-- Product Name -->
-                                <div class="flex flex-col">
-                                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1">اسم المنتج</label>
-                                    <input type="text" value="Ex Drops" name="name" id="name" class="text-right w-full rounded-md shadow-sm focus:border-b-1 border-[yellow] focus:outline-none" required>
+                                <div class="flex flex-col my-2">
+                                    <label for="name" class="underline underline-offset-8 text-sm block md:text-lg xl:text-2xl font-medium text-gray-700 mb-1">اسم المنتج</label>
+                                    <input type="text" value="Ex Drops" name="name" id="name" class="lg:text-xl text-sm 2xl:text-2xl text-right w-full rounded-md shadow-sm focus:border-b-1 border-[yellow] focus:outline-none" required>
                                 </div>
                                 
                                 <!-- Price -->
-                                <div class="flex flex-col">
-                                    <label for="price" class="block text-sm font-medium text-gray-700 mb-1">السعر</label>
+                                <div class="flex flex-col my-2">
+                                    <label for="price" class="underline underline-offset-8 text-sm block md:text-lg xl:text-2xl font-medium text-gray-700 mb-1">السعر</label>
                                     <div class="relative">
                                         <input value="700.00" type="number" step="any" name="price" id="price" 
-                                            class="text-right w-full rounded-md shadow-sm focus:border-b-1
-                                                [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
+                                            class="lg:text-xl text-sm 2xl:text-2xl text-right w-full rounded-md shadow-sm focus:border-b-1
+                                                [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none 
+                                                [&::-webkit-inner-spin-button]:appearance-none
                                             border-[yellow] focus:outline-none" min="0" required>
                                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <span class="text-gray-500 sm:text-sm">بالدولار $</span>
@@ -54,29 +56,99 @@
                                 </div>
                                 
                                 <!-- Stock -->
-                                <div class="flex flex-col">
-                                    <label for="stock" class="block text-sm font-medium text-gray-700 mb-1">المخزون</label>
+                                <div class="flex flex-col my-2">
+                                    <label for="stock" class="underline underline-offset-8 text-sm block md:text-lg xl:text-2xl font-medium text-gray-700 mb-1">المخزون</label>
                                     <input value="24" type="number" 
                                         name="stock" id="stock" 
                                         class="
+                                            lg:text-xl text-sm 2xl:text-2xl
                                             [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
                                             text-right w-full rounded-md shadow-sm focus:border-b-1 border-[yellow] focus:outline-none" min="0" required>
                                 </div>
                                 
                                 <!-- Description -->
-                                <div class="flex flex-col">
-                                    <label for="desc" class="block text-sm font-medium text-gray-700 mb-1">وصف المنتج</label>
-                                    <textarea  name="desc" id="desc" class="px-2 text-right w-full h-20 shadow-sm focus:border-b-1 border-[yellow] transition focus:outline-none"></textarea>
+                                <div class="flex flex-col my-2">
+                                    <label for="desc" class="underline underline-offset-8 text-sm block md:text-lg xl:text-2xl font-medium text-gray-700 mb-1">وصف المنتج</label>
+                                    <textarea  name="desc" id="desc" class="lg:text-xl text-sm 2xl:text-2xl px-2 text-right w-full h-20 shadow-md focus:border-b-1 border-[yellow] transition focus:outline-none"></textarea>
                                 </div>
                             </div>
+                            <style>
+                                /* Updated selector for radio buttons */
+                                .category-container input[type=radio]:checked + label {
+                                    background: black;
+                                    color: yellow;
+                                }
+                                /* Ensure hover doesn't override selected state */
+                        
+                            </style>
                             
+                            {{-- Categories --}}
+                            <div class="flex flex-col my-2">
+                                <label class="underline underline-offset-8 text-sm block md:text-lg xl:text-2xl font-medium text-gray-700 mb-5">التصنيف</label>
+                                <div class="flex flex-row flex-wrap justify-center xl:justify-start gap-10">
+                                    {{-- ملابس (Clothing) --}}
+                                    <div class="category-container">
+                                        <input type="radio" name="category" hidden value="clothes" id="category-clothes" />
+                                        <label for="category-clothes" class="flex flex-col items-center justify-center transition p-4 cursor-pointer border-4 border-gray-300 hover:bg-gray-200 text-gray-900 rounded-xl min-w-[100px] h-[100px] lg:h-[120px] lg:min-w-[120px] xl:h-[140px] xl:min-w-[140px]">
+                                            <i class="fas fa-tshirt text-2xl lg:text-3xl mb-2"></i>
+                                            <div class="text-sm sm:text-xl">ملابس</div>
+                                        </label>
+                                    </div>
+                            
+                                    {{-- المنزل و المطبخ (Home & Kitchen) --}}
+                                    <div class="category-container">
+                                        <input type="radio" name="category" hidden value="kitchen_home" id="category-kitchen_home" />
+                                        <label for="category-kitchen_home" class="flex flex-col items-center justify-center transition p-4 cursor-pointer border-4 border-gray-300 hover:bg-gray-200 text-gray-900 rounded-xl min-w-[100px] h-[100px] lg:h-[120px] lg:min-w-[120px] xl:h-[140px] xl:min-w-[140px]">
+                                            <i class="fas fa-home text-2xl lg:text-3xl mb-2"></i>
+                                            <div class="text-sm sm:text-xl">المنزل و المطبخ</div>
+                                        </label>
+                                    </div>
+                            
+                                    {{-- الصحة و الجمال (Health & Beauty) --}}
+                                    <div class="category-container">
+                                        <input type="radio" name="category" hidden value="beauty_health" id="category-beauty_health" />
+                                        <label for="category-beauty_health" class="flex flex-col items-center justify-center transition p-4 cursor-pointer border-4 border-gray-300 hover:bg-gray-200 text-gray-900 rounded-xl min-w-[100px] h-[100px] lg:h-[120px] lg:min-w-[120px] xl:h-[140px] xl:min-w-[140px]">
+                                            <i class="fas fa-spa text-2xl lg:text-3xl mb-2"></i>
+                                            <div class="text-sm sm:text-xl">الصحة و الجمال</div>
+                                        </label>
+                                    </div>
+                            
+                                    {{-- هواتف و اجهزة ذكيه (Electronics) --}}
+                                    <div class="category-container">
+                                        <input type="radio" name="category" hidden value="electronics" id="category-electronics" />
+                                        <label for="category-electronics" class="flex flex-col items-center justify-center transition p-4 cursor-pointer border-4 border-gray-300 hover:bg-gray-200 text-gray-900 rounded-xl min-w-[100px] h-[100px] lg:h-[120px] lg:min-w-[120px] xl:h-[140px] xl:min-w-[140px]">
+                                            <i class="fas fa-mobile-alt text-2xl lg:text-3xl mb-2"></i>
+                                            <div class="text-sm sm:text-xl">هواتف و أجهزة ذكية</div>
+                                        </label>
+                                    </div>
+                            
+                                    {{-- بيع العقار (Real Estate) --}}
+                                    <div class="category-container">
+                                        <input type="radio" name="category" hidden value="real_estate" id="category-real_estate" />
+                                        <label for="category-real_estate" class="flex flex-col items-center justify-center transition p-4 cursor-pointer border-4 border-gray-300 hover:bg-gray-200 text-gray-900 rounded-xl min-w-[100px] h-[100px] lg:h-[120px] lg:min-w-[120px] xl:h-[140px] xl:min-w-[140px]">
+                                            <i class="fas fa-building text-2xl lg:text-3xl mb-2"></i>
+                                            <div class="text-sm sm:text-xl">بيع العقار</div>
+                                        </label>
+                                    </div>
+                            
+                                    {{-- بيع السيارات (Cars) --}}
+                                    <div class="category-container">
+                                        <input type="radio" name="category" hidden value="cars" id="category-cars" />
+                                        <label for="category-cars" class="flex flex-col items-center justify-center transition p-4 cursor-pointer border-4 border-gray-300 hover:bg-gray-200 text-gray-900 rounded-xl min-w-[100px] h-[100px] lg:h-[120px] lg:min-w-[120px] xl:h-[140px] xl:min-w-[140px]">
+                                            <i class="fas fa-car text-2xl lg:text-3xl mb-2"></i>
+                                            <div class="text-sm sm:text-xl">بيع السيارات</div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- Image Upload Section -->
-                            <div class="flex flex-col gap-4">
-                                <h3 class="text-lg font-medium text-gray-900">صور المنتج</h3>
+                            <div class="flex flex-col my-2 gap-4">
+                                <h3 class="text-lg font-medium text-gray-700 underline underline-offset-8 text-sm block md:text-lg xl:text-2xl">صور المنتج</h3>
                                 
                                 <!-- Primary Image Field -->
                                 <div class="flex flex-col">
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">الصورة الرئيسية (مطلوبة)</label>
+                                    <label class="block  font-medium text-gray-700 mb-1 text-sm lg:text-lg">الصورة الرئيسية (مطلوبة)</label>
                                     <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center" id="primary-dropzone">
                                         <input type="file" 
                                             name="primary_image" 
@@ -96,7 +168,7 @@
                                 
                                 <!-- Additional Images Field -->
                                 <div class="flex flex-col">
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">صور إضافية (اختيارية)</label>
+                                    <label class="block font-medium text-gray-700 mb-1 text-sm lg:text-lg">صور إضافية (اختيارية)</label>
                                     <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center" id="additional-dropzone">
                                         <input type="file" name="additional_images[]" id="additional_images" multiple accept="image/*" class="hidden">
                                         <label for="additional_images" class="cursor-pointer">

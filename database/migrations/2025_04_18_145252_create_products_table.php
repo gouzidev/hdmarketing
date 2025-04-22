@@ -16,6 +16,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId("user_id")->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->string("name");
+            $table->enum('category', 
+                ['clothes', 'kitchen_home', 'beauty_health', 'electronics', 'real_estate', 'cars']);
             $table->longText("desc")->nullable();
             $table->unsignedInteger("stock");
             $table->unsignedInteger("price");
