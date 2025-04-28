@@ -1,12 +1,12 @@
 <div id='hero' class="flex flex-col justify-center items-center">
-    <h1 class="font-kufi text-4xl font-bold text-[#000257] mt-20 text-center">
+    <h1 class="font-kufi sm:text-4xl text-2xl font-bold text-[#000257] sm:mt-20 mt-10 text-center">
         مرحباً بك في منصتك المفضلة للتسويق بالعمولة والدفع عند الاستلام!
     </h1>
-    
-    <div class="flex sm:w-1/2 flex-col lg:flex-row w-full justify-center gap-20 mt-20">
-        <div class="text-right flex flex-col gap-20">
+
+    <div class="flex w-10/12 xl:w-1/2  flex-col lg:flex-row items-center justify-center gap-20 sm:mt-20 mt-10">
+        <div class="text-right flex flex-col w-11/12 gap-20">
             <div class="flex flex-col gap-5">
-                <h2 class="font-kufi text-3xl font-black text-[#0594d1]">
+                <h2 class="font-kufi sm:text-3xl text-2xl font-black text-[#0594d1]">
                     ماذا ستقدم لك منصتنا؟
                 </h2>
                 <p class="font-sans font-medium">
@@ -14,7 +14,7 @@
                 </p>
             </div>
             <div class="flex flex-col gap-5">
-                <h2 class="font-kufi text-3xl font-black text-[#0594d1]">
+                <h2 class="font-kufi sm:text-3xl text-2xl font-black text-[#0594d1]">
                     لماذا تنضم إلى منصتنا؟
                 </h2>
                 <p class="font-sans font-medium">

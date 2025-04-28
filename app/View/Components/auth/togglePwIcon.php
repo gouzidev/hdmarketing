@@ -1,17 +1,17 @@
 <?php
 
-namespace App\View\Components\Auth;
+namespace App\View\Components\auth;
 
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class RegisterForm extends Component
+class togglePwIcon extends Component
 {
     /**
      * Create a new component instance.
      */
-    public function __construct(public $pwvisible)
+    public function __construct()
     {
         //
     }
@@ -21,6 +21,6 @@ class RegisterForm extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.auth.register-form');
+        return view('components.auth.toggle-pw-icon');
     }
 }

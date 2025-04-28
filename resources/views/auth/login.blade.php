@@ -17,8 +17,9 @@
         <x-auth.cta title="حسابي - صفحة تسجيل الدخول" message="" />
         <x-auth.hero header="هل تريد كسب المال من خلال التسويق بالعمولة؟" paragraph="مرحبًا بك! يرجى تسجيل الدخول للوصول إلى حسابك والاستفادة من جميع مميزات منصتنا." />
         <x-ui.divider />
-        <x-auth.login-form />
+        <x-auth.login-form  :pwvisible="true" />
         <x-back-to-home />
+        <x-auth.toggle-pw-icon />
     </body>
 
 </html>

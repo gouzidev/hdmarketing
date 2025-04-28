@@ -4,7 +4,9 @@
     @endif
     
     <div dir="ltr" class="px-4 lg:px-10 flex justify-between items-center relative h-16 lg:h-20">
-        <img class="h-12 lg:h-16 z-30 invert" src="{{asset('images/logo.png')}}" alt="Logo" />
+        <a href="{{ route('home') }}">
+            <img class="h-12 lg:h-16 z-30 invert" src="{{asset('images/logo.png')}}" alt="Logo" />
+        </a>
         
         <!-- Hamburger Icon (visible on mobile) -->
         <button id="hamburger-button" class="lg:hidden z-30 focus:outline-none">
@@ -15,14 +17,14 @@
         
         <!-- Navigation Menu -->
         <div id="nav-menu" class="
-            fixed lg:static top-16 right-0
-            h-[calc(100vh-4rem)] lg:h-auto w-full 
+            fixed lg:static top-0 right-0
+            h-[100vh] lg:h-auto w-full 
             lg:w-auto bg-gray-800 lg:bg-transparent 
             transform lg:transform-none transition-transform 
             duration-300 ease-in-out translate-x-full 
             lg:translate-x-0 z-20 text-white text-sm flex
             flex-col lg:flex-row-reverse items-center 
-            lg:items-stretch pt-4 lg:pt-0 gap-6 lg:gap-10">
+            lg:items-stretch pt-10 lg:pt-0 gap-6 lg:gap-10 overflow-hidden">
             @guest
                 <a href="{{route('register')}}" class="mt-4 lg:mt-0">
                     <button class="cursor-pointer rounded-xl bg-blue-500 px-3 py-2 hover:bg-blue-600 transition">انشاء حساب جديد</button>
