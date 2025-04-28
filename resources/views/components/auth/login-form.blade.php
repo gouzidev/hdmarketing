@@ -20,7 +20,7 @@
            text-lg border border-slate-200 rounded-md transition duration-300 ease focus:outline-none focus:border-slate-400
             hover:border-slate-300 shadow-sm focus:shadow" name="password"  placeholder="* كلمة المرور" required/>
            <img id="togglePasswordIcon" src="{{ $pwvisible ? asset('images/hide_pw.svg') : asset('images/show_pw.svg') }}" alt="show password" 
-            class="contrast-0 cursor-pointer absolute w-5 h-5 top-3 left-2.5 text-slate-600">
+            class="transition contrast-0 cursor-pointer absolute w-5 h-5 top-3 left-2.5 text-slate-600">
         </div>
       </div>
 
