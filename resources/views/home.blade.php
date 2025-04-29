@@ -12,10 +12,10 @@
         </head>
     
     <body class=" overflow-x-hidden relative">
-        {{-- <x-nav :isHome="true"/>
+        <x-nav :isHome="true"/>
         <x-cover-img />
         <x-hero />
-        <x-services /> --}}
+        <x-services />
         <x-hero2 />
         <x-hero3 />
     </body>

@@ -1,4 +1,4 @@
-<div id='services' class="flex flex-col md:flex-row w-10/12 xl:w-1/2  mx-auto mt-20 gap-8">
+<div id='services' class="flex flex-col md:flex-row w-10/12 xl:w-2/3  mx-auto mt-20 gap-8">
   {{-- Right part (moved to top for mobile) --}}
   <div class="flex flex-col w-full md:w-1/3 text-right items-end">
     <h1 class="font-sans text-3xl sm:text-4xl font-bold text-[#0483b9] mt-5 md:mt-20">

@@ -3,7 +3,7 @@
         مرحباً بك في منصتك المفضلة للتسويق بالعمولة والدفع عند الاستلام!
     </h1>
 
-    <div class="flex w-10/12 xl:w-1/2  flex-col lg:flex-row items-center justify-center gap-20 sm:mt-20 mt-10">
+    <div class="flex w-10/12 xl:w-2/3  flex-col lg:flex-row items-center justify-center gap-20 sm:mt-20 mt-10">
         <div class="text-right flex flex-col w-11/12 gap-20">
             <div class="flex flex-col gap-5">
                 <h2 class="font-kufi sm:text-3xl text-2xl font-black text-[#0594d1]">
