@@ -4,8 +4,8 @@
     @endif
     
     <div dir="ltr" class="px-4 lg:px-10 flex justify-between items-center relative h-16 lg:h-20">
-        <a href="{{ route('home') }}">
-            <img class="h-12 lg:h-16 z-30 invert" src="{{asset('images/logo.png')}}" alt="Logo" />
+        <a href="{{ route('home') }}" class="block z-30">
+            <img class="h-12 lg:h-16 invert" src="{{asset('images/logo.png')}}" alt="Logo" />
         </a>
         
         <!-- Hamburger Icon (visible on mobile) -->
@@ -43,6 +43,7 @@
                 <a href="{{ route('admin.admin-requests') }}" class="flex items-center hover:text-gray-300 transition">طلبات الانضمام للإدارة</a>
                 <a href="{{ route('admin.users.deleted') }}" class="flex items-center hover:text-gray-300 transition">الحسابات المحذوفة</a>
                 <a href="{{ route('profile') }}" class="flex items-center hover:text-gray-300 transition">حسابي</a>
+                <a href="{{ route('wallet') }}" class="flex items-center hover:text-gray-300 transition">محفظة</a>
                 <a href="{{ route('contact-us') }}" class="flex items-center hover:text-gray-300 transition">تواصل معنا</a>
             @else
                 <form action="{{ route('logout') }}" method="POST" class="lg:mr-4">
@@ -52,28 +53,9 @@
                 <a href="{{ route('dashboard') }}" class="flex items-center hover:text-gray-300 transition">لوحة التحكم</a>
                 <a href="{{ route('products.index') }}" class="flex items-center hover:text-gray-300 transition">منتجات</a>
                 <a href="{{ route('profile') }}" class="flex items-center hover:text-gray-300 transition">حسابي</a>
+                <a href="{{ route('wallet') }}" class="flex items-center hover:text-gray-300 transition">محفظة</a>
                 <a href="{{ route('contact-us') }}" class="flex items-center hover:text-gray-300 transition">تواصل معنا</a>
                 @endguest
         </div>
     </div>
-
-    <script>
-        const hamburgerButton = document.getElementById('hamburger-button');
-        const navMenu = document.getElementById('nav-menu');
-        
-        hamburgerButton.addEventListener('click', () => {
-            navMenu.classList.toggle('translate-x-full');
-            navMenu.classList.toggle('translate-x-0');
-        });
-        
-        // Close menu when clicking on a link (for mobile)
-        document.querySelectorAll('#nav-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                if (window.innerWidth < 1024) {
-                    navMenu.classList.add('translate-x-full');
-                    navMenu.classList.remove('translate-x-0');
-                }
-            });
-        });
-    </script>
 </nav>

@@ -66,7 +66,8 @@ class ProfileController extends Controller
         } else {
             unset($validatedData['password']);
         }
-        auth()->user()->update($validatedData);
+        // auth()->user()->update($validatedData); changed to :
+        Auth::user()->update($validatedData);
         return back()->with('success', 'تم تحديث البيانات بنجاح');
     }
     public function serveDashboard(Request $req)
@@ -76,6 +77,7 @@ class ProfileController extends Controller
         ->where('status', 'pending')
         ->exists();
         ;
+        $orders = OrderController::getOrders($user_id);
         return view("profile.dashboard", ['hasPendingRequest' => $hasPendingRequest]);
     }
     public function requestAdmin($id)
@@ -99,5 +101,15 @@ class ProfileController extends Controller
         ]);
     
         return back()->with('success', 'تم إرسال طلبك بنجاح. سيتم مراجعته من قبل المسؤولين');
+    }
+    public function wallet()
+    {
+        if (Auth::check())
+        {
+            /** @var \App\Models\User $user */
+            $user = Auth::user()->only(['name', 'email', 'phone', 'city', 'country']);
+            return view('profile.wallet', ['user' => $user]);
+        }
+        return redirect()->route('login')->with('error', 'يجب تسجيل الدخول للوصول إلى صفحة الملف الشخصي');
     }
 }

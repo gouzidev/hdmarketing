@@ -6,15 +6,15 @@
     <title>hdmarketing</title>
     <script src="https://cdn.tailwindcss.com"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <x-tailwind-script />
+    <x-scripts.tailwind-script />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <x-fonts-import />
+    <x-scripts.fonts-import />
 </head>
 
 <body class="overflow-x-hidden relative">
     <x-nav :isHome="false"/>
 
-    @if (!auth()->user()->is_admin)
+    {{-- @if (!auth()->user()->is_admin)
         @if ($hasPendingRequest)
             <div class="mb-4 p-4 bg-blue-50 border border-blue-200 text-blue-700 rounded-lg">
                 لديك طلب صلاحيات مدير قيد المراجعة
@@ -28,8 +28,12 @@
                 </button>
             </form>
         @endif
+    @endif --}}
+    @if (auth()->user()->is_admin)
+    <a href="{{ route('admin.shipping.index') }}">
+        التحكم في خيارات الشحن
+    </a>
     @endif
-
     @if (session('error'))
         <div class="mb-4 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">
             {{ session('error') }}
@@ -39,5 +43,6 @@
             {{ session('success') }}
         </div>
     @endif
+    <x-scripts.nav-script />
 </body>
 </html>

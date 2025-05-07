@@ -149,15 +149,16 @@
                                     </div>
                                 </div>
 
-                                <button class="w-full bg-yellow-600 hover:bg-yellow-700 text-white py-3 px-4 rounded-md font-medium flex items-center justify-center">
-                                    <i class="fas fa-shopping-cart ml-2"></i>
-                                    أضف إلى السلة
-                                </button>
-
-                                <button class="w-full mt-3 bg-white border border-gray-300 hover:bg-gray-50 text-gray-800 py-3 px-4 rounded-md font-medium flex items-center justify-center">
+                                <a href="{{ route('products.product.checkout', $product)}}">
+                                    <button class="w-full bg-yellow-600 hover:bg-yellow-700 text-white py-3 px-4 rounded-md font-medium flex items-center justify-center">
+                                        <i class="fas fa-shopping-cart ml-2"></i>
+                                        طلب
+                                    </button>
+                                </a>
+                                {{-- <button class="w-full mt-3 bg-white border border-gray-300 hover:bg-gray-50 text-gray-800 py-3 px-4 rounded-md font-medium flex items-center justify-center">
                                     <i class="far fa-heart ml-2"></i>
                                     إضافة إلى المفضلة
-                                </button>
+                                </button> --}}
                             </div>
                             <!-- Product Meta -->
                             @endif 

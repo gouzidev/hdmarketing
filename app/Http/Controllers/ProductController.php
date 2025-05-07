@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\category_tr;
+use App\Models\Order;
 use App\Models\Product;
+use App\Models\Shipping;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use PHPUnit\Framework\Constraint\FileExists;
@@ -13,6 +15,7 @@ use Illuminate\Validation\ValidationException;
 use \Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Str;
+use PHPUnit\Exception;
 
 class ProductController extends Controller
 {
@@ -143,7 +146,7 @@ class ProductController extends Controller
             }
             
             return redirect()->route('products.product.show', $product)
-                ->with('success', 'Product created successfully');
+                ->with('success', 'تم إنشاء المنتج');
         } catch (ValidationException $e) {
             // Laravel automatically handles this, but we're being explicit
             return back()->withErrors($e->errors())->withInput();
@@ -153,6 +156,7 @@ class ProductController extends Controller
             return back()->withErrors(['general' => 'فشل في إنشاء المنتج. يرجى المحاولة مرة أخرى.'])->withInput();
         }
     }
+
 
     /**
      * Display the specified resource.
@@ -178,6 +182,122 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         return view("product.edit", ['product' => $product]);
+    }
+
+    public function checkout(Product $product)
+    {
+        $shippings = Shipping::all();
+        return view("product.checkout", [
+            'product' => $product,
+            'shippings' => $shippings
+        ]);
+    }
+
+    public function processCheckout(Request $request, Product $product)
+    {
+        // Validate the request data
+        // Custom Arabic validation messages
+        $messages = [
+            'required' => 'حقل :attribute مطلوب.',
+            'exists' => 'قيمة :attribute غير صالحة.',
+            'integer' => 'يجب أن يكون :attribute رقمًا صحيحًا.',
+            'numeric' => 'يجب أن يكون :attribute رقمًا.',
+            'min' => [
+                'numeric' => 'يجب أن تكون قيمة :attribute على الأقل :min.',
+                'string' => 'يجب أن يحتوي :attribute على الأقل :min حروف.',
+            ],
+            'max' => [
+                'numeric' => 'قيمة :attribute كبيرة جدًا.',
+                'string' => 'يجب ألا يتجاوز :attribute :max حروف.',
+            ],
+            'email' => 'يجب أن يكون :attribute بريدًا إلكترونيًا صالحًا.',
+            'in' => 'قيمة :attribute غير صالحة.',
+            'accepted' => 'يجب قبول :attribute.',
+        ];
+
+        // Arabic attribute names
+        $attributes = [
+            'product_id' => 'معرف المنتج',
+            'quantity' => 'الكمية',
+            'total_price' => 'السعر الإجمالي',
+            'affiliate_price' => 'سعر البيع',
+            'shipping_id' => 'طريقة الشحن',
+            'name' => 'الاسم',
+            'email' => 'البريد الإلكتروني',
+            'phone' => 'رقم الهاتف',
+            'address' => 'العنوان',
+            'country' => 'البلد',
+            'city' => 'المدينة',
+            'postal_code' => 'الرمز البريدي',
+            'payment_method' => 'طريقة الدفع',
+            'terms' => 'الشروط والأحكام',
+        ];
+
+        // Validate the request data
+        $validated = $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'quantity' => 'required|integer|min:1|max:'.$product->stock,
+            'total_price' => 'required|numeric|min:0|max:999999',
+            'affiliate_price' => 'required|numeric|max:999999|min:'.$product->price,
+            'shipping_id' => 'required|exists:shippings,id',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'required|string|max:20',
+            'address' => 'required|string|max:255',
+            'country' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'postal_code' => 'nullable|string|max:20',
+            'payment_method' => 'required|in:cash_on_delivery,credit_card',
+            'terms' => 'required|accepted'
+        ], $messages, $attributes);
+
+        try {
+            // Verify the product is still available
+            if ($product->stock < $request->quantity) {
+                return back()->withErrors(['quantity' => 'الكمية المطلوبة غير متوفرة في المخزن'])->withInput();
+            }
+
+            // Verify the shipping method exists and matches the selected country/city
+            $shipping = Shipping::findOrFail($request->shipping_id);
+            if ($shipping->country !== $request->country || $shipping->city !== $request->city) {
+                return back()->withErrors(['shipping_id' => 'طريقة الشحن المحددة غير متاحة للموقع المختار'])->withInput();
+            }
+
+            // Verify the total price calculation
+            $expectedTotal = ($request->affiliate_price * $request->quantity) + ($shipping->price);
+            if (abs($expectedTotal - $request->total_price) > 0.01) {
+                return back()->withErrors(['total_price' => 'حساب السعر الإجمالي غير صحيح'])->withInput();
+            }
+            // Create the order
+            $order = Order::create([
+                'product_id' => $product->id,
+                'user_id' => Auth::user()->id,
+                'quantity' => $request->quantity,
+                'sell-price' => $request->affiliate_price,
+                'shipping_id' => $shipping->id,
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'country' => $request->country,
+                'city' => $request->city,
+                'zip' => $request->postal_code,
+            ]);
+    
+            // Update product stock
+            $product->decrement('stock', $request->quantity);
+    
+            // Redirect to success page
+            return back()->with(['success' => 'تم الطلب بنجاح.'])->withInput();
+            
+    
+        } catch (Exception $e) {
+            // Log the error
+            \Log::error('Checkout failed:');
+            
+            // Return with error message
+            return back()->withErrors(['general' => 'حدث خطأ أثناء معالجة الطلب. يرجى المحاولة مرة أخرى.'])->withInput();
+        }
     }
 
     /**

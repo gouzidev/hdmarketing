@@ -21,6 +21,6 @@ class tailwindScript extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.tailwind-script');
+        return view('components.scripts.tailwind-script');
     }
 }

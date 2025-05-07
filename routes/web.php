@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ShippingController;
 
 Route::get('/', function () {
     return view('home');
@@ -35,6 +36,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get("/dashboard", [ProfileController::class, 'serveDashboard'])->name('dashboard'); 
     Route::post("/request-admin/{user}", [ProfileController::class, 'requestAdmin'])->name('request-admin'); 
     Route::get("/profile", [ProfileController::class, 'index'])->name('profile'); 
+    Route::get("/wallet", [ProfileController::class, 'wallet'])->name('wallet'); 
     Route::post("/profile/edit", [ProfileController::class, 'edit'])->name('profile.edit'); 
 
 
@@ -44,6 +46,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get("/products/create", [ProductController::class, 'create'])->name('products.create');
     Route::get("/products/store", [ProductController::class, 'store'])->name('products.store');
     Route::get("/products/{product}/show", [ProductController::class, 'show'])->name('products.product.show');
+    Route::get("/products/{product}/checkout", [ProductController::class, 'checkout'])->name('products.product.checkout');
+    Route::post("/products/{product}/checkout", [ProductController::class, 'processCheckout'])->name('products.product.checkout-process');
     Route::get("/products/{product}/edit", [ProductController::class, 'edit'])->name('products.product.edit');
     Route::put("/products/{product}/update", [ProductController::class, 'update'])->name('products.product.update');
     Route::get("/products/search", [ProductController::class, 'search'])->name('products.search');
@@ -67,6 +71,7 @@ Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function ()
     Route::delete('/admin-requests/{user}/reject', [AdminController::class, 'rejectAdminReq'])->name('requests.reject');
 
 
+    Route::resource('shipping', ShippingController::class);
 
     Route::prefix('users')->name('users.')->group(function () {
         // Active users

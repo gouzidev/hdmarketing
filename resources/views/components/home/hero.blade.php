@@ -2,7 +2,6 @@
     <h1 class="font-kufi sm:text-4xl text-2xl font-bold text-[#000257] sm:mt-20 mt-10 text-center">
         مرحباً بك في منصتك المفضلة للتسويق بالعمولة والدفع عند الاستلام!
     </h1>
-
     <div class="flex w-10/12 xl:w-2/3  flex-col lg:flex-row items-center justify-center gap-20 sm:mt-20 mt-10">
         <div class="text-right flex flex-col w-11/12 gap-20">
             <div class="flex flex-col gap-5">

@@ -5,7 +5,7 @@
     <div class="relative sm:w-5/6 w-full ">
         <input type="text" class="w-full pl-3 pr-10 py-2 bg-transparent placeholder:text-slate-400 text-slate-600
          text-lg border border-slate-200 rounded-md transition duration-300 ease focus:outline-none focus:border-slate-400
-          hover:border-slate-300 shadow-sm focus:shadow" name="email"  name="name"  placeholder="* اسم المستخدم" required/>
+          hover:border-slate-300 shadow-sm focus:shadow"  name="name"  placeholder="* اسم المستخدم" required/>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="absolute w-5 h-5 top-2.5 right-2.5 text-slate-600">
           <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clip-rule="evenodd" />
         </svg>
@@ -62,7 +62,7 @@
     <div class="flex items-center gap-10  relative sm:w-5/6 w-full">
         <button class="
         w-full 
-        px-5 py-2 rounded bg-yellow-600 border border-transparent rounded-md font-semibold text-md text-white
+        px-5 py-2 bg-yellow-600 border border-transparent rounded-md font-semibold text-md text-white
             uppercase tracking-widest hover:bg-yellow-700 focus:bg-yellow-700 active:bg-yellow-900
             focus:outline-none focus:ring-2 focus:ring-yellow-500
             focus:ring-offset-2 transition ease-in-out duration-150">
@@ -70,8 +70,8 @@
 
             
     </div>
-    <div class="text-red-700 self-end opacity-70 mt-5 text-right">
-        <ul>
+    <div class="text-red-700  opacity-70 mt-5 sm:w-5/6 w-full">
+      <ul>
             @foreach ($errors->all() as $error)
                 <li class="mt-1">{{ $error }}</li>
             @endforeach

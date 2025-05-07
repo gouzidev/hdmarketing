@@ -6,9 +6,9 @@
     <title>إدارة المنتجات</title>
     <script src="https://cdn.tailwindcss.com"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <x-tailwind-script />
+    <x-scripts.tailwind-script />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <x-fonts-import />
+    <x-scripts.fonts-import />
     <style>
         .product-card:hover {
             transform: translateY(-5px);

@@ -93,14 +93,14 @@
             @endforeach
         </tbody>
     </table>
-    @if ($errors->any())
-        <div class="text-red-700 opacity-70 mt-5 text-right">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li class="mt-1">{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
+        @if ($errors->any())
+            <div class="text-red-700 opacity-70 mt-5 text-right">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li class="mt-1">{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
         @elseif (session('success'))
             <div class="w-full mb-6 p-4 bg-green-50 border border-green-200 rounded-lg text-green-700">
                 {{ session('success') }}

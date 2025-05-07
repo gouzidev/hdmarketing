@@ -21,6 +21,6 @@ class BackToHome extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.back-to-home');
+        return view('components.ui.back-to-home');
     }
 }

@@ -21,6 +21,6 @@ class faq extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.faq');
+        return view('components.home.faq');
     }
 }

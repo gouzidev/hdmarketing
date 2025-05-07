@@ -21,6 +21,6 @@ class CoverImg extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.cover-img');
+        return view('components.home.cover-img');
     }
 }

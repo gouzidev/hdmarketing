@@ -39,7 +39,7 @@
         w-full sm:w-1/4
         px-2 py-2
         sm:px-5 sm:py-2
-        rounded bg-yellow-600 border border-transparent
+        bg-yellow-600 border border-transparent
          rounded-md font-semibold  text-xs sm:text-md xl:text-lg text-white
             uppercase tracking-widest hover:bg-yellow-700 focus:bg-yellow-700 active:bg-yellow-900
             focus:outline-none focus:ring-2 focus:ring-yellow-500
@@ -48,16 +48,15 @@
     </div>
     
     @csrf
-    @if($errors->any())
-    <div class="w-full mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-        <h3 class="text-red-700 font-medium mb-2">يوجد خطأ:</h3>
-        <ul class="text-red-600 list-disc pr-5 space-y-1">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @elseif (session('success'))
+    <div class="text-red-700  opacity-70 mt-5 sm:w-5/6 w-full">
+        <ul>
+              @foreach ($errors->all() as $error)
+                  <li class="mt-1">{{ $error }}</li>
+              @endforeach
+          </ul>
+      </div>
+    
+    @if (session('success'))
         <div class="w-full mb-6 p-4 bg-green-50 border border-green-200 rounded-lg text-green-700">
             {{ session('success') }}
         </div>
