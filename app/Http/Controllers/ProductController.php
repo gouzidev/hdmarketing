@@ -253,7 +253,7 @@ class ProductController extends Controller
             'email' => 'required|email|max:255',
             'phone' => 'required|string|min:10|max:20',
             'address' => 'required|string|min:5|max:255',
-            'country' => 'required|string|min:5|max:255',
+            'country' => 'required|string|min:2|max:255',
             'city' => 'required|string|max:255',
             'zip' => 'nullable|string|max:20',
         ], $messages, $attributes);

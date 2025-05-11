@@ -57,9 +57,10 @@
         </nav>
     </div>
 
+    {{-- bg-purple-100 sm:bg-red-100 md:bg-orange-100 lg:bg-yellow-100 xl:bg-green-100 --}}
     <!-- Main Content -->
-    <main class="sm:max-w-[90%] w-full mx-auto py-6 sm:px-0 lg:px-0">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <main class=" sm:max-w-[90%] w-full mx-auto py-6 sm:px-0 lg:px-0">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <!-- Left Column - Order Items and Info Cards -->
             <div class="lg:col-span-3 space-y-6">
                 <!-- Order Items -->
@@ -110,7 +111,7 @@
                 @endif
 
                 <!-- Info Cards Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Shipping Info -->
                     <div class="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200">
                         <div class="px-4 py-5 sm:px-6 border-b border-gray-200 bg-gradient-to-l from-blue-50 to-white">
@@ -237,34 +238,71 @@
 
                     <!-- Customer Info -->
                     <div class="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200">
-                        <div class="px-4 py-5 sm:px-6 border-b border-gray-200 bg-gradient-to-l from-teal-50 to-white">
+                        <div class="px-4 py-5 sm:px-6 border-b border-gray-200 bg-gradient-to-l from-green-50 to-white">
                             <h3 class="text-lg leading-6 font-medium text-gray-900 flex items-center">
-                                <i class="fas fa-user-circle text-teal-600 ml-2"></i>
+                                <i class="fas fa-user-circle text-green-600 ml-2"></i>
                                 معلومات الزبون
                             </h3>
                         </div>
                         <div class="p-4">
-                            <div class="flex items-center p-2 hover:bg-gray-50 rounded-md transition duration-150 mb-2">
-                                <div class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center mr-3">
-                                    <i class="fas fa-user text-teal-600"></i>
+                            <div class="flex items-center p-2 hover:bg-gray-50 rounded-md transition duration-150 mb-2 gap-2">
+                                <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-1">
+                                    <i class="fas fa-user text-green-600"></i>
                                 </div>
                                 <div>
                                     <h4 class="text-sm font-medium text-gray-900">{{ $order->name }}</h4>
-                                    <p class="text-xs text-gray-500">عميل</p>
+                                    <p class="text-xs text-gray-500">زبون</p>
                                 </div>
                             </div>
                             <div class="space-y-2 mt-3">
                                 <a href="mailto:{{ $order->email }}" class="flex items-center p-2 hover:bg-gray-50 rounded-md transition duration-150 text-sm text-gray-700">
-                                    <i class="fas fa-envelope text-teal-500 ml-2 w-5 text-center"></i>
+                                    <i class="fas fa-envelope text-green-500 ml-2 w-5 text-center"></i>
                                     {{ $order->email }}
                                 </a>
                                 <a href="tel:{{ $order->phone }}" class="flex items-center p-2 hover:bg-gray-50 rounded-md transition duration-150 text-sm text-gray-700">
-                                    <i class="fas fa-phone-alt text-teal-500 ml-2 w-5 text-center"></i>
+                                    <i class="fas fa-phone-alt text-green-500 ml-2 w-5 text-center"></i>
                                     {{ $order->phone }}
                                 </a>
                                 <div class="flex items-center p-2 hover:bg-gray-50 rounded-md transition duration-150 text-sm text-gray-700">
+                                    <i class="fas fa-map-marker-alt text-green-500 ml-2 w-5 text-center"></i>
+                                    {{ $order->shipping->country }}، {{ $order->shipping->city }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Affiliate Info -->
+                    <div class="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200">
+                        <div class="px-4 py-5 sm:px-6 border-b border-gray-200 bg-gradient-to-l from-teal-50 to-white">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900 flex items-center gap-5">
+                                <i class="fa-solid fa-user-tie text-teal-800"></i>
+                                معلومات العميل
+                            </h3>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex items-center p-2 hover:bg-gray-50 rounded-md transition duration-150 mb-2 gap-2">
+                                <div class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center mr-1">
+                                    <i class="fa-solid fa-user-tie text-teal-800"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-900">{{ $order->affiliate->name }}</h4>
+                                    <p class="text-xs text-gray-500">عميل</p>
+                                </div>
+                            </div>
+                            <div class="space-y-2 mt-3">
+                                <a href="mailto:{{ $order->affiliate->email }}" class="flex items-center p-2 hover:bg-gray-50 rounded-md transition duration-150 text-sm text-gray-700">
+                                    <i class="fas fa-envelope text-teal-500 ml-2 w-5 text-center"></i>
+                                    {{ $order->affiliate->email }}
+                                </a>
+                                <a href="tel:{{ $order->phone }}" class="flex items-center p-2 hover:bg-gray-50 rounded-md transition duration-150 text-sm text-gray-700">
+                                    <i class="fas fa-phone-alt text-teal-500 ml-2 w-5 text-center"></i>
+                                    {{ $order->affiliate->phone }}
+                                </a>
+                                <div class="flex items-center p-2 hover:bg-gray-50 rounded-md transition duration-150 text-sm text-gray-700">
                                     <i class="fas fa-map-marker-alt text-teal-500 ml-2 w-5 text-center"></i>
-                                    {{ $order->city }}، {{ $order->country }}
+                                    {{ $order->affiliate->country }}، {{ $order->affiliate->city }}
                                 </div>
                             </div>
                         </div>

@@ -17,29 +17,29 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        // User::factory()->admin()->create([
-        //     'name' => 'sgouzi',
-        //     'phone' => '0627748714',
-        //     'email' => 'salahgouzi11@gmail.com',
-        //     'city' => 'sale',
-        //     'is_admin' => true,
-        //     'verified' => true,
-        //     'verified_at' => now(),
-        //     'country' => 'MA',
-        //     'password' => Hash::make("salahgouzi11@gmail.com"),
-        // ]);
+        User::factory()->admin()->create([
+            'name' => 'sgouzi',
+            'phone' => '0627748714',
+            'email' => 'salahgouzi11@gmail.com',
+            'city' => 'sale',
+            'is_admin' => true,
+            'verified' => true,
+            'verified_at' => now(),
+            'country' => 'MA',
+            'password' => Hash::make("salahgouzi11@gmail.com"),
+        ]);
        
-        // User::factory()->create([
-        //     'name' => 'jamal',
-        //     'phone' => '0627748714',
-        //     'email' => 'jamal@jamal.com',
-        //     'city' => 'sale',
-        //     'is_admin' => false,
-        //     'verified' => false,
-        //     'verified_at' => NULL,
-        //     'country' => 'TN',
-        //     'password' => Hash::make("jamal@jamal.com"),
-        // ]);
+        User::factory()->create([
+            'name' => 'jamal',
+            'phone' => '0627748714',
+            'email' => 'jamal@jamal.com',
+            'city' => 'sale',
+            'is_admin' => false,
+            'verified' => true,
+            'verified_at' => NULL,
+            'country' => 'TN',
+            'password' => Hash::make("jamal@jamal.com"),
+        ]);
         Shipping::create([
             'country' => 'ma',
             'city' => 'sale',
