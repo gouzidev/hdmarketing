@@ -190,7 +190,7 @@ class ProductController extends Controller
         if ($request->input('quantity') == null)
             return redirect('notverified');
         $quantity = $request->input('quantity');
-        if ($quantity < 1 || $quantity > 10000)
+        if ($quantity < 1 || $quantity > 10000 || $product->stock < 1)
             return redirect('notverified');
         if (!Auth::user()->verified)
         return redirect('notverified');
@@ -251,14 +251,20 @@ class ProductController extends Controller
             'shipping_id' => 'required|exists:shippings,id',
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
-            'phone' => 'required|string|max:20',
-            'address' => 'required|string|max:255',
-            'country' => 'required|string|max:255',
+            'phone' => 'required|string|min:10|max:20',
+            'address' => 'required|string|min:5|max:255',
+            'country' => 'required|string|min:5|max:255',
             'city' => 'required|string|max:255',
             'zip' => 'nullable|string|max:20',
         ], $messages, $attributes);
         try {
             // Verify the product is still available
+            
+            if ($request->quantity < 1)
+            {
+                return back()->withErrors(['quantity' => 'الكمية المطلوبة غير صحيح'])->withInput();
+            }
+
             if ($product->stock < $request->quantity) {
                 return back()->withErrors(['quantity' => 'الكمية المطلوبة غير متوفرة في المخزن'])->withInput();
             }
@@ -290,9 +296,7 @@ class ProductController extends Controller
                 'city' => $request->city,
                 'zip' => $request->postal_code,
             ]);
-    
-            // Update product stock
-            $product->decrement('stock', $request->quantity);
+
     
             // Redirect to success page
             return back()->with(['success' => 'تم الطلب بنجاح.'])->withInput();
@@ -368,7 +372,7 @@ class ProductController extends Controller
         {
             dd($e->errors());
             Log::error('Product creation failed: ');
-            return redirect()->back()->withErrors(['general' => 'فشل في إنشاء المنتج. يرجى المحاولة مرة أخرى.'])->withInput();
+            return redirect()->back()->withErrors(['general' => 'فشل في تحديث المنتج. يرجى المحاولة مرة أخرى.'])->withInput();
         }
 
         return back()->with('success', 'تم تحديث المنتج بنجاح');

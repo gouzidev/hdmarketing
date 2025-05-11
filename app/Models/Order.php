@@ -11,12 +11,22 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Order extends Model
 {
+    protected $casts = [
+        'handling_date' => 'datetime',
+        'delivery_date' => 'datetime',
+        'shipping_date' => 'datetime',
+        'payment_date' => 'datetime'
+    ];
     protected $fillable = [
         'affiliate_id', 'product_id',
         'status', 'quantity', 'affiliate_price',
         'name', 'email', 'phone',
+
         'shipping_id', 'address', 'zip',
-        'shipping_status', 'payment_date', 'payment_status'
+        'shipping_status', 'shipping_date',
+        'delivery_date', 'handling_date', 
+
+        'payment_status', 'payment_date'
     ];
 
     public function product() : BelongsTo

@@ -1,6 +1,7 @@
 <?php
 
 namespace Database\Seeders;
+use App\Models\Shipping;
 use Hash;
 
 use App\Models\User;
@@ -16,98 +17,65 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->admin()->create([
-            'name' => 'sgouzi',
-            'phone' => '0627748714',
-            'email' => 'salahgouzi11@gmail.com',
+        // User::factory()->admin()->create([
+        //     'name' => 'sgouzi',
+        //     'phone' => '0627748714',
+        //     'email' => 'salahgouzi11@gmail.com',
+        //     'city' => 'sale',
+        //     'is_admin' => true,
+        //     'verified' => true,
+        //     'verified_at' => now(),
+        //     'country' => 'MA',
+        //     'password' => Hash::make("salahgouzi11@gmail.com"),
+        // ]);
+       
+        // User::factory()->create([
+        //     'name' => 'jamal',
+        //     'phone' => '0627748714',
+        //     'email' => 'jamal@jamal.com',
+        //     'city' => 'sale',
+        //     'is_admin' => false,
+        //     'verified' => false,
+        //     'verified_at' => NULL,
+        //     'country' => 'TN',
+        //     'password' => Hash::make("jamal@jamal.com"),
+        // ]);
+        Shipping::create([
+            'country' => 'ma',
             'city' => 'sale',
-            'is_admin' => true,
-            'verified' => true,
-            'verified_at' => now(),
-            'country' => 'MA',
-            'password' => Hash::make("salahgouzi11@gmail.com"),
+            'street' => 'hay rahma',
+            'price' => 9.99
         ]);
-        User::factory()->admin()->create([
-            'name' => 'salah',
-            'phone' => '0627748714',
-            'email' => 'salah@gouzi.com',
+        Shipping::create([
+            'country' => 'ma',
             'city' => 'sale',
-            'is_admin' => true,
-            'verified' => true,
-            'verified_at' => now(),
-            'country' => 'MA',
-            'password' => Hash::make("salah@gouzi.com"),
+            'street' => 'hay karima',
+            'price' => 12.99
         ]);
-        User::factory()->create([
-            'name' => 'salah',
-            'phone' => '0627748714',
-            'email' => 'sgouzi@gmail.com',
-            'city' => 'sale',
-            'is_admin' => false,
-            'verified' => false,
-            'verified_at' => NULL,
-            'password' => Hash::make("sgouzi@gmail.com"),
+        Shipping::create([
+            'country' => 'ma',
+            'city' => 'rabat',
+            'street' => 'hassan',
+            'price' => 15.99
         ]);
-        User::factory()->create([
-            'name' => 'test',
-            'phone' => '0627748714',
-            'email' => 'test@gmail.com',
-            'city' => 'sale',
-            'is_admin' => false,
-            'verified' => false,
-            'verified_at' => NULL,
-            'password' => Hash::make("test@gmail.com"),
+        Shipping::create([
+            'country' => 'tn',
+            'city' => 'tunisie',
+            'street' => 'l3rbi',
+            'price' => 49.99
         ]);
-        User::factory()->create([
-            'name' => 'test1',
-            'phone' => '0627748714',
-            'email' => 'test1@gmail.com',
-            'city' => 'sale',
-            'is_admin' => false,
-            'verified' => false,
-            'verified_at' => NULL,
-            'password' => Hash::make("test1@gmail.com"),
+        Shipping::create([
+            'country' => 'tn',
+            'city' => 'jerbaa',
+            'street' => 'sahil',
+            'price' => 59.99
         ]);
-        User::factory()->create([
-            'name' => 'test2',
-            'phone' => '0627748714',
-            'email' => 'test2@gmail.com',
-            'city' => 'sale',
-            'is_admin' => false,
-            'verified' => false,
-            'verified_at' => NULL,
-            'password' => Hash::make("test2@gmail.com"),
+        Shipping::create([
+            'country' => 'ly',
+            'city' => 'tarabulus',
+            'street' => 'l8ja3',
+            'price' => 89.99
         ]);
-        User::factory()->create([
-            'name' => 'test3',
-            'phone' => '0627748714',
-            'email' => 'test3@gmail.com',
-            'city' => 'sale',
-            'is_admin' => false,
-            'verified' => false,
-            'verified_at' => NULL,
-            'password' => Hash::make("test3@gmail.com"),
-        ]);
-        User::factory()->create([
-            'name' => 'test4',
-            'phone' => '0627748714',
-            'email' => 'test4@gmail.com',
-            'city' => 'sale',
-            'is_admin' => false,
-            'verified' => false,
-            'verified_at' => NULL,
-            'password' => Hash::make("test4@gmail.com"),
-        ]);
-        User::factory()->create([
-            'name' => 'test5',
-            'phone' => '0627748714',
-            'email' => 'test5@gmail.com',
-            'city' => 'sale',
-            'is_admin' => false,
-            'verified' => false,
-            'verified_at' => NULL,
-            'password' => Hash::make("test5@gmail.com"),
-        ]);
-        User::factory()->count(10)->create();
+        // User::factory()->count(2)->create();
     }
 }

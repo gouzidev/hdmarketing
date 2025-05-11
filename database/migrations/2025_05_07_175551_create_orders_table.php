@@ -27,9 +27,11 @@ return new class extends Migration
             $table->text('address');
             $table->tinyText('zip')->nullable();
             $table->enum('shipping_status', ['pending', 'shipped', 'delivered'])->default('pending');
+            $table->dateTime('shipping_date')->nullable();
+            $table->dateTime('delivery_date')->nullable();
+            $table->dateTime('handling_date')->nullable();
             
             $table->dateTime('payment_date')->nullable();
-            $table->dateTime('shipping_date')->nullable();
             $table->enum('payment_status',  ['pending', 'paid'])->default('pending');
             $table->timestamps();
         });

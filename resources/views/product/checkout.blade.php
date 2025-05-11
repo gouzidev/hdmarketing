@@ -259,7 +259,7 @@
                                             اختر منطقة الشحن
                                         </label>
                                         <div class="relative">
-                                            <button type="button" id="shipping-selector-btn" class="relative w-full bg-white border border-gray-300 rounded-lg shadow-sm pl-3 pr-5 py-2 text-right cursor-default focus:outline-none focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500">
+                                            <button type="button" id="shipping-selector-btn" class="relative w-full cursor-pointer bg-white border border-gray-300 rounded-lg shadow-sm pl-3 pr-5 py-2 text-right cursor-default focus:outline-none focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500">
                                                 <span id="selected-shipping-text" class="block truncate text-gray-500">اختر منطقة الشحن...</span>
                                                 <span class="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none">
                                                     <i class="fas fa-chevron-down text-gray-400"></i>
@@ -274,7 +274,7 @@
                                                      data-city="{{ $shipping->city }}" 
                                                      data-street="{{ $shipping->street }}"
                                                      data-price="{{ $shipping->price }}"
-                                                     class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-4 hover:bg-yellow-50">
+                                                     class=" text-gray-900 cursor-pointer select-none relative py-2 pl-3 pr-4 hover:bg-yellow-50">
                                                     <div class="flex items-center">
                                                         <span class="font-medium block truncate">{{ $shipping->city }}, {{ $shipping->country }}</span>
                                                         <span class="text-xs text-gray-500 mr-1">{{ $shipping->street }}</span>

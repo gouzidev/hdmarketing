@@ -51,6 +51,12 @@ Route::middleware(['auth', 'admin'])->group(function ()
     Route::get('/orders', [OrderController::class, 'index'])->name('orders');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
 
+    Route::put('/order/{order}/reject', [OrderController::class, 'rejectOrder'])->name('order.reject');
+    Route::put('/order/{order}/accept', [OrderController::class, 'acceptOrder'])->name('order.accept');
+    Route::put('/order/{order}/shipping/shipped', [OrderController::class, 'makeShipped'])->name('order.shipping.shipped');
+    Route::put('/order/{order}/shipping/delivered', [OrderController::class, 'makeDelivered'])->name('order.shipping.delivered');
+    Route::put('/order/{order}/shipping/cancel', [OrderController::class, 'cancelShipping'])->name('order.shipping.cancel');
+    Route::delete('/order/{order}', [OrderController::class, 'destroy'])->name('order.destroy');
 });
 
 Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function () {

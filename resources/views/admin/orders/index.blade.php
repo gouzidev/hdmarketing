@@ -125,7 +125,10 @@
                                 السعر
                             </th>
                             <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                الحالة
+                                حالة الطلب
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                حالة الشحن
                             </th>
                             <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 تاريخ الطلب
@@ -143,10 +146,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
-                                    <div class="flex-shrink-0 h-10 w-10">
-                                        <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/men/32.jpg" alt="">
-                                    </div>
-                                    <div class="mr-4">
+                                    <div class="flex flex-col">
                                         <div class="text-sm font-medium text-gray-900">{{$order->affiliate->name}}</div>
                                         <div class="text-sm text-gray-500">{{ $order->affiliate->email }}</div>
                                     </div>
@@ -163,23 +163,41 @@
                                 {{ $order->product->price }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                  
-                                    @switch($order->shipping_status)
-                                        @case("shipped")
+                                    @switch($order->status)
+                                        @case("accepted")
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                                                شحنت
+                                                مقبول
                                             </span>
                                             @break
-                                        @case("delivred")
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                            وصلت
+                                        @case("rejected")
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                            مرفوض
                                         </span>
                                         @break
                                         @default
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                            قيد الشحن   
+                                            قيد المعالجة   
                                         </span>
                                     @endswitch
+
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                @switch($order->shipping_status)
+                                    @case("shipped")
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                            شحنت
+                                        </span>
+                                        @break
+                                    @case("delivred")
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                        وصلت
+                                    </span>
+                                    @break
+                                    @default
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                        قيد الشحن   
+                                    </span>
+                                @endswitch
 
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

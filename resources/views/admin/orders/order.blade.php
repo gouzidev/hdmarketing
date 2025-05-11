@@ -47,7 +47,7 @@
     </header>
 
     <!-- Breadcrumbs -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
+    <div class="sm:max-w-[90%] w-full mx-auto px-4 sm:px-0 lg:px-0 py-2">
         <nav class="flex items-center text-sm text-gray-500">
             <a href="#" class="hover:text-indigo-600">الرئيسية</a>
             <i class="fas fa-chevron-left mx-2 text-xs"></i>
@@ -58,12 +58,12 @@
     </div>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+    <main class="sm:max-w-[90%] w-full mx-auto py-6 sm:px-0 lg:px-0">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Order Summary -->
-            <div class="lg:col-span-2 space-y-6">
+            <!-- Left Column - Order Items and Info Cards -->
+            <div class="lg:col-span-3 space-y-6">
                 <!-- Order Items -->
-                <div class="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200">
+                <div class="col-span-1  bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200">
                     <div class="px-4 py-5 sm:px-6 border-b border-gray-200 bg-gradient-to-l from-indigo-50 to-white">
                         <h3 class="text-lg leading-6 font-medium text-gray-900 flex items-center">
                             <i class="fas fa-box-open text-indigo-600 ml-2"></i>
@@ -92,9 +92,25 @@
                         </div>
                     </div>
                 </div>
+                
+                {{-- errors --}}
+                @if($errors->any())
+                <div class="w-full mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                    <h3 class="text-red-700 font-medium mb-2">يوجد أخطاء :</h3>
+                    <ul class="text-red-600 list-disc pr-5 space-y-1">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @elseif (session('success'))
+                    <div class="w-full mb-6 p-4 bg-green-50 border border-green-200 rounded-lg text-green-700">
+                        {{ session('success') }}
+                    </div>
+                @endif
 
-                <!-- Shipping & Payment -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Info Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <!-- Shipping Info -->
                     <div class="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200">
                         <div class="px-4 py-5 sm:px-6 border-b border-gray-200 bg-gradient-to-l from-blue-50 to-white">
@@ -132,30 +148,30 @@
                                         عنوان الشحن
                                     </h4>
                                     <div class=" flex flex-col gap-2 mt-1 text-sm text-gray-900 space-y-1">
-                                        <div class="flex flex-row justify-between">
+                                        <div class="flex flex-row justify-between mx-2">
                                             <span class="">
                                                 الدولة
                                             </span>
                                             <p>{{ $order->shipping->country }}</p>
                                         </div>
-                                        <div class="flex flex-row justify-between">
+                                        <div class="flex flex-row justify-between mx-2">
                                             <span class="">
                                                 المدينة
                                             </span>
                                             <p>{{ $order->shipping->city }}</p>
                                         </div>
-                                        <div class="flex flex-row justify-between">
+                                        <div class="flex flex-row justify-between mx-2">
                                             <span class="">
                                                 الشارع
                                             </span>
                                             <p>{{ $order->shipping->street }}</p>
                                         </div>
-                                        <div class="flex justify-between p-2 bg-purple-50 rounded-md">
+                                        <div class="flex justify-between p-2 bg-blue-50 rounded-md">
                                             <span class="text-base font-medium text-gray-900 flex items-center">
-                                                <i class="fas fa-money-bill-wave text-purple-600 ml-2"></i>
-                                                سعر
+                                                <i class="fas fa-money-bill-wave text-blue-600 ml-2"></i>
+                                                <span class="text-blue-950">سعر</span>
                                             </span>
-                                            <span class="text-base font-bold text-purple-700">${{ $order->shipping->price }}</span>
+                                            <span class="text-base font-bold text-blue-700">${{ $order->shipping->price }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -173,7 +189,7 @@
                         </div>
                         <div class="px-4 py-5 sm:p-6">
                             <div class="space-y-4">
-                                <div class="flex flex-row gap-5">
+                                <div class="flex flex-row gap-5 mx-2">
                                     <h4 class="text-sm font-medium text-gray-500 flex items-center">
                                         <i class="fas fa-receipt text-green-500 ml-1"></i>
                                         حالة الدفع
@@ -195,28 +211,60 @@
                                                 قيد الدفع	
                                             </span>
                                         @endif
-
-
                                     </p>
                                 </div>
-                                <div>
+                                <div class="flex flex-row justify-between items-center mx-2">
                                     <h4 class="text-sm font-medium text-gray-500 flex items-center">
                                         <i class="fas fa-envelope text-green-500 ml-1"></i>
                                         البريد الإلكتروني
                                     </h4>
                                     <p class="mt-1 text-sm text-gray-900 pr-5">{{ $order->email }}</p>
                                 </div>
-                                <div>
+                                <div class="flex flex-row justify-between items-center py-1 bg-green-50 rounded-full p-2">
                                     <h4 class="text-sm font-medium text-gray-500 flex items-center">
                                         <i class="fas fa-phone-alt text-green-500 ml-1"></i>
                                         رقم الهاتف
                                     </h4>
                                     <p class="mt-1 text-sm text-gray-900 pr-5 flex items-center">
-                                        <span class="inline-block px-2 py-1 bg-green-50 rounded-full mr-2">
-                                            <i class="fas fa-phone-alt text-green-500"></i>
+                                        <span class="">
+                                            {{ $order->phone }}
                                         </span>
-                                        {{ $order->phone }}
                                     </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Customer Info -->
+                    <div class="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200">
+                        <div class="px-4 py-5 sm:px-6 border-b border-gray-200 bg-gradient-to-l from-teal-50 to-white">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900 flex items-center">
+                                <i class="fas fa-user-circle text-teal-600 ml-2"></i>
+                                معلومات الزبون
+                            </h3>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex items-center p-2 hover:bg-gray-50 rounded-md transition duration-150 mb-2">
+                                <div class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center mr-3">
+                                    <i class="fas fa-user text-teal-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-900">{{ $order->name }}</h4>
+                                    <p class="text-xs text-gray-500">عميل</p>
+                                </div>
+                            </div>
+                            <div class="space-y-2 mt-3">
+                                <a href="mailto:{{ $order->email }}" class="flex items-center p-2 hover:bg-gray-50 rounded-md transition duration-150 text-sm text-gray-700">
+                                    <i class="fas fa-envelope text-teal-500 ml-2 w-5 text-center"></i>
+                                    {{ $order->email }}
+                                </a>
+                                <a href="tel:{{ $order->phone }}" class="flex items-center p-2 hover:bg-gray-50 rounded-md transition duration-150 text-sm text-gray-700">
+                                    <i class="fas fa-phone-alt text-teal-500 ml-2 w-5 text-center"></i>
+                                    {{ $order->phone }}
+                                </a>
+                                <div class="flex items-center p-2 hover:bg-gray-50 rounded-md transition duration-150 text-sm text-gray-700">
+                                    <i class="fas fa-map-marker-alt text-teal-500 ml-2 w-5 text-center"></i>
+                                    {{ $order->city }}، {{ $order->country }}
                                 </div>
                             </div>
                         </div>
@@ -225,9 +273,9 @@
             </div>
 
             <!-- Order Totals -->
-            <div class="space-y-6">
+            <div class="col-span-3     grid grid-cols-1 lg:grid-cols-6 gap-6">
                 <!-- Order Summary -->
-                <div class="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200">
+                <div class="col-span-4 bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200">
                     <div class="px-4 py-5 sm:px-6 border-b border-gray-200 bg-gradient-to-l from-purple-50 to-white">
                         <h3 class="text-lg leading-6 font-medium text-gray-900 flex items-center">
                             <i class="fas fa-file-invoice-dollar text-purple-600 ml-2"></i>
@@ -261,7 +309,7 @@
                                 <div class="flex justify-between p-2 bg-purple-50 rounded-md">
                                     <span class="text-base font-medium text-gray-900 flex items-center">
                                         <i class="fas fa-money-bill-wave text-purple-600 ml-2"></i>
-                                        المجموع
+                                        <span class="text-purple-950">المجموع</span>
                                     </span>
                                     <span class="text-base font-bold text-purple-700">${{ $order->total() }}</span>
                                 </div>
@@ -270,27 +318,8 @@
                     </div>
                 </div>
 
-                <!-- Customer Notes -->
-                @if($order->notes)
-                <div class="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200">
-                    <div class="px-4 py-5 sm:px-6 border-b border-gray-200 bg-gradient-to-l from-yellow-50 to-white">
-                        <h3 class="text-lg leading-6 font-medium text-gray-900 flex items-center">
-                            <i class="fas fa-sticky-note text-yellow-600 ml-2"></i>
-                            ملاحظات العميل
-                        </h3>
-                    </div>
-                    <div class="px-4 py-5 sm:p-6 bg-yellow-50 bg-opacity-30">
-                        <div class="flex">
-                            <i class="fas fa-quote-right text-yellow-400 ml-2 mt-1"></i>
-                            <p class="text-sm text-gray-700">{{ $order->notes }}</p>
-                            <i class="fas fa-quote-left text-yellow-400 mr-2 mt-auto"></i>
-                        </div>
-                    </div>
-                </div>
-                @endif
-
                 <!-- Order Actions -->
-                <div class="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200">
+                <div class="col-span-2 bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200">
                     <div class="px-4 py-5 sm:px-6 border-b border-gray-200 bg-gradient-to-l from-indigo-50 to-white">
                         <h3 class="text-lg leading-6 font-medium text-gray-900 flex items-center">
                             <i class="fas fa-tasks text-indigo-600 ml-2"></i>
@@ -298,145 +327,260 @@
                         </h3>
                     </div>
                     <div class="px-4 py-5 sm:p-6 space-y-4">
-                        @if($order->status != 'completed')
-                        <button class="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 transition duration-150">
-                            <i class="fas fa-check-circle ml-2"></i> تم الإكمال
-                        </button>
-                        @endif
-                        
-                        @if($order->shipping_status != 'shipped' && $order->shipping_status != 'delivered')
-                        <button class="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 transition duration-150">
-                            <i class="fas fa-truck ml-2"></i> تم الشحن
-                        </button>
-                        @endif
-                        
-                        @if($order->payment_status != 'paid')
-                        <button class="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 transition duration-150">
-                            <i class="fas fa-credit-card ml-2"></i> تم الدفع
-                        </button>
-                        @endif
-                        
-                        <button class="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition duration-150">
-                            <i class="fas fa-envelope ml-2"></i> إرسال بريد
-                        </button>
+                        <div class="flex flex-row justify-between ">
+                            @if($order->status == 'pending')
+                                <label for="">الطلب</label>
+                                <div class="flex flex-row w-1/2 gap-5">
+                                    <form action="{{ route('order.accept', $order) }}" method="POST" class="w-1/2">
+                                        @csrf
+                                        @method('PUT')
+                                        <button class="w-full flex items-center justify-center gap-2 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 transition duration-150">
+                                            <i class="fas fa-check-circle "></i> تأكيد الطلب                       
+                                        </button>
+                                    </form>
+                                    <form action="{{ route('order.reject', $order) }}"  method="POST"  class="w-1/2">
+                                        @csrf
+                                        @method('PUT')
+                                        <button class="w-full flex items-center justify-center gap-2 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 transition duration-150">
+                                            <i class="fas fa-check-circle "></i> رفض الطلب                       
+                                        </button>
+                                    </form>
+                                </div>
+                            @else
+                                <label for="">الطلب</label>
+                                <div class="flex flex-row-reverse w-1/2 gap-5">
+                                    <form action="{{ route('order.destroy', $order) }}" method="post" class="w-full cursor-pointer">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="w-full cursor-pointer flex items-center justify-center gap-2 py-2 rounded-md text-sm font-medium  border-4 shadow-sm text-red-800 border-red-800 bg-gradient-to-r bg-red-50 hover:to-red-200 transition duration-150">
+                                            <i class="fas fa-x "></i>حذف الطلب 
+                                        </button>
+                                    </form>
+
+                                    <button class="w-full flex items-center justify-center gap-2 py-2 cursor-default rounded-md text-sm font-medium  border-4 shadow-sm text-green-800 border-green-800 bg-gradient-to-r bg-green-50  hover:to-green-200 transition duration-150 disabled opacity-50">
+                                        <i class="fas fa-check-circle "></i> مؤكد
+                                    </button>  
+                                </div>
+                            @endif
+                        </div>
+
+                        <div class="flex flex-row justify-between">
+
+                            @if ($order->status == 'accepted')
+                                @if($order->shipping_status == 'pending')
+                                <label for="">الشحن</label>
+                                <div class="flex flex-row w-1/2 gap-5">
+                                    <form action="{{ route('order.shipping.shipped', $order) }}" method="post"  class="w-full">
+                                        @csrf
+                                        @method('PUT')
+                                        @if ($order->status == 'accepted')
+                                            <button class="w-full flex items-center justify-center gap-2 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 transition duration-150">
+                                                <i class="fas fa-truck ml-2"></i> تأكيد الشحن                       
+                                            </button>
+                                        @else
+                                            <button type="button" class="w-full flex items-center justify-center gap-2 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 transition duration-150 opacity-50 cursor-not-allowed disabled">
+                                                <i class="fas fa-truck ml-2"></i> تأكيد الشحن                       
+                                            </button>
+                                        @endif
+                                    </form>
+                                </div>
+                                @elseif ($order->shipping_status == 'shipped')
+                                    <label for="">الشحن</label>
+                                    <div class="flex flex-row-reverse w-1/2 gap-5">
+
+                                        <form action="{{ route('order.shipping.cancel', $order) }}" method="post"  class="w-full">
+                                            @csrf
+                                            @method('PUT')
+                                            <button class="w-full flex items-center justify-center gap-2 py-2 rounded-md text-sm font-medium  border-4 shadow-sm text-red-800 border-red-800 bg-gradient-to-r bg-red-50 hover:to-red-200 transition duration-150 cursor-pointer">
+                                                <i class="fas fa-check-circle "></i> إلغاء
+                                            </button>  
+                                        </form>
+                                        <form action="{{ route('order.shipping.delivered', $order) }}" method="post"  class="w-full">
+                                            @csrf
+                                            @method('PUT')
+                                            <button class="w-full flex items-center justify-center gap-2 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 transition duration-150">
+                                                <i class="fas fa-truck ml-2"></i> تأكيد التوصيل
+                                            </button>
+                                        </form>
+
+                                    </div>
+                                @else {{-- delivered --}}
+                                    <label for="">الشحن</label>
+                                    <div class="flex flex-row-reverse w-1/2 gap-5">
+                                        <form action="{{ route('order.shipping.cancel', $order) }}" method="post"  class="w-full">
+                                            @csrf
+                                            @method('PUT')
+                                            <button class="w-full flex items-center justify-center gap-2 py-2 rounded-md text-sm font-medium  border-4 shadow-sm text-red-800 border-red-800 bg-gradient-to-r bg-red-50 hover:to-red-200 transition duration-150 cursor-pointer">
+                                                <i class="fas fa-check-circle "></i> إلغاء
+                                            </button>  
+                                        </form>
+                                        <button class="w-full flex items-center justify-center gap-2 py-2 cursor-default rounded-md text-sm font-medium  border-4 shadow-sm text-blue-800 border-blue-800 bg-gradient-to-r bg-blue-50  hover:to-blue-200 transition duration-150  disabled opacity-50">
+                                            <i class="fas fa-truck ml-2"></i> مؤكد
+                                        </button>  
+                                    </div>
+                                @endif
+                            @else
+                                <label for="">الشحن</label>
+                                <button type="button" class="w-1/2 flex items-center justify-center gap-2 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 transition duration-150 opacity-50 cursor-not-allowed disabled">
+                                    <i class="fas fa-truck ml-2"></i> تأكيد الشحن                       
+                                </button>
+                            @endif
+
+                        </div>
+
+                        <div class="flex flex-row justify-between">
+                            @if($order->payment_status == 'pending')
+                                @if ($order->shipping_status == 'delivered')
+                                    <label for="">الدفع</label>
+                                    <div class="flex flex-row w-1/2 gap-5">
+                                        <form action="" class="w-full">
+                                            <button class="w-full flex items-center justify-center gap-2 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 transition duration-150">
+                                                <i class="fas fa-truck ml-2"></i> تأكيد الدفع                       
+                                            </button>
+                                        </form>
+                                    </div>
+                                @else
+                                    <label for="">الدفع</label>
+                                    <div class="flex flex-row w-1/2 gap-5">
+                                        <button class="w-full flex items-center justify-center gap-2 py-2 border cursor-not-allowed border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 transition duration-150 opacity-50 disabled">
+                                            <i class="fas fa-truck ml-2"></i> تأكيد الدفع                       
+                                        </button>
+                                    </div>
+                                @endif
+                            @else
+                                <label for="">الدفع</label>
+                                <div class="flex flex-row-reverse w-1/2 gap-5">
+                                    <button class="w-full flex items-center justify-center gap-2 py-2 cursor-default rounded-md text-sm font-medium  border-4 shadow-sm text-red-800 border-red-800 bg-gradient-to-r bg-red-50 hover:to-red-200 transition duration-150 disabled">
+                                        <i class="fas fa-check-circle "></i> إلغاء
+                                    </button>  
+                                    <button class="w-full flex items-center justify-center gap-2 py-2 cursor-default rounded-md text-sm font-medium  border-4 shadow-sm text-purple-800 border-purple-800 bg-gradient-to-r bg-purple-50  hover:to-purple-200 transition duration-150 disabled">
+                                        <i class="fas fa-truck ml-2"></i> مؤكد
+                                    </button>  
+                                </div>
+                            @endif
+                        </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Customer Info -->
-                <div class="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200">
-                    <div class="px-4 py-5 sm:px-6 border-b border-gray-200 bg-gradient-to-l from-teal-50 to-white">
+
+
+            <!-- Right Column - Order Timeline -->
+            <div class="lg:col-span-3">
+                <div class="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200 sticky top-6">
+                    <div class="px-4 py-5 sm:px-6 border-b border-gray-200 bg-gradient-to-l from-gray-50 to-white">
                         <h3 class="text-lg leading-6 font-medium text-gray-900 flex items-center">
-                            <i class="fas fa-user-circle text-teal-600 ml-2"></i>
-                            معلومات العميل
+                            <i class="fas fa-history text-gray-600 ml-2"></i>
+                            سجل الطلب
                         </h3>
                     </div>
-                    <div class="p-4">
-                        <div class="flex items-center p-2 hover:bg-gray-50 rounded-md transition duration-150 mb-2">
-                            <div class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center mr-3">
-                                <i class="fas fa-user text-teal-600"></i>
-                            </div>
-                            <div>
-                                <h4 class="text-sm font-medium text-gray-900">{{ $order->name }}</h4>
-                                <p class="text-xs text-gray-500">عميل</p>
-                            </div>
-                        </div>
-                        <div class="space-y-2 mt-3">
-                            <a href="mailto:{{ $order->email }}" class="flex items-center p-2 hover:bg-gray-50 rounded-md transition duration-150 text-sm text-gray-700">
-                                <i class="fas fa-envelope text-teal-500 ml-2 w-5 text-center"></i>
-                                {{ $order->email }}
-                            </a>
-                            <a href="tel:{{ $order->phone }}" class="flex items-center p-2 hover:bg-gray-50 rounded-md transition duration-150 text-sm text-gray-700">
-                                <i class="fas fa-phone-alt text-teal-500 ml-2 w-5 text-center"></i>
-                                {{ $order->phone }}
-                            </a>
-                            <div class="flex items-center p-2 hover:bg-gray-50 rounded-md transition duration-150 text-sm text-gray-700">
-                                <i class="fas fa-map-marker-alt text-teal-500 ml-2 w-5 text-center"></i>
-                                {{ $order->city }}، {{ $order->country }}
-                            </div>
+                    <div class="px-4 py-5 sm:p-6">
+                        <div class="flow-root">
+                            <ul class="-mb-8">
+                                <li>
+                                    <div class="relative pb-8">
+                                        <span class="absolute top-4 right-4 -mr-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                                        <div class="relative flex space-x-3 space-x-reverse">
+                                            <div>
+                                                <span class="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white">
+                                                    <i class="fas fa-shopping-cart text-white"></i>
+                                                </span>
+                                            </div>
+                                            <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4 space-x-reverse">
+                                                <div>
+                                                    <p class="text-sm text-gray-900">تم إنشاء الطلب</p>
+                                                </div>
+                                                <div class="text-left text-sm whitespace-nowrap text-gray-500">
+                                                    <time datetime="{{ $order->created_at->format('Y-m-d') }}">{{ $order->created_at->format('d M Y') }}</time>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div class="relative pb-8">
+                                        <span class="absolute top-4 right-4 -mr-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                                        <div class="relative flex space-x-3 space-x-reverse">
+                                            <div>
+                                                <span class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center ring-8 ring-white @if($order->status == 'pending') opacity-50 @endif">
+                                                    <i class="fas fa-check text-white"></i>
+                                                </span>
+                                            </div>
+                                            <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4 space-x-reverse">
+                                                @if ($order->status == "pending")
+                                                <div>
+                                                    <p class="text-sm text-gray-900">
+                                                        الطلب لم يتم التعامل معه بعد
+                                                    </p>
+                                                </div>
+                                                <div class="text-left text-sm whitespace-nowrap text-gray-500">
+                                                    @if ($order->handling_date != null)
+                                                        <time datetime="{{ $order->handling_date->format('Y-m-d') }}">{{ $order->handling_date->format('d M Y') }}</time>
+                                                    @else
+                                                        <div class="text-left text-sm whitespace-nowrap text-gray-500">
+                                                            قريباً
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                @elseif ($order->status == "accepted")
+                                                    <div>
+                                                        <p class="text-sm text-gray-900">تم قبول الطلب</p>
+                                                    </div>
+                                                    <div class="text-left text-sm whitespace-nowrap text-gray-500">
+                                                        @if ($order->handling_date != null)
+                                                            <time datetime="{{ $order->handling_date->format('Y-m-d') }}">{{ $order->handling_date->format('d M Y') }}</time>
+                                                        @else
+                                                            <div class="text-left text-sm whitespace-nowrap text-gray-500">
+                                                                قريباً
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                @else
+                                                    <div>
+                                                        <p class="text-sm text-gray-900">تم رفض الطلب</p>
+                                                    </div>
+                                                    <div class="text-left text-sm whitespace-nowrap text-gray-500">
+                                                        @if ($order->handling_date != null)
+                                                            <time datetime="{{ $order->handling_date->format('Y-m-d') }}">{{ $order->handling_date->format('d M Y') }}</time>
+                                                        @else
+                                                            <div class="text-left text-sm whitespace-nowrap text-gray-500">
+                                                                قريباً
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div class="relative">
+                                        <div class="relative flex space-x-3 space-x-reverse">
+                                            <div>
+                                                <span class="h-8 w-8 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white">
+                                                    <i class="fas fa-truck text-white"></i>
+                                                </span>
+                                            </div>
+                                            <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4 space-x-reverse">
+                                                <div>
+                                                    <p class="text-sm text-gray-500">في انتظار الشحن</p>
+                                                </div>
+                                                <div class="text-left text-sm whitespace-nowrap text-gray-500">
+                                                    قريباً
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </main>
-
-    <!-- Order Timeline -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 mb-10">
-        <div class="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200">
-            <div class="px-4 py-5 sm:px-6 border-b border-gray-200 bg-gradient-to-l from-gray-50 to-white">
-                <h3 class="text-lg leading-6 font-medium text-gray-900 flex items-center">
-                    <i class="fas fa-history text-gray-600 ml-2"></i>
-                    سجل الطلب
-                </h3>
-            </div>
-            <div class="px-4 py-5 sm:p-6">
-                <div class="flow-root">
-                    <ul class="-mb-8">
-                        <li>
-                            <div class="relative pb-8">
-                                <span class="absolute top-4 right-4 -mr-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
-                                <div class="relative flex space-x-3 space-x-reverse">
-                                    <div>
-                                        <span class="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white">
-                                            <i class="fas fa-shopping-cart text-white"></i>
-                                        </span>
-                                    </div>
-                                    <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4 space-x-reverse">
-                                        <div>
-                                            <p class="text-sm text-gray-900">تم إنشاء الطلب</p>
-                                        </div>
-                                        <div class="text-left text-sm whitespace-nowrap text-gray-500">
-                                            <time datetime="{{ $order->created_at->format('Y-m-d') }}">{{ $order->created_at->format('d M Y') }}</time>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li>
-                            <div class="relative pb-8">
-                                <span class="absolute top-4 right-4 -mr-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
-                                <div class="relative flex space-x-3 space-x-reverse">
-                                    <div>
-                                        <span class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center ring-8 ring-white">
-                                            <i class="fas fa-check text-white"></i>
-                                        </span>
-                                    </div>
-                                    <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4 space-x-reverse">
-                                        <div>
-                                            <p class="text-sm text-gray-900">تم قبول الطلب</p>
-                                        </div>
-                                        <div class="text-left text-sm whitespace-nowrap text-gray-500">
-                                            <time datetime="{{ $order->created_at->addMinutes(30)->format('Y-m-d') }}">{{ $order->created_at->addMinutes(30)->format('d M Y') }}</time>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li>
-                            <div class="relative">
-                                <div class="relative flex space-x-3 space-x-reverse">
-                                    <div>
-                                        <span class="h-8 w-8 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white">
-                                            <i class="fas fa-truck text-white"></i>
-                                        </span>
-                                    </div>
-                                    <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4 space-x-reverse">
-                                        <div>
-                                            <p class="text-sm text-gray-500">في انتظار الشحن</p>
-                                        </div>
-                                        <div class="text-left text-sm whitespace-nowrap text-gray-500">
-                                            قريباً
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
 </body>
 </html>

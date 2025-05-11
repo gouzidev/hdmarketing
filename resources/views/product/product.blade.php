@@ -159,53 +159,61 @@
                         </div>
                         
                         <!-- Stock Status -->
-                        <div class="mb-4 p-3 bg-gray-50 rounded-lg">
-                            @if($product->stock > 0)
-                                <span class="text-green-600 flex items-center">
-                                    <i class="fas fa-check-circle ml-2"></i> 
-                                    متوفر في المخزون ({{ $product->stock }} قطعة)
-                                </span>
-                                <div class="text-sm text-gray-500 mt-1">التوصيل خلال 2-4 أيام عمل</div>
-                            @endif
-                        </div>
+
                         
                         <!-- Add to Cart -->
                         @if (!auth()->user()->is_admin)
 
                             @if (Auth::user()->verified)
 
-                                <form class="border-t border-gray-200 pt-4" action="{{ route('products.product.checkout', $product)}}">
-                                    <div class="flex items-center mb-4">
-                                        <span class="text-gray-700 ml-3">الكمية:</span>
-                                        <div class="flex items-center border border-gray-300 rounded-md">
-                                            <button type="button" class="px-3 py-1 text-gray-600 hover:bg-gray-100" id="decreaseQuantity">
-                                                <i class="fas fa-minus"></i>
-                                            </button>
-                                            <input name='quantity' type="number" value="1" min="1" max="{{ $product->stock }}" id="quantityInput"
-                                                class="w-12 text-center border-0 focus:ring-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
-                                            <button type="button" class="px-3 py-1 text-gray-600 hover:bg-gray-100" id="increaseQuantity">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
+                                @if($product->stock > 0)
+                                    <div class="mb-4 p-3 bg-gray-50 rounded-lg">
+                                        <span class="text-green-600 flex items-center">
+                                            <i class="fas fa-check-circle ml-2"></i> 
+                                            متوفر في المخزون ({{ $product->stock }} قطعة)
+                                        </span>
+                                        <div class="text-sm text-gray-500 mt-1">التوصيل خلال 2-4 أيام عمل</div>
+                                    </div>
+                                    <form class="border-t border-gray-200 pt-4" action="{{ route('products.product.checkout', $product)}}">
+                                        <div class="flex items-center mb-4">
+                                            <span class="text-gray-700 ml-3">الكمية:</span>
+                                            <div class="flex items-center border border-gray-300 rounded-md">
+                                                <button type="button" class="px-3 py-1 text-gray-600 hover:bg-gray-100" id="decreaseQuantity">
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
+                                                <input name='quantity' type="number" value="1" min="1" max="{{ $product->stock }}" id="quantityInput"
+                                                    class="w-12 text-center border-0 focus:ring-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
+                                                <button type="button" class="px-3 py-1 text-gray-600 hover:bg-gray-100" id="increaseQuantity">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </div>
                                         </div>
+    
+                                        <div class="space-y-3">
+                                                <button class="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-3 px-4 rounded-md font-medium flex items-center justify-center shadow-sm transition-colors">
+                                                    <i class="fas fa-shopping-cart ml-2"></i>
+                                                    أضف إلى السلة
+                                                </button>
+                                                <button class="w-full bg-white border border-gray-300 hover:bg-gray-50 text-gray-800 py-3 px-4 rounded-md font-medium flex items-center justify-center shadow-sm transition-colors">
+                                                    <i class="far fa-heart ml-2"></i>
+                                                    أضف إلى المفضلة
+                                                </button>
+                                        </div>
+                                    </form>
+                                
+                                @else
+                                    <div class="mb-4 p-3 bg-gray-50 rounded-lg">
+                                        <span class="text-red-600 flex items-center gap-2">
+                                            <i class="fa-solid fa-circle-xmark"></i>
+                                            غير متوفر في المخزون  
+                                        </span>
                                     </div>
-
-                                    <div class="space-y-3">
-                                            <button class="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-3 px-4 rounded-md font-medium flex items-center justify-center shadow-sm transition-colors">
-                                                <i class="fas fa-shopping-cart ml-2"></i>
-                                                أضف إلى السلة
-                                            </button>
-                                            <button class="w-full bg-white border border-gray-300 hover:bg-gray-50 text-gray-800 py-3 px-4 rounded-md font-medium flex items-center justify-center shadow-sm transition-colors">
-                                                <i class="far fa-heart ml-2"></i>
-                                                أضف إلى المفضلة
-                                            </button>
-                                    </div>
-                                </form>
+                                @endif
                             @else
                                 <div class="text-red-700">
                                     يجب ان يكون حسابك موثقا لكي تسجل طلبا
                                 </div>
                             @endif
-                           
                         @else
                             <div class="mt-4 flex gap-3">
                                 <a href="{{ route('products.product.edit', $product) }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-sm transition-colors">
