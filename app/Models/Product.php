@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
@@ -19,9 +20,17 @@ class Product extends Model
     {
         return $this->hasOne(ProductImage::class)->where('is_primary', true);
     }
-
+    public function creator()
+    {
+        return $this->user_id;
+    }
     public function additional_imgs()
     {
         return $this->hasMany(ProductImage::class)->where('is_primary', false)->orderBy('display_order');
+    }
+
+    public function orders() : HasMany
+    {
+        return $this->HasMany(Order::class);
     }
 }

@@ -78,7 +78,7 @@
                                         <input 
                                             type="number" 
                                             id="quantity-input"
-                                            value="1" 
+                                            value="{{ $quantity }}" 
                                             min="1" 
                                             max="{{ $product->stock }}" 
                                             class="w-12 text-center border-0 focus:ring-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none bg-white"
@@ -111,7 +111,7 @@
 
                         <div class="border-b border-gray-200 pb-4">
                             <div class="flex justify-between items-center">
-                                <label for="affiliate-price" class="flex items-center text-sm font-medium text-gray-700">
+                                <label for="affiliate_price" class="flex items-center text-sm font-medium text-gray-700">
                                     <i class="fas fa-money-bill text-yellow-600 ml-2"></i>
                                     سعر البيع للعميل
                                 </label>
@@ -121,8 +121,8 @@
                                     </div>
                                     <input
                                      dir="rtl" type="number" 
-                                           name="affiliate-price" 
-                                           id="affiliate-price" 
+                                           name="affiliate_price" 
+                                           id="affiliate_price" 
                                            value="{{ number_format($product->price * 1.1, 2) }}"
                                            class="
                                            [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none 
@@ -160,11 +160,6 @@
                     </div>
                 </div>
 
-
-
-
-
-                <!-- Need Help Box -->
                 <div class="bg-white shadow rounded-lg overflow-hidden mt-4 border border-gray-200 p-4">
 
                     @if ($errors->any())
@@ -210,7 +205,7 @@
                         <input type="hidden" name="product_id" value="{{ $product->id }}">
                         <input type="hidden" name="quantity" value="1" id="form-quantity">
                         <input type="hidden" name="total_price" value="{{ $product->price }}" id="form-total-price">
-                        <input type="hidden" name="affiliate_price" value="" id="form-affiliate-price">
+                        <input type="hidden" name="affiliate_price" value="" id="form-affiliate_price">
                         <input type="hidden" name="shipping_id" value="" id="form-shipping-id">
                         
                         <!-- Contact Information -->
@@ -353,26 +348,13 @@
                             <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 shadow-sm">
                                 <div class="space-y-3">
                                     <div class="flex items-center p-3 border border-gray-200 rounded-lg bg-white hover:bg-yellow-50 transition-colors cursor-pointer">
-                                        <input id="cash_on_delivery" name="payment_method" type="radio" value="cash_on_delivery" checked 
+                                        <input id="cash_on_delivery" name="payment_method" type="radio" value="cash_on_delivery" checked disabled
                                             class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300">
                                         <label for="cash_on_delivery" class="mr-3 text-sm font-medium text-gray-700 flex items-center">
                                             <i class="fas fa-money-bill-wave text-green-600 ml-2 text-lg"></i>
                                             الدفع عند الاستلام
                                             <span class="mr-auto text-xs text-green-600 font-normal">
                                                 (الخيار الأكثر شيوعاً)
-                                            </span>
-                                        </label>
-                                    </div>
-                                    <div class="flex items-center p-3 border border-gray-200 rounded-lg bg-white hover:bg-yellow-50 transition-colors cursor-pointer">
-                                        <input id="credit_card" name="payment_method" type="radio" value="credit_card" 
-                                            class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300">
-                                        <label for="credit_card" class="mr-3 text-sm font-medium text-gray-700 flex items-center">
-                                            <i class="fas fa-credit-card text-blue-600 ml-2 text-lg"></i>
-                                            بطاقة ائتمان
-                                            <span class="mr-auto text-gray-400">
-                                                <i class="fab fa-cc-visa mx-1"></i>
-                                                <i class="fab fa-cc-mastercard mx-1"></i>
-                                                <i class="fab fa-cc-amex mx-1"></i>
                                             </span>
                                         </label>
                                     </div>
@@ -417,12 +399,12 @@
         const maxQuantity = parseInt(quantityInput.max);
         const formQuantity = document.getElementById('form-quantity');
         const formTotalPrice = document.getElementById('form-total-price');
-        const formAffiliatePrice = document.getElementById('form-affiliate-price');
+        const formAffiliatePrice = document.getElementById('form-affiliate_price');
         const formShippingId = document.getElementById('form-shipping-id');
         const totalPriceDisplay = document.getElementById('total-price');
         const shippingPriceDisplay = document.getElementById('shipping-price');
         const buttonPriceDisplay = document.getElementById('button-price');
-        const affiliatePriceInput = document.getElementById('affiliate-price');
+        const affiliatePriceInput = document.getElementById('affiliate_price');
         
         // Custom Shipping Selector
         const shippingSelectorBtn = document.getElementById('shipping-selector-btn');

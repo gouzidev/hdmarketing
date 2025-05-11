@@ -9,9 +9,14 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::paginate(10);
-        // return view('o')
+        $orders = Order::with(['product', 'affiliate', 'shipping'])->paginate(10);
+        
+        return view('admin.orders.index', ['orders'=> $orders]);
 
+    }
+    public function show(Order $order)
+    {
+        return view('admin.orders.order', ['order' => $order]);
     }
     static public function getOrders($user_id)
     {

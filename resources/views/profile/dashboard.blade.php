@@ -29,11 +29,7 @@
             </form>
         @endif
     @endif --}}
-    @if (auth()->user()->is_admin)
-    <a href="{{ route('admin.shipping.index') }}">
-        التحكم في خيارات الشحن
-    </a>
-    @endif
+    
     @if (session('error'))
         <div class="mb-4 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">
             {{ session('error') }}
@@ -43,6 +39,14 @@
             {{ session('success') }}
         </div>
     @endif
+
+    @if (auth()->user()->is_admin)
+    <a href="{{ route('admin.shipping.index') }}">
+        التحكم في خيارات الشحن
+    </a>
+    @endif
+
+    
     <x-scripts.nav-script />
 </body>
 </html>

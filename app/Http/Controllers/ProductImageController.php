@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
+use Log;
+use PHPUnit\Exception;
 use Storage;
 
 class ProductImageController extends Controller
@@ -80,6 +82,14 @@ class ProductImageController extends Controller
      */
     public function destroy(ProductImage $productImage)
     {
-        //
+        try {
+            $productImage->delete();
+            return redirect()->back()->with('success', 'تم حذف صورة المنتج بنجاح');
+        }
+        catch (Exception $e)
+        {
+            Log::error('product image creation failed: ');
+            return redirect()->back()->withErrors(['general' => 'فشل في حذف صورة المنتج. يرجى المحاولة مرة أخرى.'])->withInput();
+        }
     }
 }

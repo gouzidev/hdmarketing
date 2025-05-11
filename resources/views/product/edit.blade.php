@@ -10,6 +10,12 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <x-scripts.fonts-import />
     <style>
+        /* Updated selector for radio buttons */
+        .category-container input[type=radio]:checked + label {
+            background: black;
+            color: yellow;
+        }
+        /* Ensure hover doesn't override selected state */
         .product-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
@@ -87,18 +93,83 @@
                         <!-- Description -->
                         <div class="flex flex-col">
                             <label for="desc" class="block text-sm font-medium text-gray-700 mb-1">وصف المنتج</label>
-                            <textarea name="desc" id="desc" class="px-2 text-right w-full h-20 shadow-sm focus:border-b-1 border-[yellow] transition focus:outline-none">
-                                {{ $product->desc }}
-                            </textarea>
+                            <textarea name="desc" id="desc" class="px-2 text-right w-full h-20 shadow-sm focus:border-b-1 border-[yellow] transition focus:outline-none">{{ $product->desc }}</textarea>
                         </div>
                     </div>
                     
-                    <!-- Image Upload Section -->
-
-                    <div class="w-100 h-100 flex justify-center items-center">
-                        <img class="
-                        h-full w-full object-contain" src="{{ route('products.thumbnail', $product) }}" alt="">
+                    {{-- Categories --}}
+                    <div class="flex flex-col my-2">
+                        <label class="underline underline-offset-8 text-sm block md:text-lg xl:text-2xl font-medium text-gray-700 mb-5">التصنيف</label>
+                        <div class="flex flex-row flex-wrap justify-center xl:justify-start gap-10">
+                            {{-- ملابس (Clothing) --}}
+                            <div class="category-container">
+                                <input type="radio" name="category" hidden value="clothes" 
+                                {{ $product->category == "clothes" ? 'checked' : '' }}
+                                id="category-clothes" />
+                                <label for="category-clothes" class="flex flex-col items-center justify-center transition p-4 cursor-pointer border-4 border-gray-300 hover:bg-gray-200 text-gray-900 rounded-xl min-w-[100px] h-[100px] lg:h-[120px] lg:min-w-[120px] xl:h-[140px] xl:min-w-[140px]">
+                                    <i class="fas fa-tshirt text-2xl lg:text-3xl mb-2"></i>
+                                    <div class="text-sm sm:text-xl">ملابس</div>
+                                </label>
+                            </div>
+                    
+                            {{-- المنزل و المطبخ (Home & Kitchen) --}}
+                            <div class="category-container">
+                                <input type="radio" name="category" hidden value="kitchen_home" 
+                                {{ $product->category == "kitchen_home" ? 'checked' : '' }}
+                                id="category-kitchen_home" />
+                                <label for="category-kitchen_home" class="flex flex-col items-center justify-center transition p-4 cursor-pointer border-4 border-gray-300 hover:bg-gray-200 text-gray-900 rounded-xl min-w-[100px] h-[100px] lg:h-[120px] lg:min-w-[120px] xl:h-[140px] xl:min-w-[140px]">
+                                    <i class="fas fa-home text-2xl lg:text-3xl mb-2"></i>
+                                    <div class="text-sm sm:text-xl">المنزل و المطبخ</div>
+                                </label>
+                            </div>
+                    
+                            {{-- الصحة و الجمال (Health & Beauty) --}}
+                            <div class="category-container">
+                                <input type="radio" name="category" hidden value="beauty_health" 
+                                {{ $product->category == "beauty_health" ? 'checked' : '' }}
+                                id="category-beauty_health" />
+                                <label for="category-beauty_health" class="flex flex-col items-center justify-center transition p-4 cursor-pointer border-4 border-gray-300 hover:bg-gray-200 text-gray-900 rounded-xl min-w-[100px] h-[100px] lg:h-[120px] lg:min-w-[120px] xl:h-[140px] xl:min-w-[140px]">
+                                    <i class="fas fa-spa text-2xl lg:text-3xl mb-2"></i>
+                                    <div class="text-sm sm:text-xl">الصحة و الجمال</div>
+                                </label>
+                            </div>
+                    
+                            {{-- هواتف و اجهزة ذكيه (Electronics) --}}
+                            <div class="category-container">
+                                <input type="radio" name="category" hidden value="electronics" 
+                                {{ $product->category == "electronics" ? 'checked' : '' }}
+                                id="category-electronics" />
+                                <label for="category-electronics" class="flex flex-col items-center justify-center transition p-4 cursor-pointer border-4 border-gray-300 hover:bg-gray-200 text-gray-900 rounded-xl min-w-[100px] h-[100px] lg:h-[120px] lg:min-w-[120px] xl:h-[140px] xl:min-w-[140px]">
+                                    <i class="fas fa-mobile-alt text-2xl lg:text-3xl mb-2"></i>
+                                    <div class="text-sm sm:text-xl">هواتف و أجهزة ذكية</div>
+                                </label>
+                            </div>
+                    
+                            {{-- بيع العقار (Real Estate) --}}
+                            <div class="category-container">
+                                <input type="radio" name="category" hidden value="real_estate" 
+                                {{ $product->category == "" ? 'checked' : '' }}
+                                id="category-real_estate" />
+                                <label for="category-real_estate" class="flex flex-col items-center justify-center transition p-4 cursor-pointer border-4 border-gray-300 hover:bg-gray-200 text-gray-900 rounded-xl min-w-[100px] h-[100px] lg:h-[120px] lg:min-w-[120px] xl:h-[140px] xl:min-w-[140px]">
+                                    <i class="fas fa-building text-2xl lg:text-3xl mb-2"></i>
+                                    <div class="text-sm sm:text-xl">بيع العقار</div>
+                                </label>
+                            </div>
+                    
+                            {{-- بيع السيارات (Cars) --}}
+                            <div class="category-container">
+                                <input type="radio" name="category" hidden value="cars" 
+                                {{ $product->category == "" ? 'checked' : '' }}
+                                id="category-cars" />
+                                <label for="category-cars" class="flex flex-col items-center justify-center transition p-4 cursor-pointer border-4 border-gray-300 hover:bg-gray-200 text-gray-900 rounded-xl min-w-[100px] h-[100px] lg:h-[120px] lg:min-w-[120px] xl:h-[140px] xl:min-w-[140px]">
+                                    <i class="fas fa-car text-2xl lg:text-3xl mb-2"></i>
+                                    <div class="text-sm sm:text-xl">بيع السيارات</div>
+                                </label>
+                            </div>
+                        </div>
                     </div>
+                                                
+
                     {{-- <div class="flex flex-col gap-4">
                         <h3 class="text-lg font-medium text-gray-900">صور المنتج</h3>
                         
@@ -175,9 +246,77 @@
                         </button>
                     </div>
                 </form>
+
+                <div class="w-[300px] h-[300px] flex justify-center items-center relative">
+                    <form class="absolute top-2 right-2" action="{{ route('products.images.destroy', $product->primary_image) }}" method="post">
+                        @method('DELETE')
+                        @csrf
+                        <button type="submit" 
+                            class=" text-red-600 hover:text-red-900 bg-red-100 p-3 rounded-md" 
+                            title="حذف">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </form>
+                    <img class="h-full w-full object-contain" src="{{ route('products.thumbnail', $product) }}" alt="">
+                </div>
             </div>
         </div>
     </main>
     </div>
+
+        <script>
+            // Image Gallery Functionality
+            function changeMainImage(src, element) {
+                const mainImage = document.getElementById('mainImage');
+                mainImage.src = src;
+                
+                // Update active thumbnail
+                document.querySelectorAll('.gallery-thumbnail').forEach(thumb => {
+                    thumb.classList.remove('active');
+                });
+                element.classList.add('active');
+            }
+            
+            
+            
+            // Quantity buttons
+            document.addEventListener('DOMContentLoaded', function() {
+                const decreaseBtn = document.getElementById('decreaseQuantity');
+                const increaseBtn = document.getElementById('increaseQuantity');
+                const quantityInput = document.getElementById('quantityInput');
+                
+                if (decreaseBtn && increaseBtn && quantityInput) {
+                    decreaseBtn.addEventListener('click', function() {
+                        if (parseInt(quantityInput.value) > 1) {
+                            quantityInput.value = parseInt(quantityInput.value) - 1;
+                        }
+                    });
+                    
+                    increaseBtn.addEventListener('click', function() {
+                        if (parseInt(quantityInput.value) < parseInt(quantityInput.max)) {
+                            quantityInput.value = parseInt(quantityInput.value) + 1;
+                        }
+                    });
+                }
+            });
+            
+            // Modal functions
+            function openModal(deleteUrl) {
+                document.getElementById('deleteForm').action = deleteUrl;
+                document.getElementById('deleteModal').classList.remove('hidden');
+            }
+
+            function closeModal() {
+                document.getElementById('deleteModal').classList.add('hidden');
+            }
+
+            window.onclick = function(event) {
+                const modal = document.getElementById('deleteModal');
+                if (event.target == modal) {
+                    closeModal();
+                }
+            }
+        </script>
+
 </body>
 </html>

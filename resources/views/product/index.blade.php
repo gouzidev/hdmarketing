@@ -86,7 +86,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 @foreach ($products as $product)
                 <div class="bg-white rounded-lg shadow-md overflow-hidden product-card transition-all duration-300">
-                    <a href="{{ route('products.product.show', $product) }}" class="block">
+                    <a href="{{ route('products.product', $product) }}" class="block">
                         <!-- Product Image -->
                         <div class="relative h-48 bg-gray-100 overflow-hidden">
                             <img src="{{ route('products.thumbnail', $product) }}" 
@@ -116,13 +116,13 @@
                     <!-- Action Buttons (outside the main link) -->
                     <div class="px-4 pb-4 border-t border-gray-100">
                         <div class="flex justify-between gap-2 mt-3">
-                            <a href="{{ route('products.product.show', $product) }}" class="flex-1 text-center py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-md text-sm font-medium transition-colors">
+                            <a href="{{ route('products.product', $product) }}" class="flex-1 text-center py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-md text-sm font-medium transition-colors">
                                 <i class="fas fa-eye ml-1"></i> عرض
                             </a>
                             @if(auth()->user()->is_admin)
-                            <a href="{{ route('products.product.edit', $product) }}" class="flex-1 text-center py-2 bg-blue-100 hover:bg-blue-200 text-blue-800 rounded-md text-sm font-medium transition-colors">
-                                <i class="fas fa-edit ml-1"></i> تعديل
-                            </a>
+                                <a href="{{ route('products.product.edit', $product) }}" class="flex-1 text-center py-2 bg-blue-100 hover:bg-blue-200 text-blue-800 rounded-md text-sm font-medium transition-colors">
+                                    <i class="fas fa-edit ml-1"></i> تعديل
+                                </a>
                             @endif
                         </div>
                     </div>

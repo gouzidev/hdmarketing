@@ -9,6 +9,14 @@
     <x-scripts.tailwind-script />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <x-scripts.fonts-import />
+    <style>
+        /* Updated selector for radio buttons */
+        .category-container input[type=radio]:checked + label {
+            background: black;
+            color: yellow;
+        }
+        /* Ensure hover doesn't override selected state */
+    </style>
 </head>
 <body class="font-sans antialiased bg-gray-50">
     <x-nav :isHome='false'/>
@@ -72,15 +80,7 @@
                                     <textarea  name="desc" id="desc" class="lg:text-xl text-sm 2xl:text-2xl px-2 text-right w-full h-20 shadow-md focus:border-b-1 border-[yellow] transition focus:outline-none"></textarea>
                                 </div>
                             </div>
-                            <style>
-                                /* Updated selector for radio buttons */
-                                .category-container input[type=radio]:checked + label {
-                                    background: black;
-                                    color: yellow;
-                                }
-                                /* Ensure hover doesn't override selected state */
-                        
-                            </style>
+   
                             
                             {{-- Categories --}}
                             <div class="flex flex-col my-2">
@@ -144,7 +144,7 @@
 
                             <!-- Image Upload Section -->
                             <div class="flex flex-col my-2 gap-4">
-                                <h3 class="text-lg font-medium text-gray-700 underline underline-offset-8 text-sm block md:text-lg xl:text-2xl">صور المنتج</h3>
+                                <h3 class="text-lg font-medium text-gray-700 underline underline-offset-8 block md:text-lg xl:text-2xl">صور المنتج</h3>
                                 
                                 <!-- Primary Image Field -->
                                 <div class="flex flex-col">
@@ -185,14 +185,14 @@
                             </div>
 
                             @if($errors->any())
-                            <div class="w-full mb-6 p-4 bg-red-50 border border-red-200 rounded-lg self-start">
-                                <h3 class="text-red-700 font-medium mb-2">يوجد أخطاء في المدخلات:</h3>
-                                <ul class="text-red-600 list-disc pr-5 space-y-1">
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
+                                <div class="w-full mb-6 p-4 bg-red-50 border border-red-200 rounded-lg self-start">
+                                    <h3 class="text-red-700 font-medium mb-2">يوجد أخطاء في المدخلات:</h3>
+                                    <ul class="text-red-600 list-disc pr-5 space-y-1">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
                             @elseif (@session('error'))
                                 <div class="mt-4 p-4 bg-red-50 text-red-700 rounded-lg">
                                     {{ session('error') }}

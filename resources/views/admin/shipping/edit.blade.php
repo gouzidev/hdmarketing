@@ -33,7 +33,7 @@
                 
                 <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     <div>
-                        <label for="country" class="block text-sm font-medium text-gray-700 mb-1 flex items-center">
+                        <label for="country" class="text-sm font-medium text-gray-700 mb-1 flex items-center">
                             <i class="fas fa-globe text-gray-400 ml-1"></i>
                             الدولة
                         </label>
@@ -45,7 +45,7 @@
                     </div>
 
                     <div>
-                        <label for="city" class="block text-sm font-medium text-gray-700 mb-1 flex items-center">
+                        <label for="city" class="text-sm font-medium text-gray-700 mb-1 flex items-center">
                             <i class="fas fa-city text-gray-400 ml-1"></i>
                             المدينة
                         </label>
@@ -57,7 +57,7 @@
                     </div>
 
                     <div>
-                        <label for="street" class="block text-sm font-medium text-gray-700 mb-1 flex items-center">
+                        <label for="street" class="text-sm font-medium text-gray-700 mb-1 flex items-center">
                             <i class="fas fa-road text-gray-400 ml-1"></i>
                             الشارع
                         </label>
@@ -69,7 +69,7 @@
                     </div>
 
                     <div>
-                        <label for="price" class="block text-sm font-medium text-gray-700 mb-1 flex items-center">
+                        <label for="price" class="text-sm font-medium text-gray-700 mb-1 flex items-center">
                             <i class="fas fa-dollar-sign text-gray-400 ml-1"></i>
                             سعر الشحن
                         </label>

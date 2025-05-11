@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\category_tr;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Shipping;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use PHPUnit\Framework\Constraint\FileExists;
+use Illuminate\Support\Facades\DB;
 use Storage;
 use PHPUnit\Event\Code\Throwable;
 use Illuminate\Validation\ValidationException;
 use \Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
+use App\Http\Controllers\HelperMethodsController;
 use Str;
+
 use PHPUnit\Exception;
 
 class ProductController extends Controller
@@ -140,12 +141,12 @@ class ProductController extends Controller
                     Log::error('Failed to upload additional image: ' . $e->message());
                     // Optionally notify the user
                     // We don't delete the product here since we have the primary image
-                    return redirect()->route('products.product.show', $product)
+                    return redirect()->route('products.product', $product)
                         ->with('warning', 'تم إنشاء المنتج ولكن فشل تحميل بعض الصور الإضافية.');
                 }
             }
             
-            return redirect()->route('products.product.show', $product)
+            return redirect()->route('products.product', $product)
                 ->with('success', 'تم إنشاء المنتج');
         } catch (ValidationException $e) {
             // Laravel automatically handles this, but we're being explicit
@@ -184,12 +185,20 @@ class ProductController extends Controller
         return view("product.edit", ['product' => $product]);
     }
 
-    public function checkout(Product $product)
+    public function checkout(Request $request, Product $product)
     {
+        if ($request->input('quantity') == null)
+            return redirect('notverified');
+        $quantity = $request->input('quantity');
+        if ($quantity < 1 || $quantity > 10000)
+            return redirect('notverified');
+        if (!Auth::user()->verified)
+        return redirect('notverified');
         $shippings = Shipping::all();
         return view("product.checkout", [
             'product' => $product,
-            'shippings' => $shippings
+            'shippings' => $shippings,
+            'quantity' => $quantity
         ]);
     }
 
@@ -197,6 +206,8 @@ class ProductController extends Controller
     {
         // Validate the request data
         // Custom Arabic validation messages
+        if (!Auth::user()->verified)
+            return redirect('notverified');
         $messages = [
             'required' => 'حقل :attribute مطلوب.',
             'exists' => 'قيمة :attribute غير صالحة.',
@@ -218,9 +229,9 @@ class ProductController extends Controller
         // Arabic attribute names
         $attributes = [
             'product_id' => 'معرف المنتج',
-            'quantity' => 'الكمية',
-            'total_price' => 'السعر الإجمالي',
+            'affiliate_id' => 'معرف البائع',
             'affiliate_price' => 'سعر البيع',
+            'quantity' => 'الكمية',
             'shipping_id' => 'طريقة الشحن',
             'name' => 'الاسم',
             'email' => 'البريد الإلكتروني',
@@ -228,9 +239,7 @@ class ProductController extends Controller
             'address' => 'العنوان',
             'country' => 'البلد',
             'city' => 'المدينة',
-            'postal_code' => 'الرمز البريدي',
-            'payment_method' => 'طريقة الدفع',
-            'terms' => 'الشروط والأحكام',
+            'zip' => 'الرمز البريدي',
         ];
 
         // Validate the request data
@@ -246,11 +255,8 @@ class ProductController extends Controller
             'address' => 'required|string|max:255',
             'country' => 'required|string|max:255',
             'city' => 'required|string|max:255',
-            'postal_code' => 'nullable|string|max:20',
-            'payment_method' => 'required|in:cash_on_delivery,credit_card',
-            'terms' => 'required|accepted'
+            'zip' => 'nullable|string|max:20',
         ], $messages, $attributes);
-
         try {
             // Verify the product is still available
             if ($product->stock < $request->quantity) {
@@ -265,16 +271,17 @@ class ProductController extends Controller
 
             // Verify the total price calculation
             $expectedTotal = ($request->affiliate_price * $request->quantity) + ($shipping->price);
-            if (abs($expectedTotal - $request->total_price) > 0.01) {
+            if (HelperMethodsController::abs($expectedTotal - $request->total_price) > 0.01) {
                 return back()->withErrors(['total_price' => 'حساب السعر الإجمالي غير صحيح'])->withInput();
             }
             // Create the order
             $order = Order::create([
                 'product_id' => $product->id,
-                'user_id' => Auth::user()->id,
+                'affiliate_id' => Auth::user()->id,
                 'quantity' => $request->quantity,
-                'sell-price' => $request->affiliate_price,
+                'affiliate_price' => $request->affiliate_price,
                 'shipping_id' => $shipping->id,
+                'status' => 'pending',
                 'name' => $request->name,
                 'email' => $request->email,
                 'phone' => $request->phone,
@@ -331,6 +338,7 @@ class ProductController extends Controller
                 'desc' => 'الوصف',
                 'stock' => 'المخزون',
                 'price' => 'السعر',
+                'category' => 'التصنيف',
                 // 'primary_image' => 'الصورة الرئيسية',
                 // 'additional_images.*' => 'الصور الإضافية',
             ];
@@ -346,16 +354,19 @@ class ProductController extends Controller
 
             $validated['name'] = Str::trim($validated['name']);
             $validated['desc'] = Str::trim($validated['desc']);
+            $validated['category'] = Str::trim($validated['category']);
             $product->update([
                 'user_id' => Auth::user()->id,
                 'name' => $validated['name'],
                 'desc' => $validated['desc'] ?? null,
                 'stock' => $validated['stock'] ?? 0,
                 'price' => $validated['price'],
+                'category' => $validated['category'],
             ]);
         }
         catch (ValidationException $e)
         {
+            dd($e->errors());
             Log::error('Product creation failed: ');
             return redirect()->back()->withErrors(['general' => 'فشل في إنشاء المنتج. يرجى المحاولة مرة أخرى.'])->withInput();
         }
@@ -381,6 +392,17 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        try {
+            $imgs = $product->images();
+            DB::transaction();
+            $product->delete();
+            return redirect()->route('products.index')
+                ->with('success', 'تم حذف المنتج بنجاح');
+        }
+        catch (Exception $e)
+        {
+            Log::error('Product creation failed: ');
+            return redirect()->back()->withErrors(['general' => 'فشل في حذف المنتج. يرجى المحاولة مرة أخرى.'])->withInput();
+        }
     }
 }
