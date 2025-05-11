@@ -36,8 +36,7 @@
                             <i class="fas fa-globe text-gray-400 ml-1"></i>
                             الدولة
                         </label>
-                        <input type="text" name="country" id="country" value="{{ old('country') }}" required
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500">
+                        <x-select-country :country="Auth::user()->country" />
                         @error('country')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror

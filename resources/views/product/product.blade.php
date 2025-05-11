@@ -133,7 +133,7 @@
                         <!-- Add to Cart -->
                         @if (!auth()->user()->is_admin)
                             <div class="border-t border-gray-200 pt-6">
-                                <div class="flex items-center mb-4">
+                                <div class="flex items-center mb-4 gap-4">
                                     <span class="text-gray-700 mr-3">الكمية:</span>
                                     <div class="flex items-center border border-gray-300 rounded-md">
                                         <button class="px-3 py-1 text-gray-600 hover:bg-gray-100">

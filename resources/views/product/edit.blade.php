@@ -95,7 +95,7 @@
                     
                     <!-- Image Upload Section -->
 
-                    <div class="w-100 h-100 flex justify-center items-center">
+                    <div class="w-[200px] h-[200px] flex justify-center items-center">
                         <img class="
                         h-full w-full object-contain" src="{{ route('products.thumbnail', $product) }}" alt="">
                     </div>

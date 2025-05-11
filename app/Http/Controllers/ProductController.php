@@ -357,7 +357,7 @@ class ProductController extends Controller
         catch (ValidationException $e)
         {
             Log::error('Product creation failed: ');
-            return redirect()->back()->withErrors(['general' => 'فشل في إنشاء المنتج. يرجى المحاولة مرة أخرى.'])->withInput();
+            return redirect()->back()->withErrors(['general' => 'فشل في تحديث المنتج. يرجى المحاولة مرة أخرى.'])->withInput();
         }
 
         return back()->with('success', 'تم تحديث المنتج بنجاح');
