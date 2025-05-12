@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\AdminRequest;
-
+use App\Services\CountryService;
 
 class User extends Authenticatable
 {
@@ -93,5 +93,10 @@ class User extends Authenticatable
         // When user is restored
         static::restoring(function($user) {
         });
+    }
+
+    public function getCountryCode()
+    {
+        return CountryService::$countryMappings[strtolower($this->country)] ?? $this->country;
     }
 }

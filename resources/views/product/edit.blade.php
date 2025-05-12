@@ -66,7 +66,7 @@
                         <div class="flex flex-col">
                             <label for="price" class="block text-sm font-medium text-gray-700 mb-1">السعر</label>
                             <div class="relative">
-                                <input value="700.00" type="number" step="any" name="price" id="price" 
+                                <input type="number" step="any" name="price" id="price" 
                                     class="text-right w-full rounded-md shadow-sm focus:border-b-1
                                         [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
                                     border-[yellow] focus:outline-none" min="0" required
@@ -82,8 +82,7 @@
                         <div class="flex flex-col">
                             <label for="stock" class="block text-sm font-medium text-gray-700 mb-1">المخزون</label>
                             <input 
-                                value={{ $product->stock }}
-                                value="24" type="number" 
+                                value={{ $product->stock }} type="number" 
                                 name="stock" id="stock" 
                                 class="
                                     [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none

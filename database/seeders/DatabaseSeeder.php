@@ -17,29 +17,29 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->admin()->create([
-            'name' => 'sgouzi',
-            'phone' => '0627748714',
-            'email' => 'salahgouzi11@gmail.com',
-            'city' => 'sale',
-            'is_admin' => true,
-            'verified' => true,
-            'verified_at' => now(),
-            'country' => 'MA',
-            'password' => Hash::make("salahgouzi11@gmail.com"),
-        ]);
+        // User::factory()->admin()->create([
+        //     'name' => 'sgouzi',
+        //     'phone' => '0627748714',
+        //     'email' => 'salahgouzi11@gmail.com',
+        //     'city' => 'sale',
+        //     'is_admin' => true,
+        //     'verified' => true,
+        //     'verified_at' => now(),
+        //     'country' => 'ma',
+        //     'password' => Hash::make("salahgouzi11@gmail.com"),
+        // ]);
        
-        User::factory()->create([
-            'name' => 'jamal',
-            'phone' => '0627748714',
-            'email' => 'jamal@jamal.com',
-            'city' => 'sale',
-            'is_admin' => false,
-            'verified' => true,
-            'verified_at' => NULL,
-            'country' => 'TN',
-            'password' => Hash::make("jamal@jamal.com"),
-        ]);
+        // User::factory()->create([
+        //     'name' => 'jamal',
+        //     'phone' => '0627748714',
+        //     'email' => 'jamal@jamal.com',
+        //     'city' => 'sale',
+        //     'is_admin' => false,
+        //     'verified' => true,
+        //     'verified_at' => NULL,
+        //     'country' => 'tn',
+        //     'password' => Hash::make("jamal@jamal.com"),
+        // ]);
         Shipping::create([
             'country' => 'ma',
             'city' => 'sale',
@@ -76,6 +76,16 @@ class DatabaseSeeder extends Seeder
             'street' => 'l8ja3',
             'price' => 89.99
         ]);
+        $this->call([
+            UserSeeder::class, // You should have this or create one for users
+            ShippingSeeder::class,
+        ]);
+        
+        // Then seed products which depend on users
+        $this->call(ProductSeeder::class);
+        
+        // Finally seed orders which depend on all the above
+        $this->call(OrderSeeder::class);
         // User::factory()->count(2)->create();
     }
 }

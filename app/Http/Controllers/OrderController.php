@@ -4,9 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
+use App\Services\CountryService;
 
 class OrderController extends Controller
 {
+    protected $countryService;
+    
+    public function __construct(CountryService $countryService)
+    {
+        $this->countryService = $countryService;
+    }
     public function index()
     {
         $orders = Order::with(['product', 'affiliate', 'shipping'])->paginate(10);
@@ -60,9 +67,9 @@ class OrderController extends Controller
             $order->shipping_date = now();
             $order->shipping_status = 'shipped';
             $order->save();
-            return back()->with('success', 'تم تحديث شحن الطلب بنجاح');
+            return back()->with('success', 'تم تحديث معلومات شحن الطلب بنجاح');
         }
-        return back()->withErrors('فشل شحن الطلب');
+        return back()->withErrors('فشل تحديث معلومات شحن الطلب');
     }
 
     public function makeDelivered(Order $order)
@@ -72,15 +79,42 @@ class OrderController extends Controller
             $order->delivery_date = now();
             $order->shipping_status = 'delivered';
             $order->save();
-            return back()->with('success', 'تم تحديث شحن الطلب بنجاح');
+            return back()->with('success', 'تم تحديث معلومات شحن الطلب بنجاح');
         }
         return back()->withErrors('يجب شحن الطلب أولاً');
     }
+    
+    public function makePayed(Order $order)
+    {
+        if ($order->payment_status == 'pending')
+        {
+            $order->payment_date = now();
+            $order->payment_status = 'paid';
+            $order->save();
+            return back()->with('success', 'تم تحديث معلومات الدفع للطلب بنجاح');
+        }
+        return back()->withErrors('فشلت عملية الدفع');
+    }
+    
+    public function makeUnPayed(Order $order)
+    {
+        if ($order->payment_status == 'paid')
+        {
+            $order->payment_date = NULL;
+            $order->payment_status = 'pending';
+            $order->save();
+            return back()->with('success', 'تم تحديث معلومات الدفع للطلب بنجاح');
+        }
+        return back()->withErrors('يجب الدفع أولاً');
+    }
+    
     public function cancelShipping(Order $order)
     {
         if ($order->shipping_status != 'pending')
         {
             $order->shipping_status = 'pending';
+            $order->payment_date = NULL;
+            $order->payment_status = 'pending';
             $order->shipping_date = null;
             $order->delivery_date = null;
             $order->save();
@@ -88,7 +122,6 @@ class OrderController extends Controller
         }
         return back()->withErrors('يجب شحن الطلب أولاً');
     }
-
 
     public function destroy(Order $order)
     {

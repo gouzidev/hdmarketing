@@ -38,11 +38,6 @@
             </div>
         </header>
 
-<!-- After the header and before the products grid -->
-<header class="bg-yellow-200 shadow">
-    <!-- ... existing header content ... -->
-</header>
-
         <!-- Add this search div right here -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 ">
             <div class="flex items-center flex-row gap-10 w-full ">
@@ -73,12 +68,6 @@
             </div>
         </div>
 
-        <!-- Products Grid -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                <!-- ... existing product cards ... -->
-            </div>
-        </div>
 
         <!-- Main Content -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

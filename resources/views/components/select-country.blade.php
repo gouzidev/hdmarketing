@@ -4,70 +4,70 @@
     <option disabled value="">البلد</option>
     <option
         class="bg-white text-slate-700 p-2 focus:checked:text-white focus:checked:bg-yellow-400 hover:bg-yellow-100"
-         @if ($country == "LY") selected @endif value="LY">ليبيا</option>
+         @if ($country == "ly") selected @endif value="ly">ليبيا</option>
     <option
         class="bg-white text-slate-700 p-2 focus:checked:text-white focus:checked:bg-yellow-400 hover:bg-yellow-100"
-         @if ($country == "TN") selected @endif value="TN">تونس</option>
+         @if ($country == "tn") selected @endif value="tn">تونس</option>
     <option
         class="bg-white text-slate-700 p-2 focus:checked:text-white focus:checked:bg-yellow-400 hover:bg-yellow-100"
-         @if ($country == "DZ") selected @endif value="DZ">الجزائر</option>
+         @if ($country == "dz") selected @endif value="dz">الجزائر</option>
     <option
         class="bg-white text-slate-700 p-2 focus:checked:text-white focus:checked:bg-yellow-400 hover:bg-yellow-100"
-         @if ($country == "MR") selected @endif value="MR">موريتانيا</option>
+         @if ($country == "mr") selected @endif value="mr">موريتانيا</option>
     <option
         class="bg-white text-slate-700 p-2 focus:checked:text-white focus:checked:bg-yellow-400 hover:bg-yellow-100"
-         @if ($country == "EG") selected @endif value="EG">مصر</option>
+         @if ($country == "eg") selected @endif value="eg">مصر</option>
     <option
         class="bg-white text-slate-700 p-2 focus:checked:text-white focus:checked:bg-yellow-400 hover:bg-yellow-100"
-         @if ($country == "MA") selected @endif value="MA">المغرب</option>
+         @if ($country == "ma") selected @endif value="ma">المغرب</option>
     <option
         class="bg-white text-slate-700 p-2 focus:checked:text-white focus:checked:bg-yellow-400 hover:bg-yellow-100"
-         @if ($country == "JO") selected @endif value="JO">الأردن</option>
+         @if ($country == "jo") selected @endif value="jo">الأردن</option>
     <option
         class="bg-white text-slate-700 p-2 focus:checked:text-white focus:checked:bg-yellow-400 hover:bg-yellow-100"
-         @if ($country == "KW") selected @endif value="KW">الكويت</option>
+         @if ($country == "kw") selected @endif value="kw">الكويت</option>
     <option
         class="bg-white text-slate-700 p-2 focus:checked:text-white focus:checked:bg-yellow-400 hover:bg-yellow-100"
-         @if ($country == "BH") selected @endif value="BH">البحرين</option>
+         @if ($country == "bh") selected @endif value="bh">البحرين</option>
     <option
         class="bg-white text-slate-700 p-2 focus:checked:text-white focus:checked:bg-yellow-400 hover:bg-yellow-100"
-         @if ($country == "QA") selected @endif value="QA">قطر</option>
+         @if ($country == "qa") selected @endif value="qa">قطر</option>
     <option
         class="bg-white text-slate-700 p-2 focus:checked:text-white focus:checked:bg-yellow-400 hover:bg-yellow-100"
-         @if ($country == "OM") selected @endif value="OM">عمان</option>
+         @if ($country == "om") selected @endif value="om">عمان</option>
     <option
         class="bg-white text-slate-700 p-2 focus:checked:text-white focus:checked:bg-yellow-400 hover:bg-yellow-100"
-         @if ($country == "LB") selected @endif value="LB">لبنان</option>
+         @if ($country == "lb") selected @endif value="lb">لبنان</option>
     <option
         class="bg-white text-slate-700 p-2 focus:checked:text-white focus:checked:bg-yellow-400 hover:bg-yellow-100"
-         @if ($country == "SD") selected @endif value="SD">السودان</option>
+         @if ($country == "sd") selected @endif value="sd">السودان</option>
     <option
         class="bg-white text-slate-700 p-2 focus:checked:text-white focus:checked:bg-yellow-400 hover:bg-yellow-100"
-         @if ($country == "IQ") selected @endif value="IQ">العراق</option>
+         @if ($country == "iq") selected @endif value="iq">العراق</option>
     <option
         class="bg-white text-slate-700 p-2 focus:checked:text-white focus:checked:bg-yellow-400 hover:bg-yellow-100"
-         @if ($country == "YE") selected @endif value="YE">اليمن</option>
+         @if ($country == "ye") selected @endif value="ye">اليمن</option>
     <option
         class="bg-white text-slate-700 p-2 focus:checked:text-white focus:checked:bg-yellow-400 hover:bg-yellow-100"
-         @if ($country == "SY") selected @endif value="SY">سوريا</option>
+         @if ($country == "sy") selected @endif value="sy">سوريا</option>
     <option
         class="bg-white text-slate-700 p-2 focus:checked:text-white focus:checked:bg-yellow-400 hover:bg-yellow-100"
-         @if ($country == "PS") selected @endif value="PS">فلسطين</option>
+         @if ($country == "ps") selected @endif value="ps">فلسطين</option>
     <option
         class="bg-white text-slate-700 p-2 focus:checked:text-white focus:checked:bg-yellow-400 hover:bg-yellow-100"
-         @if ($country == "SO") selected @endif value="SO">الصومال</option>
+         @if ($country == "so") selected @endif value="so">الصومال</option>
     <option
         class="bg-white text-slate-700 p-2 focus:checked:text-white focus:checked:bg-yellow-400 hover:bg-yellow-100"
-         @if ($country == "DJ") selected @endif value="DJ">جيبوتي</option>
+         @if ($country == "dj") selected @endif value="dj">جيبوتي</option>
     <option
         class="bg-white text-slate-700 p-2 focus:checked:text-white focus:checked:bg-yellow-400 hover:bg-yellow-100"
-         @if ($country == "KM") selected @endif value="KM">جزر القمر</option>
+         @if ($country == "km") selected @endif value="km">جزر القمر</option>
     <option
         class="bg-white text-slate-700 p-2 focus:checked:text-white focus:checked:bg-yellow-400 hover:bg-yellow-100"
-         @if ($country == "SA") selected @endif value="SA">المملكة العربية السعودية</option>
+         @if ($country == "sa") selected @endif value="sa">المملكة العربية السعودية</option>
     <option
         class="bg-white text-slate-700 p-2 focus:checked:text-white focus:checked:bg-yellow-400 hover:bg-yellow-100"
-         @if ($country == "AE") selected @endif value="AE">الإمارات العربية المتحدة</option>
+         @if ($country == "ae") selected @endif value="ae">الإمارات العربية المتحدة</option>
     <option
         class="bg-white text-slate-700 p-2 focus:checked:text-white focus:checked:bg-yellow-400 hover:bg-yellow-100"
          @if ($country == "") selected @endif value="">غير محدد</option>

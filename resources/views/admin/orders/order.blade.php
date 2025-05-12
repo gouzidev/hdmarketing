@@ -30,7 +30,10 @@
                             @elseif($order->status == 'shipped') bg-blue-100 text-blue-800
                             @elseif($order->status == 'processing') bg-yellow-100 text-yellow-800
                             @else bg-gray-100 text-gray-800 @endif">
-                            {{ __($order->status) }}
+                            @if($order->status == 'completed') مكتمل
+                            @elseif($order->status == 'shipped') تم الشحن
+                            @elseif($order->status == 'processing') قيد المعالجة
+                            @else قيد الانتظار @endif
                         </span>
                     </div>
                 </div>
@@ -49,9 +52,9 @@
     <!-- Breadcrumbs -->
     <div class="sm:max-w-[90%] w-full mx-auto px-4 sm:px-0 lg:px-0 py-2">
         <nav class="flex items-center text-sm text-gray-500">
-            <a href="#" class="hover:text-indigo-600">الرئيسية</a>
+            <a href="{{ route('home') }}" class="hover:text-indigo-600">الرئيسية</a>
             <i class="fas fa-chevron-left mx-2 text-xs"></i>
-            <a href="#" class="hover:text-indigo-600">الطلبات</a>
+            <a href="{{ route('orders') }}" class="hover:text-indigo-600">الطلبات</a>
             <i class="fas fa-chevron-left mx-2 text-xs"></i>
             <span class="text-gray-900">تفاصيل الطلب #{{ $order->id }}</span>
         </nav>
@@ -153,7 +156,7 @@
                                             <span class="">
                                                 الدولة
                                             </span>
-                                            <p>{{ $order->shipping->country }}</p>
+                                            <p>{{ $order->shipping->getCountryCode() }}</p>
                                         </div>
                                         <div class="flex flex-row justify-between mx-2">
                                             <span class="">
@@ -265,7 +268,7 @@
                                 </a>
                                 <div class="flex items-center p-2 hover:bg-gray-50 rounded-md transition duration-150 text-sm text-gray-700">
                                     <i class="fas fa-map-marker-alt text-green-500 ml-2 w-5 text-center"></i>
-                                    {{ $order->shipping->country }}، {{ $order->shipping->city }}
+                                    {{ $order->shipping->getCountryCode() }}، {{ $order->shipping->city }}
                                 </div>
                             </div>
                         </div>
@@ -302,7 +305,7 @@
                                 </a>
                                 <div class="flex items-center p-2 hover:bg-gray-50 rounded-md transition duration-150 text-sm text-gray-700">
                                     <i class="fas fa-map-marker-alt text-teal-500 ml-2 w-5 text-center"></i>
-                                    {{ $order->affiliate->country }}، {{ $order->affiliate->city }}
+                                    {{ $order->affiliate->getCountryCode() }}، {{ $order->affiliate->city }}
                                 </div>
                             </div>
                         </div>
@@ -425,7 +428,6 @@
                                 @elseif ($order->shipping_status == 'shipped')
                                     <label for="">الشحن</label>
                                     <div class="flex flex-row-reverse w-1/2 gap-5">
-
                                         <form action="{{ route('order.shipping.cancel', $order) }}" method="post"  class="w-full">
                                             @csrf
                                             @method('PUT')
@@ -471,7 +473,9 @@
                                 @if ($order->shipping_status == 'delivered')
                                     <label for="">الدفع</label>
                                     <div class="flex flex-row w-1/2 gap-5">
-                                        <form action="" class="w-full">
+                                        <form action="{{ route('order.payment.paid', $order) }}" method="post" class="w-full">
+                                            @method('PUT')
+                                            @csrf
                                             <button class="w-full flex items-center justify-center gap-2 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 transition duration-150">
                                                 <i class="fas fa-truck ml-2"></i> تأكيد الدفع                       
                                             </button>
@@ -488,9 +492,13 @@
                             @else
                                 <label for="">الدفع</label>
                                 <div class="flex flex-row-reverse w-1/2 gap-5">
-                                    <button class="w-full flex items-center justify-center gap-2 py-2 cursor-default rounded-md text-sm font-medium  border-4 shadow-sm text-red-800 border-red-800 bg-gradient-to-r bg-red-50 hover:to-red-200 transition duration-150 disabled">
-                                        <i class="fas fa-check-circle "></i> إلغاء
-                                    </button>  
+                                    <form action="{{ route('order.payment.unpaid', $order) }}" method="post" class="w-full">
+                                        @method('PUT')
+                                        @csrf
+                                        <button class="w-full flex items-center justify-center gap-2 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 transition duration-150">
+                                            <i class="fas fa-check-circle "></i> إلغاء
+                                        </button>
+                                    </form>
                                     <button class="w-full flex items-center justify-center gap-2 py-2 cursor-default rounded-md text-sm font-medium  border-4 shadow-sm text-purple-800 border-purple-800 bg-gradient-to-r bg-purple-50  hover:to-purple-200 transition duration-150 disabled">
                                         <i class="fas fa-truck ml-2"></i> مؤكد
                                     </button>  
@@ -508,113 +516,197 @@
                 <div class="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200 sticky top-6">
                     <div class="px-4 py-5 sm:px-6 border-b border-gray-200 bg-gradient-to-l from-gray-50 to-white">
                         <h3 class="text-lg leading-6 font-medium text-gray-900 flex items-center">
-                            <i class="fas fa-history text-gray-600 ml-2"></i>
+                            <i class="fas fa-history text-indigo-600 ml-2"></i>
                             سجل الطلب
                         </h3>
                     </div>
-                    <div class="px-4 py-5 sm:p-6">
-                        <div class="flow-root">
-                            <ul class="-mb-8">
-                                <li>
-                                    <div class="relative pb-8">
-                                        <span class="absolute top-4 right-4 -mr-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
-                                        <div class="relative flex space-x-3 space-x-reverse">
+                    <div class="px-4 py-5 sm:p-6 overflow-y-hidden">
+                        <ul>
+                            <!-- 1. Order Creation -->
+                            <li>
+                                <div class="relative pb-8">
+                                    <span class="absolute top-4 right-4 -mr-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                                    <div class="relative flex space-x-3 space-x-reverse">
+                                        <div>
+                                            <span class="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white">
+                                                <i class="fas fa-shopping-cart text-white"></i>
+                                            </span>
+                                        </div>
+                                        <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4 space-x-reverse">
                                             <div>
-                                                <span class="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white">
-                                                    <i class="fas fa-shopping-cart text-white"></i>
-                                                </span>
+                                                <p class="text-sm font-medium text-gray-900">تم إنشاء الطلب</p>
+                                                <p class="text-xs text-gray-500 mt-1">تم إنشاء طلب جديد وهو الآن في انتظار المراجعة</p>
                                             </div>
-                                            <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4 space-x-reverse">
-                                                <div>
-                                                    <p class="text-sm text-gray-900">تم إنشاء الطلب</p>
-                                                </div>
-                                                <div class="text-left text-sm whitespace-nowrap text-gray-500">
-                                                    <time datetime="{{ $order->created_at->format('Y-m-d') }}">{{ $order->created_at->format('d M Y') }}</time>
-                                                </div>
+                                            <div class="text-left text-sm whitespace-nowrap text-gray-500">
+                                                <time datetime="{{ $order->created_at->format('Y-m-d') }}">{{ $order->created_at->format('d M Y - h:i A') }}</time>
                                             </div>
                                         </div>
                                     </div>
-                                </li>
+                                </div>
+                            </li>
 
-                                <li>
-                                    <div class="relative pb-8">
-                                        <span class="absolute top-4 right-4 -mr-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
-                                        <div class="relative flex space-x-3 space-x-reverse">
-                                            <div>
-                                                <span class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center ring-8 ring-white @if($order->status == 'pending') opacity-50 @endif">
+                            <!-- 2. Order Handling -->
+                            <li>
+                                <div class="relative pb-8">
+                                    <span class="absolute top-4 right-4 -mr-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                                    <div class="relative flex space-x-3 space-x-reverse">
+                                        <div>
+                                            @if($order->status == 'accepted')
+                                                <span class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center ring-8 ring-white">
                                                     <i class="fas fa-check text-white"></i>
                                                 </span>
-                                            </div>
-                                            <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4 space-x-reverse">
-                                                @if ($order->status == "pending")
-                                                <div>
-                                                    <p class="text-sm text-gray-900">
-                                                        الطلب لم يتم التعامل معه بعد
-                                                    </p>
-                                                </div>
-                                                <div class="text-left text-sm whitespace-nowrap text-gray-500">
-                                                    @if ($order->handling_date != null)
-                                                        <time datetime="{{ $order->handling_date->format('Y-m-d') }}">{{ $order->handling_date->format('d M Y') }}</time>
-                                                    @else
-                                                        <div class="text-left text-sm whitespace-nowrap text-gray-500">
-                                                            قريباً
-                                                        </div>
-                                                    @endif
-                                                </div>
-                                                @elseif ($order->status == "accepted")
-                                                    <div>
-                                                        <p class="text-sm text-gray-900">تم قبول الطلب</p>
-                                                    </div>
-                                                    <div class="text-left text-sm whitespace-nowrap text-gray-500">
-                                                        @if ($order->handling_date != null)
-                                                            <time datetime="{{ $order->handling_date->format('Y-m-d') }}">{{ $order->handling_date->format('d M Y') }}</time>
-                                                        @else
-                                                            <div class="text-left text-sm whitespace-nowrap text-gray-500">
-                                                                قريباً
-                                                            </div>
-                                                        @endif
-                                                    </div>
+                                            @elseif($order->status == 'rejected')
+                                                <span class="h-8 w-8 rounded-full bg-red-500 flex items-center justify-center ring-8 ring-white">
+                                                    <i class="fas fa-times text-white"></i>
+                                                </span>
+                                            @else
+                                                <span class="h-8 w-8 rounded-full bg-gray-300 flex items-center justify-center ring-8 ring-white">
+                                                    <i class="fas fa-hourglass-half text-white"></i>
+                                                </span>
+                                            @endif
+                                        </div>
+                                        <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4 space-x-reverse">
+                                            <div>
+                                                @if($order->status == 'accepted')
+                                                    <p class="text-sm font-medium text-gray-900">تم قبول الطلب</p>
+                                                    <p class="text-xs text-gray-500 mt-1">تمت مراجعة الطلب والموافقة عليه</p>
+                                                @elseif($order->status == 'rejected')
+                                                    <p class="text-sm font-medium text-gray-900">تم رفض الطلب</p>
+                                                    <p class="text-xs text-gray-500 mt-1">تم رفض الطلب لسبب ما</p>
                                                 @else
-                                                    <div>
-                                                        <p class="text-sm text-gray-900">تم رفض الطلب</p>
-                                                    </div>
-                                                    <div class="text-left text-sm whitespace-nowrap text-gray-500">
-                                                        @if ($order->handling_date != null)
-                                                            <time datetime="{{ $order->handling_date->format('Y-m-d') }}">{{ $order->handling_date->format('d M Y') }}</time>
-                                                        @else
-                                                            <div class="text-left text-sm whitespace-nowrap text-gray-500">
-                                                                قريباً
-                                                            </div>
-                                                        @endif
-                                                    </div>
+                                                    <p class="text-sm font-medium text-gray-500">في انتظار المراجعة</p>
+                                                    <p class="text-xs text-gray-500 mt-1">لم تتم معالجة الطلب بعد</p>
+                                                @endif
+                                            </div>
+                                            <div class="text-left text-sm whitespace-nowrap text-gray-500">
+                                                @if($order->handling_date)
+                                                    <time datetime="{{ $order->handling_date->format('Y-m-d') }}">{{ $order->handling_date->format('d M Y - h:i A') }}</time>
+                                                @else
+                                                    <span>قيد الانتظار</span>
                                                 @endif
                                             </div>
                                         </div>
                                     </div>
-                                </li>
+                                </div>
+                            </li>
 
-                                <li>
-                                    <div class="relative">
-                                        <div class="relative flex space-x-3 space-x-reverse">
-                                            <div>
-                                                <span class="h-8 w-8 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white">
+                            <!-- 3. Shipping Process -->
+                            <li>
+                                <div class="relative pb-8">
+                                    <span class="absolute top-4 right-4 -mr-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                                    <div class="relative flex space-x-3 space-x-reverse">
+                                        <div>
+                                            @if($order->shipping_status == 'shipped' || $order->shipping_status == 'delivered')
+                                                <span class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center ring-8 ring-white">
                                                     <i class="fas fa-truck text-white"></i>
                                                 </span>
+                                            @else
+                                                <span class="h-8 w-8 rounded-full bg-gray-300 flex items-center justify-center ring-8 ring-white {{ $order->status != 'accepted' ? 'opacity-50' : '' }}">
+                                                    <i class="fas fa-truck text-white"></i>
+                                                </span>
+                                            @endif
+                                        </div>
+                                        <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4 space-x-reverse">
+                                            <div>
+                                                @if($order->shipping_status == 'shipped')
+                                                    <p class="text-sm font-medium text-gray-900">تم شحن الطلب</p>
+                                                    <p class="text-xs text-gray-500 mt-1">تم إرسال الطلب وهو في الطريق إليك</p>
+                                                @elseif($order->shipping_status == 'delivered')
+                                                    <p class="text-sm font-medium text-gray-900">تم شحن الطلب</p>
+                                                    <p class="text-xs text-gray-500 mt-1">تم إرسال الطلب وتم توصيله لاحقاً</p>
+                                                @else
+                                                    <p class="text-sm font-medium text-gray-500 {{ $order->status != 'accepted' ? 'opacity-50' : '' }}">في انتظار الشحن</p>
+                                                    <p class="text-xs text-gray-500 mt-1 {{ $order->status != 'accepted' ? 'opacity-50' : '' }}">سيتم شحن الطلب قريباً</p>
+                                                @endif
                                             </div>
-                                            <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4 space-x-reverse">
-                                                <div>
-                                                    <p class="text-sm text-gray-500">في انتظار الشحن</p>
-                                                </div>
-                                                <div class="text-left text-sm whitespace-nowrap text-gray-500">
-                                                    قريباً
-                                                </div>
+                                            <div class="text-left text-sm whitespace-nowrap text-gray-500">
+                                                @if($order->shipping_date)
+                                                    <time datetime="{{ $order->shipping_date->format('Y-m-d') }}">{{ $order->shipping_date->format('d M Y - h:i A') }}</time>
+                                                @else
+                                                    <span class="{{ $order->status != 'accepted' ? 'opacity-50' : '' }}">قيد الانتظار</span>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
-                                </li>
-                            </ul>
+                                </div>
+                            </li>
+
+                            <!-- 4. Delivery Confirmation -->
+                            <li>
+                                <div class="relative pb-8">
+                                    <span class="absolute top-4 right-4 -mr-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                                    <div class="relative flex space-x-3 space-x-reverse">
+                                        <div>
+                                            @if($order->shipping_status == 'delivered')
+                                                <span class="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white">
+                                                    <i class="fas fa-box-open text-white"></i>
+                                                </span>
+                                            @else
+                                                <span class="h-8 w-8 rounded-full bg-gray-300 flex items-center justify-center ring-8 ring-white {{ $order->shipping_status != 'shipped' ? 'opacity-50' : '' }}">
+                                                    <i class="fas fa-box-open text-white"></i>
+                                                </span>
+                                            @endif
+                                        </div>
+                                        <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4 space-x-reverse">
+                                            <div>
+                                                @if($order->shipping_status == 'delivered')
+                                                    <p class="text-sm font-medium text-gray-900">تم توصيل الطلب</p>
+                                                    <p class="text-xs text-gray-500 mt-1">تم تسليم الطلب بنجاح</p>
+                                                @else
+                                                    <p class="text-sm font-medium text-gray-500 {{ $order->shipping_status != 'shipped' ? 'opacity-50' : '' }}">في انتظار التوصيل</p>
+                                                    <p class="text-xs text-gray-500 mt-1 {{ $order->shipping_status != 'shipped' ? 'opacity-50' : '' }}">سيتم توصيل الطلب قريباً</p>
+                                                @endif
+                                            </div>
+                                            <div class="text-left text-sm whitespace-nowrap text-gray-500">
+                                                @if($order->delivery_date)
+                                                    <time datetime="{{ $order->delivery_date->format('Y-m-d') }}">{{ $order->delivery_date->format('d M Y - h:i A') }}</time>
+                                                @else
+                                                    <span class="{{ $order->shipping_status != 'shipped' ? 'opacity-50' : '' }}">قيد الانتظار</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <!-- 5. Payment Confirmation -->
+                            <li>
+                                <div class="relative">
+                                    <div class="relative flex space-x-3 space-x-reverse">
+                                        <div>
+                                            @if($order->payment_status == 'paid')
+                                                <span class="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white">
+                                                    <i class="fas fa-money-bill-wave text-white"></i>
+                                                </span>
+                                            @else
+                                                <span class="h-8 w-8 rounded-full bg-gray-300 flex items-center justify-center ring-8 ring-white {{ $order->shipping_status != 'delivered' ? 'opacity-50' : '' }}">
+                                                    <i class="fas fa-money-bill-wave text-white"></i>
+                                                </span>
+                                            @endif
+                                        </div>
+                                        <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4 space-x-reverse">
+                                            <div>
+                                                @if($order->payment_status == 'paid')
+                                                    <p class="text-sm font-medium text-gray-900">تم الدفع</p>
+                                                    <p class="text-xs text-gray-500 mt-1">تم استلام المبلغ بنجاح</p>
+                                                @else
+                                                    <p class="text-sm font-medium text-gray-500 {{ $order->shipping_status != 'delivered' ? 'opacity-50' : '' }}">في انتظار الدفع</p>
+                                                    <p class="text-xs text-gray-500 mt-1 {{ $order->shipping_status != 'delivered' ? 'opacity-50' : '' }}">الدفع عند الاستلام</p>
+                                                @endif
+                                            </div>
+                                            <div class="text-left text-sm whitespace-nowrap text-gray-500">
+                                                @if($order->payment_date)
+                                                    <time datetime="{{ $order->payment_date->format('Y-m-d') }}">{{ $order->payment_date->format('d M Y - h:i A') }}</time>
+                                                @else
+                                                    <span class="{{ $order->shipping_status != 'delivered' ? 'opacity-50' : '' }}">قيد الانتظار</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
                         </div>
-                    </div>
                 </div>
             </div>
 

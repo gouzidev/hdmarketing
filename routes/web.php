@@ -55,6 +55,8 @@ Route::middleware(['auth', 'admin'])->group(function ()
     Route::put('/order/{order}/accept', [OrderController::class, 'acceptOrder'])->name('order.accept');
     Route::put('/order/{order}/shipping/shipped', [OrderController::class, 'makeShipped'])->name('order.shipping.shipped');
     Route::put('/order/{order}/shipping/delivered', [OrderController::class, 'makeDelivered'])->name('order.shipping.delivered');
+    Route::put('/order/{order}/payment/pay', [OrderController::class, 'makePayed'])->name('order.payment.paid');
+    Route::put('/order/{order}/payment/cancel', [OrderController::class, 'makeUnPayed'])->name('order.payment.unpaid');
     Route::put('/order/{order}/shipping/cancel', [OrderController::class, 'cancelShipping'])->name('order.shipping.cancel');
     Route::delete('/order/{order}', [OrderController::class, 'destroy'])->name('order.destroy');
 });

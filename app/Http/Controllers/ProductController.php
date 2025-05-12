@@ -204,6 +204,7 @@ class ProductController extends Controller
 
     public function processCheckout(Request $request, Product $product)
     {
+        dd($request->all());
         // Validate the request data
         // Custom Arabic validation messages
         if (!Auth::user()->verified)
