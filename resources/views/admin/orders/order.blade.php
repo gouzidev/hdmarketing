@@ -369,6 +369,7 @@
                     </div>
                     <div class="px-4 py-5 sm:p-6 space-y-4">
                         <div class="flex flex-row justify-between ">
+                            {{ ($order->status) }}
                             @if($order->status == 'pending')
                                 <label for="">الطلب</label>
                                 <div class="flex flex-row w-1/2 gap-5">
@@ -387,14 +388,14 @@
                                         </button>
                                     </form>
                                 </div>
-                            @else
+                            @elseif ($order->status == 'accepted')
                                 <label for="">الطلب</label>
                                 <div class="flex flex-row-reverse w-1/2 gap-5">
-                                    <form action="{{ route('order.destroy', $order) }}" method="post" class="w-full cursor-pointer">
+                                    <form action="{{ route('order.reject', $order) }}" method="post" class="w-full cursor-pointer">
                                         @csrf
-                                        @method('DELETE')
+                                        @method('PUT')
                                         <button class="w-full cursor-pointer flex items-center justify-center gap-2 py-2 rounded-md text-sm font-medium  border-4 shadow-sm text-red-800 border-red-800 bg-gradient-to-r bg-red-50 hover:to-red-200 transition duration-150">
-                                            <i class="fas fa-x "></i>حذف الطلب 
+                                            <i class="fas fa-x "></i>رفض الطلب 
                                         </button>
                                     </form>
 
@@ -402,6 +403,23 @@
                                         <i class="fas fa-check-circle "></i> مؤكد
                                     </button>  
                                 </div>
+                            {{-- else -> rejected --}}
+                            @else   
+                                <label for="">الطلب</label>
+                                <div class="flex flex-row-reverse w-1/2 gap-5">
+                                    <form action="{{ route('order.accept', $order) }}" method="post" class="w-full cursor-pointer">
+                                        @csrf
+                                        @method('PUT')
+                                        <button class="w-full cursor-pointer flex items-center justify-center gap-2 py-2 rounded-md text-sm font-medium  border-4 shadow-sm text-green-800 border-green-800 bg-gradient-to-r bg-green-50  hover:to-green-200  transition duration-150">
+                                            <i class="fas fa-check-circle "></i>تأكيد الطلب 
+                                        </button>
+                                    </form>
+
+                                    <button class="w-full flex items-center justify-center gap-2 py-2 cursor-default rounded-md text-sm font-medium  text-red-800 border-red-800 bg-gradient-to-r bg-red-50 hover:to-red-200 border-4 shadow-smtransition duration-150 disabled opacity-50">
+                                        <i class="fas fa-x "></i> 
+                                        مرفوض
+                                    </button>  
+                                </div> 
                             @endif
                         </div>
 

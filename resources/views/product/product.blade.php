@@ -141,19 +141,56 @@
                         </div>
                         
                         <!-- Price -->
-                        <div class="py-4 border-t border-gray-200">
+                        <div class="py-2 border-t border-gray-200">
                             <div class="flex items-center">
                                 <span class="text-2xl font-bold text-gray-900">{{ number_format($product->price, 2) }} ر.س</span>
                             </div>
-                            <div class="text-sm text-gray-500 mt-1">شامل الضريبة</div>
                         </div>
-                        
+
+                        {{-- Quantity --}}
+                        <div class="">
+                            @if($product->stock > 10)
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    <i class="fas fa-check-circle ml-1"></i>
+                                    متوفر ({{ $product->stock }})
+                                </span>
+                            @elseif($product->stock > 0)
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                    <i class="fas fa-exclamation-circle ml-1"></i>
+                                    متوفر بكمية محدودة ({{ $product->stock }})
+                                </span>
+                            @else
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                    <i class="fas fa-times-circle ml-1"></i>
+                                    غير متوفر حالياً
+                                </span>
+                            @endif
+                        </div>
+
                         <!-- Highlights -->
                         <div class="my-2 p-2">
                             <div class="tab-content active">
                                 <h3 class="text-lg font-medium text-gray-900 mb-3">تفاصيل المنتج</h3>
                                 <div class="prose max-w-none text-gray-700">
-                                    {{ !$product->desc || $product->desc == "" ? 'لا يوجد وصف مفصل متاح لهذا المنتج حالياً.' : $product->desc }}
+                                    @if (mb_strlen($product->desc, 'UTF-8') > 500)
+                                        <div>
+                                            <span id="short-desc">
+                                                {{ mb_substr($product->desc, 0, 500, 'UTF-8') }}...
+                                            </span>
+                                            <span id="full-desc" class="hidden">
+                                                {{ $product->desc }}
+                                            </span>
+                                            <button id="desc-toggle-btn" 
+                                                 class="text-blue-600 hover:text-blue-800 text-sm font-medium mr-2 focus:outline-none" 
+                                                 onclick="toggleDescription()">
+                                                <i class="fas fa-chevron-down ml-1"></i>عرض المزيد
+                                            </button>
+                                        </div>
+                                    @else
+                                        <div>
+                                            {{ $product->desc }}
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -286,6 +323,7 @@
         </div>
 
         <script>
+            const showFullDesc = false;
             // Image Gallery Functionality
             function changeMainImage(src, element) {
                 const mainImage = document.getElementById('mainImage');
@@ -298,7 +336,23 @@
                 element.classList.add('active');
             }
             
-            
+            function toggleDescription() {
+                const shortDesc = document.getElementById('short-desc');
+                const fullDesc = document.getElementById('full-desc');
+                const toggleBtn = document.getElementById('desc-toggle-btn');
+                
+                if (shortDesc.classList.contains('hidden')) {
+                    // Show short description
+                    shortDesc.classList.remove('hidden');
+                    fullDesc.classList.add('hidden');
+                    toggleBtn.innerHTML = '<i class="fas fa-chevron-down ml-1"></i>عرض المزيد';
+                } else {
+                    // Show full description
+                    shortDesc.classList.add('hidden');
+                    fullDesc.classList.remove('hidden');
+                    toggleBtn.innerHTML = '<i class="fas fa-chevron-up ml-1"></i>عرض أقل';
+                }
+            }
             
             // Quantity buttons
             document.addEventListener('DOMContentLoaded', function() {

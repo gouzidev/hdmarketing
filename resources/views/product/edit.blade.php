@@ -105,8 +105,8 @@
                                 <input type="radio" name="category" hidden value="clothes" 
                                 {{ $product->category == "clothes" ? 'checked' : '' }}
                                 id="category-clothes" />
-                                <label for="category-clothes" class="flex flex-col items-center justify-center transition p-4 cursor-pointer border-4 border-gray-300 hover:bg-gray-200 text-gray-900 rounded-xl min-w-[100px] h-[100px] lg:h-[120px] lg:min-w-[120px] xl:h-[140px] xl:min-w-[140px]">
-                                    <i class="fas fa-tshirt text-2xl lg:text-3xl mb-2"></i>
+                                <label for="category-clothes" class="flex flex-col items-center justify-center transition p-4 cursor-pointer border-4 border-gray-300 hover:bg-gray-200 text-gray-900 rounded-xl min-w-[60px] h-[60px] lg:h-[80px] lg:min-w-[80px] xl:h-[100px] xl:min-w-[100px]">
+                                    <i class="fas fa-tshirt text-xl lg:text-2xl mb-2"></i>
                                     <div class="text-sm sm:text-xl">ملابس</div>
                                 </label>
                             </div>
@@ -116,8 +116,8 @@
                                 <input type="radio" name="category" hidden value="kitchen_home" 
                                 {{ $product->category == "kitchen_home" ? 'checked' : '' }}
                                 id="category-kitchen_home" />
-                                <label for="category-kitchen_home" class="flex flex-col items-center justify-center transition p-4 cursor-pointer border-4 border-gray-300 hover:bg-gray-200 text-gray-900 rounded-xl min-w-[100px] h-[100px] lg:h-[120px] lg:min-w-[120px] xl:h-[140px] xl:min-w-[140px]">
-                                    <i class="fas fa-home text-2xl lg:text-3xl mb-2"></i>
+                                <label for="category-kitchen_home" class="flex flex-col items-center justify-center transition p-4 cursor-pointer border-4 border-gray-300 hover:bg-gray-200 text-gray-900 rounded-xl min-w-[60px] h-[60px] lg:h-[80px] lg:min-w-[80px] xl:h-[100px] xl:min-w-[100px]">
+                                    <i class="fas fa-home text-xl lg:text-2xl mb-2"></i>
                                     <div class="text-sm sm:text-xl">المنزل و المطبخ</div>
                                 </label>
                             </div>
@@ -127,8 +127,8 @@
                                 <input type="radio" name="category" hidden value="beauty_health" 
                                 {{ $product->category == "beauty_health" ? 'checked' : '' }}
                                 id="category-beauty_health" />
-                                <label for="category-beauty_health" class="flex flex-col items-center justify-center transition p-4 cursor-pointer border-4 border-gray-300 hover:bg-gray-200 text-gray-900 rounded-xl min-w-[100px] h-[100px] lg:h-[120px] lg:min-w-[120px] xl:h-[140px] xl:min-w-[140px]">
-                                    <i class="fas fa-spa text-2xl lg:text-3xl mb-2"></i>
+                                <label for="category-beauty_health" class="flex flex-col items-center justify-center transition p-4 cursor-pointer border-4 border-gray-300 hover:bg-gray-200 text-gray-900 rounded-xl min-w-[60px] h-[60px] lg:h-[80px] lg:min-w-[80px] xl:h-[100px] xl:min-w-[100px]">
+                                    <i class="fas fa-spa text-xl lg:text-2xl mb-2"></i>
                                     <div class="text-sm sm:text-xl">الصحة و الجمال</div>
                                 </label>
                             </div>
@@ -138,8 +138,8 @@
                                 <input type="radio" name="category" hidden value="electronics" 
                                 {{ $product->category == "electronics" ? 'checked' : '' }}
                                 id="category-electronics" />
-                                <label for="category-electronics" class="flex flex-col items-center justify-center transition p-4 cursor-pointer border-4 border-gray-300 hover:bg-gray-200 text-gray-900 rounded-xl min-w-[100px] h-[100px] lg:h-[120px] lg:min-w-[120px] xl:h-[140px] xl:min-w-[140px]">
-                                    <i class="fas fa-mobile-alt text-2xl lg:text-3xl mb-2"></i>
+                                <label for="category-electronics" class="flex flex-col items-center justify-center transition p-4 cursor-pointer border-4 border-gray-300 hover:bg-gray-200 text-gray-900 rounded-xl min-w-[60px] h-[60px] lg:h-[80px] lg:min-w-[80px] xl:h-[100px] xl:min-w-[100px]">
+                                    <i class="fas fa-mobile-alt text-xl lg:text-2xl mb-2"></i>
                                     <div class="text-sm sm:text-xl">هواتف و أجهزة ذكية</div>
                                 </label>
                             </div>
@@ -149,8 +149,8 @@
                                 <input type="radio" name="category" hidden value="real_estate" 
                                 {{ $product->category == "" ? 'checked' : '' }}
                                 id="category-real_estate" />
-                                <label for="category-real_estate" class="flex flex-col items-center justify-center transition p-4 cursor-pointer border-4 border-gray-300 hover:bg-gray-200 text-gray-900 rounded-xl min-w-[100px] h-[100px] lg:h-[120px] lg:min-w-[120px] xl:h-[140px] xl:min-w-[140px]">
-                                    <i class="fas fa-building text-2xl lg:text-3xl mb-2"></i>
+                                <label for="category-real_estate" class="flex flex-col items-center justify-center transition p-4 cursor-pointer border-4 border-gray-300 hover:bg-gray-200 text-gray-900 rounded-xl min-w-[60px] h-[60px] lg:h-[80px] lg:min-w-[80px] xl:h-[100px] xl:min-w-[100px]">
+                                    <i class="fas fa-building text-xl lg:text-2xl mb-2"></i>
                                     <div class="text-sm sm:text-xl">بيع العقار</div>
                                 </label>
                             </div>
@@ -160,26 +160,23 @@
                                 <input type="radio" name="category" hidden value="cars" 
                                 {{ $product->category == "" ? 'checked' : '' }}
                                 id="category-cars" />
-                                <label for="category-cars" class="flex flex-col items-center justify-center transition p-4 cursor-pointer border-4 border-gray-300 hover:bg-gray-200 text-gray-900 rounded-xl min-w-[100px] h-[100px] lg:h-[120px] lg:min-w-[120px] xl:h-[140px] xl:min-w-[140px]">
-                                    <i class="fas fa-car text-2xl lg:text-3xl mb-2"></i>
+                                <label for="category-cars" class="flex flex-col items-center justify-center transition p-4 cursor-pointer border-4 border-gray-300 hover:bg-gray-200 text-gray-900 rounded-xl min-w-[60px] h-[60px] lg:h-[80px] lg:min-w-[80px] xl:h-[100px] xl:min-w-[100px]">
+                                    <i class="fas fa-car text-xl lg:text-2xl mb-2"></i>
                                     <div class="text-sm sm:text-xl">بيع السيارات</div>
                                 </label>
                             </div>
                         </div>
                     </div>
-                                                
-
-
                     
                     @if($errors->any())
-                    <div class="w-full mb-6 p-4 bg-red-50 border border-red-200 rounded-lg self-start">
-                        <h3 class="text-red-700 font-medium mb-2">يوجد أخطاء في المدخلات:</h3>
-                        <ul class="text-red-600 list-disc pr-5 space-y-1">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
+                        <div class="w-full mb-6 p-4 bg-red-50 border border-red-200 rounded-lg self-start">
+                            <h3 class="text-red-700 font-medium mb-2">يوجد أخطاء في المدخلات:</h3>
+                            <ul class="text-red-600 list-disc pr-5 space-y-1">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
                     @elseif (@session('error'))
                         <div class="mt-4 p-4 bg-red-50 text-red-700 rounded-lg">
                             {{ session('error') }}
@@ -226,9 +223,9 @@
                     </div>
                 </div>
 
-                <div class="">
+                <div class="flex flex-row gap-5">
                     <div class="flex flex-col">
-                            رئيسية
+                        صور إضافية
                     </div>
                     @foreach ($product->additional_imgs as $img)
                         <div class="w-[300px] h-[300px] flex justify-center items-center relative">

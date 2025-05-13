@@ -37,14 +37,14 @@ class OrderController extends Controller
             $product = $order->product;
             // Update product stock
             if ($product->stock < $order->quantity)
-                return back()->withErrors('رفض الطلب بنجاح');
+                return back()->withErrors('فشلت عملية رفض الطلب, كمية المخزون ليست كافية');
             $product->decrement('stock', $order->quantity);
             $order->handling_date = now();
             $order->status = 'accepted';
             $order->save();
             return back()->with('success', 'تم قبول الطلب بنجاح');
         }
-        return back()->withErrors(' رفض الطلب بنجاح');
+        return back()->withErrors('فشلت عملية رفض الطلب');
     }
 
     public function rejectOrder(Order $order)
