@@ -80,9 +80,12 @@ class ProductImageController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ProductImage $productImage)
+    public function destroy($id)
     {
         try {
+            $productImage = ProductImage::find($id);
+            if ($productImage->is_primary)
+                return redirect()->back()->withErrors(['general' => 'فشل في حذف صورة المنتج. يرجى المحاولة مرة أخرى.'])->withInput();
             $productImage->delete();
             return redirect()->back()->with('success', 'تم حذف صورة المنتج بنجاح');
         }

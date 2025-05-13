@@ -123,6 +123,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('products/image/{path}', [ProductImageController::class, 'show'])
         ->where('path', '.*')->name('products.images.show');
 
+
+    Route::delete('products/images/{id}', [ProductImageController::class, 'destroy'])->name('products.images.destroy');
+
     Route::get('products/thumbnail/{product}', [ProductImageController::class, 'thumbnail'])->name('products.thumbnail');
+    Route::get('products/second-img/{product}', [ProductImageController::class, 'secondImg'])->name('products.second-img');
 
 });

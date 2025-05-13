@@ -169,47 +169,8 @@
                     </div>
                                                 
 
-                    {{-- <div class="flex flex-col gap-4">
-                        <h3 class="text-lg font-medium text-gray-900">صور المنتج</h3>
-                        
-                        <!-- Primary Image Field -->
-                        <div class="flex flex-col">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">الصورة الرئيسية (مطلوبة)</label>
-                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center" id="primary-dropzone">
-                                <input type="file" 
-                                    name="primary_image" 
-                                    id="primary_image" accept="image/*"
-                                    class="hidden" required>
-                                <label for="primary_image" class="cursor-pointer">
-                                    <div class="flex flex-col items-center gap-1">
-                                        <i class="fas fa-cloud-upload-alt text-3xl text-gray-400"></i>
-                                        <p class="text-sm text-gray-600">انقر لاختيار الصورة الرئيسية</p>
-                                        <p class="text-xs text-gray-500">jpg, png (حجم أقل من 2MB)</p>
-                                    </div>
-                                </label>
-                            </div>
-                            <!-- Primary Image Preview -->
-                            <div id="primary-preview" class="mt-2 flex flex-wrap gap-4"></div>
-                        </div>
-                        
-                        <!-- Additional Images Field -->
-                        <div class="flex flex-col">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">صور إضافية (اختيارية)</label>
-                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center" id="additional-dropzone">
-                                <input type="file" name="additional_images[]" id="additional_images" multiple accept="image/*" class="hidden">
-                                <label for="additional_images" class="cursor-pointer">
-                                    <div class="flex flex-col items-center gap-1">
-                                        <i class="fas fa-cloud-upload-alt text-3xl text-gray-400"></i>
-                                        <p class="text-sm text-gray-600">اسحب وأفلت الصور هنا أو انقر للاختيار</p>
-                                        <p class="text-xs text-gray-500">يمكنك تحميل عدة صور (jpg, png)</p>
-                                    </div>
-                                </label>
-                            </div>
-                            <!-- Additional Images Preview -->
-                            <div id="additional-preview" class="mt-2 flex flex-wrap gap-4"></div>
-                        </div>
-                    </div> --}}
 
+                    
                     @if($errors->any())
                     <div class="w-full mb-6 p-4 bg-red-50 border border-red-200 rounded-lg self-start">
                         <h3 class="text-red-700 font-medium mb-2">يوجد أخطاء في المدخلات:</h3>
@@ -246,17 +207,44 @@
                     </div>
                 </form>
 
-                <div class="w-[300px] h-[300px] flex justify-center items-center relative">
-                    <form class="absolute top-2 right-2" action="{{ route('products.images.destroy', $product->primary_image) }}" method="post">
-                        @method('DELETE')
-                        @csrf
-                        <button type="submit" 
-                            class=" text-red-600 hover:text-red-900 bg-red-100 p-3 rounded-md" 
-                            title="حذف">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </form>
-                    <img class="h-full w-full object-contain" src="{{ route('products.thumbnail', $product) }}" alt="">
+                <div class="">
+                    <div class="flex flex-col">
+                            رئيسية
+                    </div>
+                    <div class="w-[300px] h-[300px] flex justify-center items-center relative">
+                        
+                        <form class="absolute top-2 right-2" action="{{ route('products.images.destroy', $product->primary_image) }}" method="post">
+                            @method('DELETE')
+                            @csrf
+                            <button type="submit" 
+                                class=" text-red-600 hover:text-red-900 bg-red-100 p-3 rounded-md" 
+                                title="حذف">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </form>
+                        <img class="h-full w-full object-contain" src="{{ route('products.thumbnail', $product) }}" alt="">
+                    </div>
+                </div>
+
+                <div class="">
+                    <div class="flex flex-col">
+                            رئيسية
+                    </div>
+                    @foreach ($product->additional_imgs as $img)
+                        <div class="w-[300px] h-[300px] flex justify-center items-center relative">
+                            <form class="absolute top-2 right-2" action="{{ route('products.images.destroy', $img->id) }}" method="post">
+                                @method('DELETE')
+                                @csrf
+                                <button type="submit" 
+                                    class=" text-red-600 hover:text-red-900 bg-red-100 p-3 rounded-md" 
+                                    title="حذف">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </form>
+                            <img class="h-full w-full object-contain" src="{{ route('products.images.show', $img->path) }}" alt="">
+                        </div>
+                        
+                    @endforeach
                 </div>
             </div>
         </div>
