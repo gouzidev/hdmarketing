@@ -14,7 +14,7 @@
     
     <body class=" overflow-x-hidden relative">
         <x-nav :isHome="false"/>
-        <x-auth.wallet.statistics />
+        <x-auth.wallet.statistics :numOrders="$numOrders" :totalProfit="$totalProfit" :totalSales="$totalSales" :numNextOrders="$numNextOrders" :nextProfit="$nextProfit" />
         <x-auth.wallet.withdrawals />
         <x-scripts.nav-script />
     </body>

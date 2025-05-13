@@ -4,11 +4,11 @@
         <div class="flex flex-col w-full h-[95%] bg-white shadow-[0_0_8px_-4px_rgba(0,0,0,1)] px-5 py-3 gap-2">
             <div class="flex flex-row gap-2  items-center">
                 <i class="fa-solid fa-money-check-dollar"></i>
-                <span>المجموع</span>
+                <span>مجموع المبيعات</span>
             </div>
             <div class="flex flex-col w-full h-full bg-gray-200 rounded justify-evenly items-center">
-                <div class="">دولار</div>
-                <div class="">0</div>
+                <div class="">دينار</div>
+                <div class="">{{ $totalSales }}</div>
             </div>
         </div>
     </div>
@@ -17,11 +17,11 @@
         <div class="flex flex-col w-full h-[95%] bg-white shadow-[0_0_8px_-4px_rgba(0,0,0,1)] px-5 py-3 gap-2">
             <div class="flex flex-row gap-2  items-center">
                 <i class="fa-solid fa-building-columns"></i>
-                <span>مجموع الارباح المتوقعة</span>
+                <span>مجموع الارباح</span>
             </div>
             <div class="flex flex-col w-full h-full bg-gray-200 rounded justify-evenly items-center">
-                <div class="">دولار</div>
-                <div class="">0</div>
+                <div class="">دينار</div>
+                <div class="">{{ $totalProfit }}</div>
             </div>
         </div>
     </div>
@@ -35,12 +35,12 @@
             <div class="flex flex-row h-full gap-2">
                 <div class="flex flex-col w-full h-full bg-gray-200 rounded justify-evenly items-center">
                     <div class="">الطلبات</div>
-                    <div class="">29</div>
+                    <div class="">{{ $numOrders }}</div>
                 </div>
     
                 <div class="flex flex-col w-full h-full bg-gray-200 rounded justify-evenly items-center">
-                    <div class="">دولار</div>
-                    <div class="">140</div>
+                    <div class="">دينار</div>
+                    <div class="">{{ $totalProfit }}</div>
                 </div>
             </div>
         </div>
@@ -56,12 +56,12 @@
     
                 <div class="flex flex-col w-full h-full bg-gray-200 rounded justify-evenly items-center">
                     <div class="">الطلبات</div>
-                    <div class="">0</div>
+                    <div class="">{{ $numNextOrders }}</div>
                 </div>
     
                 <div class="flex flex-col w-full h-full bg-gray-200 rounded justify-evenly items-center">
-                    <div class="">دولار</div>
-                    <div class="">0</div>
+                    <div class="">دينار</div>
+                    <div class="">{{ $nextProfit }}</div>
                 </div>
             </div>
         </div>

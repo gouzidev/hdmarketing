@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -107,8 +108,46 @@ class ProfileController extends Controller
         if (Auth::check())
         {
             /** @var \App\Models\User $user */
-            $user = Auth::user()->only(['name', 'email', 'phone', 'city', 'country']);
-            return view('profile.wallet', ['user' => $user]);
+            $user = Auth::user()    ;
+            
+            $orders = Order::where('affiliate_id', $user->id)->where('payment_status', 'paid')->get();
+            $AllOrders = Order::where('affiliate_id', $user->id)->where('payment_status', 'paid')->get();
+            $SoonPayedOrders = Order::where('affiliate_id', $user->id)->where('status', 'accepted')
+                ->where('shipping_status', '!=', 'pending')
+                ->where('payment_status', '!=', 'paid')
+            ->get();
+            $totalSales = 0;
+            $tempSale = 0;
+            $tempProfit = 0;
+            $totalProfit = 0;
+            $numOrders = 0;
+            foreach ($orders as $order)
+            {
+                $numOrders ++;
+                $tempSale = $order->quantity * $order->affiliate_price;
+                $tempProfit = $tempSale - ($order->product->price * $order->quantity);
+
+                $totalSales += $tempSale;
+                $totalProfit += $tempProfit;
+            }
+            $nextProfit = 0;
+            $numNextOrders = 0;
+
+            foreach ($SoonPayedOrders as $order)
+            {
+                $tempSale = $order->quantity * $order->affiliate_price;
+                $numNextOrders++;
+                $nextProfit += $tempSale - ($order->product->price * $order->quantity);
+            }
+            return view('profile.wallet', [
+                'user' => $user,
+                'numOrders' => $numOrders,
+                'orders' => $orders,
+                'totalSales' => $totalSales,
+                'totalProfit' => $totalProfit,
+                'numNextOrders' => $numNextOrders,
+                'nextProfit' => $nextProfit,
+            ]);
         }
         return redirect()->route('login')->with('error', 'يجب تسجيل الدخول للوصول إلى صفحة الملف الشخصي');
     }

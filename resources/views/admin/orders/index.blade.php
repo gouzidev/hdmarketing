@@ -57,35 +57,49 @@
     </header>
 
     <!-- Main Content -->
+
     <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <!-- Stats Cards -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
             <div class="bg-white rounded-lg shadow p-4 border-t-4 border-indigo-500">
                 <div class="text-gray-500">الطلبات الجديدة</div>
-                <div class="text-2xl font-bold">24</div>
-                <div class="text-green-500 text-sm mt-1">
-                    <i class="fas fa-arrow-up"></i> 12% من الأسبوع الماضي
+                <div class="text-2xl font-bold">{{ $thisWeekOrderCount }}</div>
+                <div class="@if ($orderCountPerc < 0) text-red-500 @else text-green-500 @endif text-sm mt-1">
+                    @if ($orderCountPerc < 0) <i class="fas fa-arrow-down"></i> @else <i class="fas fa-arrow-up"></i> @endif
+                    %
+                    <span dir="ltr">{{ $orderCountPerc }}</span>
+                     من الأسبوع الماضي
                 </div>
             </div>
             <div class="bg-white rounded-lg shadow p-4 border-t-4 border-blue-500">
                 <div class="text-gray-500">قيد المعالجة</div>
-                <div class="text-2xl font-bold">18</div>
-                <div class="text-green-500 text-sm mt-1">
-                    <i class="fas fa-arrow-up"></i> 5% من الأسبوع الماضي
+                <div class="text-2xl font-bold">{{ $totalOrderProcessingCount }}</div>
+                <div class="@if ($orderProcessingCountPerc < 0) text-red-500 @else text-green-500 @endif text-sm mt-1">
+                    @if ($orderProcessingCountPerc < 0) <i class="fas fa-arrow-down"></i> @else <i class="fas fa-arrow-up"></i> @endif
+                    %
+                    <span dir="ltr">{{ $orderProcessingCountPerc }}</span>
+                     من الأسبوع الماضي
+
                 </div>
             </div>
             <div class="bg-white rounded-lg shadow p-4 border-t-4 border-yellow-500">
                 <div class="text-gray-500">قيد الشحن</div>
-                <div class="text-2xl font-bold">12</div>
-                <div class="text-red-500 text-sm mt-1">
-                    <i class="fas fa-arrow-down"></i> 3% من الأسبوع الماضي
+                <div class="text-2xl font-bold">{{ $totalOrderShippingProcessingCount }}</div>
+                <div class="@if ($orderShippingProcessingCountPerc < 0) text-red-500 @else text-green-500 @endif text-sm mt-1">
+                    @if ($orderShippingProcessingCountPerc < 0) <i class="fas fa-arrow-down"></i> @else <i class="fas fa-arrow-up"></i> @endif
+                    <span dir="ltr">{{ $orderShippingProcessingCountPerc }}</span>
+                     من الأسبوع الماضي
+
                 </div>
             </div>
             <div class="bg-white rounded-lg shadow p-4 border-t-4 border-green-500">
                 <div class="text-gray-500">تم التوصيل</div>
-                <div class="text-2xl font-bold">156</div>
-                <div class="text-green-500 text-sm mt-1">
-                    <i class="fas fa-arrow-up"></i> 20% من الأسبوع الماضي
+                <div class="text-2xl font-bold">{{$totalOrderShippingDeliveredCount}} </div>
+                <div class="@if ($orderShippingDeliveredCountPerc < 0) text-red-500 @else text-green-500 @endif text-sm mt-1">
+                    @if ($orderShippingDeliveredCountPerc < 0) <i class="fas fa-arrow-down"></i> @else <i class="fas fa-arrow-up"></i> @endif
+                    <span dir="ltr">{{ $orderShippingDeliveredCountPerc }}</span>
+                     من الأسبوع الماضي
+
                 </div>
             </div>
         </div>

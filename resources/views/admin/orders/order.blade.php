@@ -369,7 +369,6 @@
                     </div>
                     <div class="px-4 py-5 sm:p-6 space-y-4">
                         <div class="flex flex-row justify-between ">
-                            {{ ($order->status) }}
                             @if($order->status == 'pending')
                                 <label for="">الطلب</label>
                                 <div class="flex flex-row w-1/2 gap-5">

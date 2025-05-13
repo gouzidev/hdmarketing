@@ -11,7 +11,7 @@ class statistics extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct(public $numOrders, public $totalSales, public $totalProfit, public $numNextOrders, public $nextProfit)
     {
         //
     }

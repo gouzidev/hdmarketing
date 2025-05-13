@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
 use Faker\Factory as Faker;
@@ -23,7 +24,7 @@ class ProductSeeder extends Seeder
 
         $products = [
             [
-                'user_id' => 1,
+                'user_id' => User::where('is_admin', true)->get()->random()->id,
                 'name' => 'قميص رجالي قطني',
                 'category' => 'clothes',
                 'desc' => 'قميص رجالي عالي الجودة من القطن المصري',
@@ -31,7 +32,7 @@ class ProductSeeder extends Seeder
                 'price' => 120,
             ],
             [
-                'user_id' => 1,
+                'user_id' => User::where('is_admin', true)->get()->random()->id,
                 'name' => 'جينز أزرق',
                 'category' => 'clothes',
                 'desc' => 'بنطال جينز رجالي بجودة عالية',
@@ -39,7 +40,7 @@ class ProductSeeder extends Seeder
                 'price' => 200,
             ],
             [
-                'user_id' => 2,
+                'user_id' => User::where('is_admin', true)->get()->random()->id,
                 'name' => 'عباية سوداء',
                 'category' => 'clothes',
                 'desc' => 'عباية نسائية أنيقة مع تطريز',
@@ -49,7 +50,7 @@ class ProductSeeder extends Seeder
 
             // Kitchen & Home (المنزل والمطبخ)
             [
-                'user_id' => 2,
+                'user_id' => User::where('is_admin', true)->get()->random()->id,
                 'name' => 'خلاط كهربائي',
                 'category' => 'kitchen_home',
                 'desc' => 'خلاط سريع بقوة 800 وات',
@@ -57,7 +58,7 @@ class ProductSeeder extends Seeder
                 'price' => 250,
             ],
             [
-                'user_id' => 2,
+                'user_id' => User::where('is_admin', true)->get()->random()->id,
                 'name' => 'طقم صحون',
                 'category' => 'kitchen_home',
                 'desc' => 'طقم صحون سيراميك 32 قطعة',
@@ -65,7 +66,7 @@ class ProductSeeder extends Seeder
                 'price' => 180,
             ],
             [
-                'user_id' => 2,
+                'user_id' => User::where('is_admin', true)->get()->random()->id,
                 'name' => 'ماكينة صنع القهوة',
                 'category' => 'kitchen_home',
                 'desc' => 'ماكينة صنع القهوة الأتوماتيكية',
@@ -75,7 +76,7 @@ class ProductSeeder extends Seeder
 
             // Beauty & Health (الصحة والجمال)
             [
-                'user_id' => 1,
+                'user_id' => User::where('is_admin', true)->get()->random()->id,
                 'name' => 'عطر رجالي',
                 'category' => 'beauty_health',
                 'desc' => 'عطر رجالي برائحة خشبية',
@@ -83,7 +84,7 @@ class ProductSeeder extends Seeder
                 'price' => 300,
             ],
             [
-                'user_id' => 1,
+                'user_id' => User::where('is_admin', true)->get()->random()->id,
                 'name' => 'مجفف شعر',
                 'category' => 'beauty_health',
                 'desc' => 'مجفف شعر بقوة 2000 وات',
@@ -91,7 +92,7 @@ class ProductSeeder extends Seeder
                 'price' => 150,
             ],
             [
-                'user_id' => 1,
+                'user_id' => User::where('is_admin', true)->get()->random()->id,
                 'name' => 'كريم ترطيب',
                 'category' => 'beauty_health',
                 'desc' => 'كريم ترطيب يومي للبشرة',
@@ -101,7 +102,7 @@ class ProductSeeder extends Seeder
 
             // Electronics (هواتف وأجهزة ذكية)
             [
-                'user_id' => 1,
+                'user_id' => User::where('is_admin', true)->get()->random()->id,
                 'name' => 'هاتف ذكي',
                 'category' => 'electronics',
                 'desc' => 'هاتف ذكي بذاكرة 128GB',
@@ -109,7 +110,7 @@ class ProductSeeder extends Seeder
                 'price' => 2500,
             ],
             [
-                'user_id' => 1,
+                'user_id' => User::where('is_admin', true)->get()->random()->id,
                 'name' => 'سماعات لاسلكية',
                 'category' => 'electronics',
                 'desc' => 'سماعات بلوتوث عالية الجودة',

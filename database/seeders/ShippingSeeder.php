@@ -12,10 +12,10 @@ class ShippingSeeder extends Seeder
         // Shipping::truncate();
         
         $shippings = [
-            ['country' => 'السعودية', 'city' => 'الرياض', 'street' => 'شارع الملك فهد', 'price' => 20],
-            ['country' => 'السعودية', 'city' => 'جدة', 'street' => 'شارع التحلية', 'price' => 25],
-            ['country' => 'مصر', 'city' => 'القاهرة', 'street' => 'شارع التحرير', 'price' => 30],
-            ['country' => 'الإمارات', 'city' => 'دبي', 'street' => 'شارع الشيخ زايد', 'price' => 35],
+            ['country' => 'sa', 'city' => 'الرياض', 'street' => 'شارع الملك فهد', 'price' => 20],
+            ['country' => 'sa', 'city' => 'جدة', 'street' => 'شارع التحلية', 'price' => 25],
+            ['country' => 'eg', 'city' => 'القاهرة', 'street' => 'شارع التحرير', 'price' => 30],
+            ['country' => 'ae', 'city' => 'دبي', 'street' => 'شارع الشيخ زايد', 'price' => 35],
         ];
         
         foreach ($shippings as $shipping) {

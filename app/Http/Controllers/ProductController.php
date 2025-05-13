@@ -399,7 +399,7 @@ class ProductController extends Controller
     {
         try {
             $imgs = $product->images();
-            DB::transaction();
+            // DB::transaction();
             $product->delete();
             return redirect()->route('products.index')
                 ->with('success', 'تم حذف المنتج بنجاح');

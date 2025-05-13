@@ -5,8 +5,8 @@
             <div class="">الارباح المسبوقة والدفعات</div>
         </div>
         <div class="flex flex-col bg-green-600 text-white justify-center items-center rounded-lg h-[200px]">
-            <span>دولار</span>
-            <span class="sm:text-5xl text-4xl">140.400</span>
+            <span>دينار ليبي</span>
+            <span class="sm:text-5xl text-4xl">0.00</span>
         </div>
     </div>
 

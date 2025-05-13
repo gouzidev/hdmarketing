@@ -44,7 +44,6 @@
                 <a href="{{ route('admin.users.deleted') }}" class="flex items-center hover:text-gray-300 transition">الحسابات المحذوفة</a>
                 <a href="{{ route('profile') }}" class="flex items-center hover:text-gray-300 transition">حسابي</a>
                 <a href="{{ route('orders') }}" class="flex items-center hover:text-gray-300 transition">طلبات</a>
-                <a href="{{ route('wallet') }}" class="flex items-center hover:text-gray-300 transition">محفظة</a>
                 <a href="{{ route('contact-us') }}" class="flex items-center hover:text-gray-300 transition">تواصل معنا</a>
             @else
                 <form action="{{ route('logout') }}" method="POST" class="lg:mr-4">

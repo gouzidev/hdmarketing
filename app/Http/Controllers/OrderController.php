@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Services\CountryService;
+use Illuminate\Support\Facades\Auth;
+use Number;
 
 class OrderController extends Controller
 {
@@ -14,16 +17,151 @@ class OrderController extends Controller
     {
         $this->countryService = $countryService;
     }
+
+    public  function getChangePerc($old, $new)
+    {
+        $percentage = 0;
+        if ($old != 0)
+            $percentage = ($new - $old) / $old * 100;
+        $percentage = Number::format($percentage, 2);
+        return $percentage;
+    }
     public function index()
     {
-        $orders = Order::with(['product', 'affiliate', 'shipping'])->paginate(10);
+
+        $user_id = Auth::user()->id;
+
+        $lastweek = Carbon::now()->subWeek()->subWeek();
+        $thisweek = Carbon::now()->subWeek();
+
+
+        $thisWeekOrderCount = Order::where('payment_date', '>', $thisweek)->count();
+        $lastWeekOrderCount = Order::where('payment_date', '>', $lastweek)
+            ->where('payment_date', '<', $thisweek)
+            ->count();
+        $orderCountPerc = $this->getChangePerc($lastWeekOrderCount, $thisWeekOrderCount);
+      
         
-        return view('admin.orders.index', ['orders'=> $orders]);
+
+
+
+
+        // processing means not accepted
+
+
+
+        $totalOrderProcessingCount = Order::where('status', '=','pending')
+            ->count();
+
+        $lastWeekOrderProcessingCount = Order::where('status', '=','pending')
+        ->where('handling_date', '>', $lastweek)
+        ->where('handling_date', '<', $thisweek)
+        ->count();
+        $thisWeekOrderProcessingCount = Order::where('status', '=','pending')
+        ->where('handling_date', '>', $thisweek)
+        ->count();
+
+        $orderProcessingCountPerc = $this->getChangePerc($lastWeekOrderProcessingCount, $thisWeekOrderProcessingCount);
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        $totalOrderShippingProcessingCount = Order::where('status', '=','accepted')
+            ->where('payment_status', '=', 'pending')
+            ->count();
+
+
+        $thisWeekOrderShippingProcessingCount = Order::where('shipping_status', '!=','delivered')
+            ->where('status', '=', 'accepted')
+            ->where('payment_status', '=', 'pending')
+            ->where('handling_date', '>', $thisweek)
+            ->count();
+            
+        $lastWeekOrderShippingProcessingCount = Order::where('shipping_status', '!=','delivered')
+        ->where('status', '=', 'accepted')
+        ->where('payment_status', '=', 'pending')
+        ->where('handling_date', '<', $thisweek)
+        ->where('handling_date', '>', $lastweek)
+        ->count();
+            
+        $orderShippingProcessingCountPerc = $this->getChangePerc($lastWeekOrderShippingProcessingCount, $thisWeekOrderShippingProcessingCount);
+        
+
+
+
+
+
+        
+        $totalOrderShippingDeliveredCount = Order::where('shipping_status', '=','delivered')->count();
+        $thisWeekOrderShippingDeliveredCount = Order::where('shipping_status', '=','delivered')
+        ->where('delivery_date', '>', $thisweek)
+        ->count();
+    
+        $lastWeekOrderShippingDeliveredCount = Order::where('shipping_status', '=','delivered')
+        ->where('delivery_date', '<', $thisweek)
+        ->where('delivery_date', '>', $lastweek)
+        ->count();
+        
+        $orderShippingDeliveredCountPerc = $this->getChangePerc($lastWeekOrderShippingDeliveredCount, $thisWeekOrderShippingDeliveredCount);
+
+        
+        $orders = Order::with(
+            [
+            'product:id,name,price,category', 
+            'affiliate:id,name,email', 
+            'shipping']
+        )
+        ->select([
+        'id',
+        'affiliate_id',
+        'product_id',
+        'shipping_id',
+        'status',
+        'quantity',
+        'affiliate_price',
+        'payment_status',
+        'created_at'
+        ])
+        ->paginate(10);
+        return view('admin.orders.index', [
+            'orders'=> $orders,
+            'thisWeekOrderCount' => $thisWeekOrderCount,
+            'orderCountPerc' => $orderCountPerc,
+
+            'totalOrderProcessingCount' => $totalOrderProcessingCount,
+            'orderProcessingCountPerc' => $orderProcessingCountPerc,
+            
+            'totalOrderShippingProcessingCount' => $totalOrderShippingProcessingCount,
+            'orderShippingProcessingCountPerc' => $orderShippingProcessingCountPerc,
+
+            'totalOrderShippingDeliveredCount' => $totalOrderShippingDeliveredCount,
+            'orderShippingDeliveredCountPerc' => $orderShippingDeliveredCountPerc
+        ]);
 
     }
     public function show(Order $order)
     {
-        return view('admin.orders.order', ['order' => $order]);
+        $user_id = $order->affiliate_id;
+        return view('admin.orders.order', [
+            'order' => $order,
+            
+        ]);
     }
     static public function getOrders($user_id)
     {
