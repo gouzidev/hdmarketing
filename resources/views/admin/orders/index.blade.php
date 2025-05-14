@@ -87,6 +87,7 @@
                 <div class="text-2xl font-bold">{{ $totalOrderShippingProcessingCount }}</div>
                 <div class="@if ($orderShippingProcessingCountPerc < 0) text-red-500 @else text-green-500 @endif text-sm mt-1">
                     @if ($orderShippingProcessingCountPerc < 0) <i class="fas fa-arrow-down"></i> @else <i class="fas fa-arrow-up"></i> @endif
+                    %
                     <span dir="ltr">{{ $orderShippingProcessingCountPerc }}</span>
                      من الأسبوع الماضي
 
@@ -97,9 +98,9 @@
                 <div class="text-2xl font-bold">{{$totalOrderShippingDeliveredCount}} </div>
                 <div class="@if ($orderShippingDeliveredCountPerc < 0) text-red-500 @else text-green-500 @endif text-sm mt-1">
                     @if ($orderShippingDeliveredCountPerc < 0) <i class="fas fa-arrow-down"></i> @else <i class="fas fa-arrow-up"></i> @endif
+                    %
                     <span dir="ltr">{{ $orderShippingDeliveredCountPerc }}</span>
                      من الأسبوع الماضي
-
                 </div>
             </div>
         </div>
@@ -113,9 +114,6 @@
                 <div class="flex space-x-3 space-x-reverse">
                     <button class="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-md text-sm hover:bg-indigo-200">
                         <i class="fas fa-filter mr-1"></i> تصفية
-                    </button>
-                    <button class="px-3 py-1 bg-indigo-600 text-white rounded-md text-sm hover:bg-indigo-700">
-                        <i class="fas fa-plus mr-1"></i> طلب جديد
                     </button>
                 </div>
             </div>

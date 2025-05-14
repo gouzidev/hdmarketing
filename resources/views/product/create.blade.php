@@ -9,6 +9,7 @@
     <x-scripts.tailwind-script />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <x-scripts.fonts-import />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <style>
         /* Updated selector for radio buttons */
         .category-container input[type=radio]:checked + label {

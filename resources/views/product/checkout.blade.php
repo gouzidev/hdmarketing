@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إتمام الطلب - {{ $product->name }}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>إتمام الطلب - {{ $product->name }}</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+        <script src="{{ asset('js/notif.js')}}"></script>
+
+        <!-- Fixed SweetAlert2 CSS URL -->
+    </head>
 <body class="font-sans antialiased bg-gray-100">
     <x-nav :isHome='false'/>
     
@@ -391,6 +396,20 @@
         </div>
     </div>
 
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const notyf = new Notyf({
+            position: {x: 'center', y: 'top'},
+            duration: 3000
+        });
+  
+     // Usage
+            notyf.success('تمت العملية بنجاح!');
+            
+            notyf.error('حدث خطأ!');
+            });
+    </script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         const quantityInput = document.getElementById('quantity-input');
@@ -426,6 +445,7 @@
         // Toggle shipping options dropdown
         shippingSelectorBtn.addEventListener('click', function(e) {
             e.stopPropagation();
+
             shippingOptions.classList.toggle('hidden');
         });
         

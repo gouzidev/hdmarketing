@@ -21,8 +21,9 @@ class OrderController extends Controller
     public  function getChangePerc($old, $new)
     {
         $percentage = 0;
+        $percentage = ($new - $old) * 100;
         if ($old != 0)
-            $percentage = ($new - $old) / $old * 100;
+            $percentage /= $old;
         $percentage = Number::format($percentage, 2);
         return $percentage;
     }
