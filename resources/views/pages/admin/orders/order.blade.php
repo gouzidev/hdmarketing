@@ -4,57 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تفاصيل الطلب</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <x-scripts.fonts-import />
+    <x-scripts.index />
 </head>
 <body class="bg-gray-50 font-sans">
     <!-- Navigation -->
     <x-layout.nav :isHome="false" />
 
     <!-- Page Heading -->
-    <header class="bg-white shadow-sm border-b border-gray-200">
-        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row md:justify-between md:items-center space-y-3 md:space-y-0">
-                <div>
-                    <h1 class="text-2xl font-bold text-gray-900 flex items-center">
-                        <i class="fas fa-shopping-bag text-indigo-600 ml-2"></i>
-                        تفاصيل الطلب #{{ $order->id }}
-                    </h1>
-                    <div class="flex items-center mt-2 space-x-2 space-x-reverse">
-                        <i class="far fa-clock text-gray-500"></i>
-                        <span class="text-sm text-gray-500">
-                            {{ $order->created_at->format('d M Y - h:i A') }}
-                        </span>
-                        <span class="px-2 py-1 text-xs font-semibold rounded-full 
-                            @if($order->status == 'completed') bg-green-100 text-green-800
-                            @elseif($order->status == 'shipped') bg-blue-100 text-blue-800
-                            @elseif($order->status == 'processing') bg-yellow-100 text-yellow-800
-                            @else bg-gray-100 text-gray-800 @endif">
-                            @if($order->status == 'completed') مكتمل
-                            @elseif($order->status == 'shipped') تم الشحن
-                            @elseif($order->status == 'processing') قيد المعالجة
-                            @else قيد الانتظار @endif
-                        </span>
-                    </div>
-                </div>
-                <div class="flex space-x-3 space-x-reverse">
-                    <button class="px-4 py-2 bg-white border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 transition duration-150 flex items-center shadow-sm">
-                        <i class="fas fa-print ml-2 text-gray-600"></i> طباعة
-                    </button>
-                    <button class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white rounded-md text-sm font-medium hover:from-indigo-700 hover:to-indigo-800 transition duration-150 flex items-center shadow-sm">
-                        <i class="fas fa-pen ml-2"></i> تعديل الطلب
-                    </button>
+    <x-layout.header
+        :headerText="'تفاصيل الطلب'"
+        :icon="'fas fa-shopping-bag'"
+        :btnLink="route('orders.index')"
+        :btnText="'جميع الطلبات'"
+        :btnIcon="'fas fa-list'"
+        :btnClass="'
+            inline-flex items-center px-4 py-2 
+            bg-yellow-600 border border-transparent
+            rounded-md font-semibold text-xs text-white
+            uppercase tracking-widest hover:bg-yellow-700
+            focus:bg-yellow-700 active:bg-yellow-900
+            focus:outline-none focus:ring-2 focus:ring-yellow-500
+            focus:ring-offset-2 transition ease-in-out duration-150'"
+            />
+    <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:justify-between md:items-center space-y-3 md:space-y-0">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900 flex items-center">
+                    <i class="fas fa-shopping-bag text-indigo-600 ml-2"></i>
+                    تفاصيل الطلب #{{ $order->id }}
+                </h1>
+                <div class="flex items-center mt-2 space-x-2 space-x-reverse">
+                    <i class="far fa-clock text-gray-500"></i>
+                    <span class="text-sm text-gray-500">
+                        {{ $order->created_at->format('d M Y - h:i A') }}
+                    </span>
+                    <span class="px-2 py-1 text-xs font-semibold rounded-full 
+                        @if($order->status == 'completed') bg-green-100 text-green-800
+                        @elseif($order->status == 'shipped') bg-blue-100 text-blue-800
+                        @elseif($order->status == 'processing') bg-yellow-100 text-yellow-800
+                        @else bg-gray-100 text-gray-800 @endif">
+                        @if($order->status == 'completed') مكتمل
+                        @elseif($order->status == 'shipped') تم الشحن
+                        @elseif($order->status == 'processing') قيد المعالجة
+                        @else قيد الانتظار @endif
+                    </span>
                 </div>
             </div>
+            <div class="flex space-x-3 space-x-reverse">
+                <button class="px-4 py-2 bg-white border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 transition duration-150 flex items-center shadow-sm">
+                    <i class="fas fa-print ml-2 text-gray-600"></i> طباعة
+                </button>
+                <button class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white rounded-md text-sm font-medium hover:from-indigo-700 hover:to-indigo-800 transition duration-150 flex items-center shadow-sm">
+                    <i class="fas fa-pen ml-2"></i> تعديل الطلب
+                </button>
+            </div>
         </div>
-    </header>
+    </div>
 
     <!-- Breadcrumbs -->
     <div class="sm:max-w-[90%] w-full mx-auto px-4 sm:px-0 lg:px-0 py-2">
         <nav class="flex items-center text-sm text-gray-500">
             <a href="{{ route('home') }}" class="hover:text-indigo-600">الرئيسية</a>
             <i class="fas fa-chevron-left mx-2 text-xs"></i>
-            <a href="{{ route('orders') }}" class="hover:text-indigo-600">الطلبات</a>
+            <a href="{{ route('orders.index') }}" class="hover:text-indigo-600">الطلبات</a>
             <i class="fas fa-chevron-left mx-2 text-xs"></i>
             <span class="text-gray-900">تفاصيل الطلب #{{ $order->id }}</span>
         </nav>

@@ -1,4 +1,4 @@
-<main class="w-full py-6 sm:px-6 lg:px-8">
+<main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 font-tajawal">
     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
         <div class="p-6 bg-white border-b border-gray-200 ">
             <!-- Table Header with Actions -->

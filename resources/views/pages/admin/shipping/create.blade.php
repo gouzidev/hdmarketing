@@ -5,11 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>إدارة الشحن</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <x-scripts.fonts-import />
+    <x-scripts.index />
 </head>
 <body class="font-sans antialiased bg-gray-100">
     <x-layout.nav :isHome='false'/>
+
+
+
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center mb-6">
             <a href="{{ route('admin.shipping.index') }}" class="text-gray-600 hover:text-gray-900 ml-2">
@@ -18,6 +21,7 @@
             <h2 class="text-2xl font-bold text-gray-800">إضافة طريقة شحن جديدة</h2>
         </div>
 
+        
         <div class="bg-white shadow-sm sm:rounded-lg overflow-hidden">
             <div class="p-6 bg-gradient-to-l from-yellow-50 to-white border-b border-gray-200">
                 <h3 class="text-lg font-bold text-gray-900 flex items-center">

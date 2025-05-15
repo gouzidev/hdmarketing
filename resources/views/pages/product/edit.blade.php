@@ -4,11 +4,9 @@
     <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>إدارة المنتجات</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <x-scripts.tailwind-script />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <x-scripts.index />
     <x-scripts.fonts-import />
+
     <style>
         /* Updated selector for radio buttons */
         .category-container input[type=radio]:checked + label {
@@ -26,23 +24,22 @@
     <x-layout.nav :isHome='false'/>
     <div class="min-h-screen">
         <!-- Page Heading -->
-        <header class="bg-yellow-200 shadow">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex justify-between items-center">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    تعديل المنتج
-                </h2>
-                @if (auth()->user()->is_admin)
-                    <a href="{{ route('products.create') }}" 
-                        class="inline-flex items-center px-4 py-2 
-                            bg-yellow-600 border border-transparent rounded-md font-semibold text-xs text-white
-                            uppercase tracking-widest hover:bg-yellow-700 focus:bg-yellow-700 active:bg-yellow-900
-                            focus:outline-none focus:ring-2 focus:ring-yellow-500
-                            focus:ring-offset-2 transition ease-in-out duration-150">
-                        <i class="fas fa-plus ml-2"></i> إضافة منتج جديد
-                    </a>
-                @endif
-            </div>
-        </header>
+        
+        <x-layout.header
+        :headerText="'تعديل المنتج'"
+        :icon="'fas fa-box-open'"
+        :btnLink="route('products.create') "
+        :btnText="'إضافة منتج جديد'"
+        :btnIcon="'fas fa-plus'"
+        :btnClass="'
+            inline-flex items-center px-4 py-2 
+            bg-yellow-600 border border-transparent
+             rounded-md font-semibold text-xs text-white
+            uppercase tracking-widest hover:bg-yellow-700
+             focus:bg-yellow-700 active:bg-yellow-900
+            focus:outline-none focus:ring-2 focus:ring-yellow-500
+            focus:ring-offset-2 transition ease-in-out duration-150'"
+    />
 
 <!-- After the header and before the products grid -->
     <header class="bg-yellow-200 shadow">

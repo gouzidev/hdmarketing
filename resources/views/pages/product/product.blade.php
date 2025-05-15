@@ -4,8 +4,11 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{{ $product->name }} - متجرنا</title>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+        <x-scripts.index />
+    <x-scripts.fonts-import />
+
+        
         <style>
             .gallery-thumbnail {
                 transition: all 0.3s ease;
@@ -25,6 +28,7 @@
     <body class="font-sans antialiased bg-gray-100">
         <x-layout.nav :isHome='false'/>
         
+
         <!-- Delete Confirmation Modal -->
         <div id="deleteModal" class="fixed z-50 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
             <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -64,36 +68,12 @@
             </div>
         </div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <!-- Page Header -->
-            <div class="bg-white shadow rounded-lg overflow-hidden mb-6">
-                <div class="p-6 bg-gradient-to-l from-yellow-50 to-white flex justify-between items-center">
-                    <h1 class="text-2xl font-bold text-gray-900 flex items-center">
-                        <i class="fas fa-box-open text-yellow-600 ml-3"></i>
-                        تفاصيل المنتج
-                    </h1>
-                    <nav class="flex" aria-label="Breadcrumb">
-                        <ol class="inline-flex items-center space-x-1 rtl:space-x-reverse">
-                            <li class="inline-flex items-center">
-                                <a href="{{ route('home') }}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-yellow-600">
-                                    <i class="fas fa-home ml-2"></i>
-                                    الرئيسية
-                                </a>
-                            </li>
-                            <li aria-current="page">
-                                <div class="flex items-center">
-                                    <i class="fas fa-chevron-left text-gray-400 mx-2"></i>
-                                    <span class="text-sm font-medium text-gray-500">{{ $product->name }}</span>
-                                </div>
-                            </li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
+        <div class="max-w-7xl mx-auto mt-5">
 
             <!-- Main Product Section -->
             <div class="bg-white shadow rounded-lg overflow-hidden mb-6">
-                <div class="grid md:grid-cols-2 gap-8 p-6">
+                    <x-layout.header :headerText="'تفاصيل المنتج'" :icon="'fas fa-box-open'" />
+                    <div class="grid md:grid-cols-2 gap-8 p-6 ">
                     <!-- Product Images - Amazon-style gallery -->
                     <div class="space-y-4">
                         <!-- Main Image -->

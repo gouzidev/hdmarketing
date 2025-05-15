@@ -4,12 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>إدارة الطلبات</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <x-scripts.tailwind-script />
     <x-scripts.fonts-import />
-    <x-imports.fa />
+    <x-scripts.index />
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         
         .status-badge {
@@ -28,19 +25,8 @@
     <!-- Navigation -->
     <x-layout.nav :isHome="false" />
 
-    <!-- Page Heading -->
-    <header class="bg-white shadow font-tajawal">
-        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-gray-900">
-                إدارة الطلبات
-            </h1>
-            <div class="relative w-64">
-                <input type="text" placeholder="بحث..." class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
-            </div>
-        </div>
-    </header>
-
+    <x-layout.header :headerText="'إدارة الطلبات'" :icon="'fas fa-shopping-cart'"/>
+    
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 font-tajawal">
         <!-- Stats Cards -->

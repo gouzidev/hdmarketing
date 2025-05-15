@@ -54,6 +54,7 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('products')->name('products.')->group(function () {
         Route::get('/', [ProductController::class, 'index'])->name('index');
         Route::get('/search', [ProductController::class, 'search'])->name('search');
+        Route::get('/create', [ProductController::class, 'create'])->name('create');
         
         // Product Image Routes
         Route::get('/images/default', [ProductController::class, 'default_img'])->name('images.default');

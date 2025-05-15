@@ -15,7 +15,7 @@
     <!-- In your dashboard.blade.php -->
     <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
-        <x-layout-sidebar />
+        <x-layout.sidebar />
 
         <!-- Main Content Area -->
         <div class="flex-1 flex flex-col overflow-hidden">

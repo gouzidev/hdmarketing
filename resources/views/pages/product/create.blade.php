@@ -4,12 +4,9 @@
     <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>إدارة المستخدمين</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <x-scripts.tailwind-script />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <x-scripts.index />
     <x-scripts.fonts-import />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
     <style>
         /* Updated selector for radio buttons */
         .category-container input[type=radio]:checked + label {
@@ -21,18 +18,18 @@
 </head>
 <body class="font-sans antialiased bg-gray-50">
     <x-layout.nav :isHome='false'/>
-    <div class="min-h-screen">
-        <!-- Page Heading -->
-        <header class="bg-yellow-200 shadow">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight py-6 px-4 sm:px-6 lg:px-8 text-right">
-                إضافة منتج جديد
-            </h2>
-            @if (auth()->user()->is_admin)
-                <a href="{{ route('products.index') }}" ><button class="" >المنتجات</button></a>
-            @endif
-        </header>
+    <x-layout.header :headerText="'إضافة منتج جديد'" :btnText="'المنتجات'"
+    :btnLink="route('products.index') "
+    :btnClass="'inline-flex items-center px-4 py-2 
+            bg-yellow-600 border border-transparent
+             rounded-md font-semibold text-xs text-white
+            uppercase tracking-widest hover:bg-yellow-700
+             focus:bg-yellow-700 active:bg-yellow-900
+            focus:outline-none focus:ring-2 focus:ring-yellow-500
+            focus:ring-offset-2 transition ease-in-out duration-150'"/>
 
-        <!-- Delete Confirmation Modal -->
+    <div class="min-h-screen">
+    <!-- Delete Confirmation Modal -->
         <div class="min-h-screen">
             <!-- Page Content -->
             <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">

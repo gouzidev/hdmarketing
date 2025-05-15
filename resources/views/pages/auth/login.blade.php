@@ -5,14 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>hdmarketing</title>
         
-        <script src="https://cdn.tailwindcss.com"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-        <!-- Configure Tailwind -->
-        <x-scripts.tailwind-script />
         <x-scripts.fonts-import />
+        <x-scripts.index />
 
-        </head>
+    </head>
     <body class=" overflow-x-hidden relative">
         <x-auth.cta title="حسابي - صفحة تسجيل الدخول" message="" />
         <x-auth.hero header="هل تريد كسب المال من خلال التسويق بالعمولة؟" paragraph="مرحبًا بك! يرجى تسجيل الدخول للوصول إلى حسابك والاستفادة من جميع مميزات منصتنا." />

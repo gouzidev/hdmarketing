@@ -67,7 +67,7 @@ class AdminController extends Controller
                 ->withErrors(['error' => 'لا يمكن تعديل حالة حساب مدير'])
                 ->withInput();
         }
-        return view('admin.edit-user', ['user' => $user]);
+        return view('pages.admin.edit-user', ['user' => $user]);
     }
     public function toggleVerification(User $user)
     {

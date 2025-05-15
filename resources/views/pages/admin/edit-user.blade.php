@@ -4,11 +4,9 @@
     <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>إدارة المستخدمين</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <x-scripts.tailwind-script />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <x-scripts.fonts-import />
+    <x-scripts.index />
+
     <style>
         [dir="rtl"] .space-x-reverse > :not([hidden]) ~ :not([hidden]) {
             --tw-space-x-reverse: 0;
@@ -20,7 +18,9 @@
 <body class="font-sans antialiased bg-gray-50">
     <x-layout.nav :isHome='false'/>
     
-    <div class="flex flex-col items-center w-9/12 mx-auto my-10">
+    <x-layout.header :headerText="'تعديل معلومات المستخدم'" :icon="'fas fa-user-edit'"/>
+
+    <div class="flex flex-col items-center max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 font-tajawal">
         <!-- Verification Status Section (Standalone) -->
         <div class="w-full mb-6 bg-white p-4 rounded-lg shadow border border-gray-200">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">

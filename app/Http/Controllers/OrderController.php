@@ -268,6 +268,6 @@ class OrderController extends Controller
         // Update product stock
         $product->increment('stock', $order->quantity);
         $order->delete();
-        return redirect()->route('orders')->with('success', 'تم حذف الطلب بنجاح');
+        return redirect()->route('orders.index')->with('success', 'تم حذف الطلب بنجاح');
     }
 }

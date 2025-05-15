@@ -4,13 +4,9 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>إتمام الطلب - {{ $product->name }}</title>
-        <script src="https://cdn.tailwindcss.com"></script>
+        <x-scripts.index />
+    <x-scripts.fonts-import />
 
-
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
-        <script src="{{ asset('js/notif.js')}}"></script>
-
-        <!-- Fixed SweetAlert2 CSS URL -->
     </head>
 <body class="font-sans antialiased bg-gray-100">
     <x-layout.nav :isHome='false'/>

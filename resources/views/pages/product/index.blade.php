@@ -2,13 +2,11 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>إدارة المنتجات</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <x-scripts.tailwind-script />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <x-scripts.index />
     <x-scripts.fonts-import />
+
     <style>
         .product-card:hover {
             transform: translateY(-5px);
@@ -18,26 +16,22 @@
 </head>
 <body class="font-sans antialiased bg-gray-50">
     <x-layout.nav :isHome='false'/>
-    <div class="min-h-screen">
+    <div class="min-h-screen w-full mx-auto">
         <!-- Page Heading -->
-        <header class="bg-yellow-200 shadow">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex justify-between items-center">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    إدارة المنتجات
-                </h2>
-                @if (auth()->user()->is_admin)
-                    <a href="{{ route('products.create') }}" 
-                        class="inline-flex items-center px-4 py-2 
-                            bg-yellow-600 border border-transparent rounded-md font-semibold text-xs text-white
-                            uppercase tracking-widest hover:bg-yellow-700 focus:bg-yellow-700 active:bg-yellow-900
-                            focus:outline-none focus:ring-2 focus:ring-yellow-500
-                            focus:ring-offset-2 transition ease-in-out duration-150">
-                        <i class="fas fa-plus ml-2"></i> إضافة منتج جديد
-                    </a>
-                @endif
-            </div>
-        </header>
 
+        <x-layout.header
+        :headerText="'إدارة المنتجات'"
+        :icon="'fas fa-box'"
+        :btnLink="route('products.create') "
+        :btnText="'إضافة منتج '"
+        :btnIcon="'fas fa-plus'"
+        :btnClass="'
+            inline-flex items-center px-4 py-2 
+            bg-yellow-600 border border-transparent rounded-md font-semibold text-xs text-white
+            uppercase tracking-widest hover:bg-yellow-700 focus:bg-yellow-700 active:bg-yellow-900
+            focus:outline-none focus:ring-2 focus:ring-yellow-500
+            focus:ring-offset-2 transition ease-in-out duration-150'"
+        />
         <!-- Add this search div right here -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 ">
             <div class="flex items-center flex-row gap-10 w-full ">

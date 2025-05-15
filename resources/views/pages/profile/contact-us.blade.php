@@ -14,6 +14,8 @@
 <body class="overflow-x-hidden relative">
     <x-layout.nav :isHome="false"/>
     {{-- form container --}}
+    <x-layout.header :headerText="'تواصل معنا'" :icon="'fas fa-envelope'"/>
+
     <div class="flex flex-col bg-gray-100 h-[500px] mt-20 w-5/6 mx-auto shadow-lg">
         <div class="flex flex-row gap-20">
             <div class="text-5xl">

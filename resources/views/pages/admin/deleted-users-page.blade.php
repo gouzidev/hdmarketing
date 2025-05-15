@@ -4,19 +4,16 @@
     <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الحسابات المحذوفة</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <x-scripts.fonts-import />
+    <x-scripts.index />
+
 </head>
 <body class="font-sans antialiased bg-gray-50">
     <x-layout.nav :isHome="false" />
+    <x-scripts.nav-script />
     <div class="min-h-screen">
         <!-- Page Heading -->
-        <header class="bg-yellow-200 shadow">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight py-6 px-4 sm:px-6 lg:px-8 text-right">
-                الحسابات المحذوفة
-            </h2>
-        </header>
+        <x-layout.header :headerText="'الحسابات المحذوفة'" :icon="'fas fa-user-slash'" />
 
         <!-- Delete Confirmation Modal -->
         <div id="deleteModal" class="fixed z-50 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
@@ -58,18 +55,18 @@
         </div>
 
         <!-- Page Content -->
-        <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <main class="max-w-7xl mx-auto py-6 ">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <!-- Table Header with Actions -->
-                    <div class="flex justify-between items-center mb-6">
-                        <div class="flex flex-row gap-5 relative">
-                            <input type="text" placeholder="...بحث عن حسابات محذوفة" class="text-right pr-2 py-2 w-full border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                    <div class="flex flex-col sm:flex-row  justify-between gap-5 mb-6">
+                        <div class="sm:w-2/3 flex flex-row  gap-4 sm:justify-center justify-between">
+                            <input type="text" placeholder="...بحث عن حسابات محذوفة" class="w-full text-right pr-2 py-2 w-full border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
                             <button class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
                                 <i class="fas fa-search"></i>
                             </button>
                         </div>
-                        <a href="{{ route('admin.users.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 transition ease-in-out duration-150">
+                        <a href="{{ route('admin.users.index') }}" class="sm:w-1/6 inline-flex items-center px-4 py-2 w-full bg-gray-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 transition ease-in-out duration-150">
                             <i class="fas fa-arrow-right mr-2"></i> العودة للحسابات النشطة
                         </a>
                     </div>
