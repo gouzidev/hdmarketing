@@ -1,6 +1,6 @@
 
 
-<form class="flex flex-col items-center w-9/12 mx-auto my-10" action="{{ route('profile.edit') }}" method="POST">
+<form class="flex flex-col items-center w-9/12 mx-auto my-10" action="{{ route('pages.profile.edit') }}" method="POST">
     <!-- Form Header -->
     <div class="w-full mb-10 text-right">
         <h2 class="text-2xl font-bold text-gray-800">تعديل الملف الشخصي</h2>

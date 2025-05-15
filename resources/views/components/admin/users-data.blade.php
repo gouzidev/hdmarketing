@@ -1,4 +1,4 @@
-<main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+<main class="w-full py-6 sm:px-6 lg:px-8">
     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
         <div class="p-6 bg-white border-b border-gray-200 ">
             <!-- Table Header with Actions -->
@@ -15,11 +15,11 @@
                         class="text-right 
                         focus:outline-none
                         w-1/2 pr-2 py-2  border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
-                    @if(isset($search) && $search != '')
-                        <div class="flex items-center justify-center text-gray-600 w-full">
-                            نتائج البحث عن: "{{ $search }}"
-                        </div>
-                    @endif
+                        @if(isset($search) && $search != '')
+                            <div class="flex items-center justify-center text-gray-600 w-full">
+                                نتائج البحث عن: "{{ $search }}"
+                            </div>
+                        @endif
                 </form>
             </div>
 

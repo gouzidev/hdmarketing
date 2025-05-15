@@ -14,18 +14,18 @@ class AdminController extends Controller
     public function getUsersPage(Request $req)
     {
         $users = User::paginate(10);
-        return view("admin.index",
+        return view('pages.admin.index',
         ['users' => $users,
         'search' => '']);
     }
     public function getProductsPage(Request $req)
     {
-        return view("product.index");
+        return view('pages.product.index');
     }
     public function getDeletedUsersPage(Request $req)
     {
         $users = User::onlyTrashed()->paginate(10);
-        return view("admin.deleted-users-page", ['users' => $users]);
+        return view('pages.admin.deleted-users-page', ['users' => $users]);
     }
     public function destroy(User $user)
     {
@@ -67,7 +67,7 @@ class AdminController extends Controller
                 ->withErrors(['error' => 'لا يمكن تعديل حالة حساب مدير'])
                 ->withInput();
         }
-        return view("admin.edit-user", ["user" => $user]);
+        return view('admin.edit-user', ['user' => $user]);
     }
     public function toggleVerification(User $user)
     {
@@ -140,9 +140,9 @@ class AdminController extends Controller
                 ->withInput();
         }
         $search = $request->input('search');
-        $users = User::where('name', 'like', "%{$search}%")
-        ->orWhere('email', 'like', "%{$search}%")->paginate(10);
-        return view("admin.index", 
+        $users = User::where('name', 'like', '%{$search}%')
+        ->orWhere('email', 'like', '%{$search}%')->paginate(10);
+        return view('pages.admin.index', 
             ['users' => $users],
             ['search' => $search]);
     }
@@ -153,7 +153,7 @@ class AdminController extends Controller
                 $query->select('id', 'name', 'email'); // Only get these user fields
             }])
             ->paginate(10);
-        return view("admin.manage_admin_requests", ["requests" => $requests_for_user]);
+        return view('pages.admin.manage_admin_requests', ['requests' => $requests_for_user]);
     }
 
     public function approveAdminReq(Request $request, $request_id)

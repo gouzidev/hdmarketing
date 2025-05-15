@@ -9,124 +9,145 @@ use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShippingController;
 
+/*
+|--------------------------------------------------------------------------
+| Public Routes
+|--------------------------------------------------------------------------
+*/
 Route::get('/', function () {
-    return view('home');
-}) -> name("home");
-
-
-Route::get('/notverified', function () {
-    return view('notverified');
-}) -> name("notverified");
+    return view('pages.auth.home');
+})->name('home');
 
 Route::get('/contact', function () {
-    return view('profile.contact-us');
-}) -> name("contact-us");
+    return view('pages.profile.contact-us');
+})->name('contact-us');
 
-
+/*
+|--------------------------------------------------------------------------
+| Authentication Routes
+|--------------------------------------------------------------------------
+*/
 Route::get('/login', [AuthController::class, 'getLoginPage']);
-
 Route::post('/login', [AuthController::class, 'login'])->name('login');
-
 Route::get('/register', [AuthController::class, 'getRegisterPage']);
-
 Route::post('/register', [AuthController::class, 'register'])->name('register');
-
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-
-Route::middleware(['auth', 'admin'])->group(function () 
-{
-    Route::prefix('products')->name('products.')->group( function () 
-    {
-        Route::get("/create", [ProductController::class, 'create'])->name('create');
-        Route::post("/", [ProductController::class, 'store'])->name('store');
-        Route::get("/{product}/edit", [ProductController::class, 'edit'])->name('product.edit');
-        Route::put("/{product}/update", [ProductController::class, 'update'])->name('product.update');
-        Route::delete("/{product}", [ProductController::class, 'destroy'])->name('product.destroy');
-        Route::delete('products/images/{img}', [ProductImageController::class, 'destroy'])->name('images.destroy');
-
-
+/*
+|--------------------------------------------------------------------------
+| Authenticated User Routes
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth'])->group(function () {
+    // Profile Routes
+    Route::prefix('profile')->group(function () {
+        Route::get('/', [ProfileController::class, 'index'])->name('profile');
+        Route::post('/edit', [ProfileController::class, 'edit'])->name('pages.profile.edit');
+        Route::get('/wallet', [ProfileController::class, 'wallet'])->name('wallet');
+        Route::post('/request-admin/{user}', [ProfileController::class, 'requestAdmin'])->name('request-admin');
     });
-
-    Route::get('/orders', [OrderController::class, 'index'])->name('orders');
-    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
-
-    Route::put('/order/{order}/reject', [OrderController::class, 'rejectOrder'])->name('order.reject');
-    Route::put('/order/{order}/accept', [OrderController::class, 'acceptOrder'])->name('order.accept');
-    Route::put('/order/{order}/shipping/shipped', [OrderController::class, 'makeShipped'])->name('order.shipping.shipped');
-    Route::put('/order/{order}/shipping/delivered', [OrderController::class, 'makeDelivered'])->name('order.shipping.delivered');
-    Route::put('/order/{order}/payment/pay', [OrderController::class, 'makePayed'])->name('order.payment.paid');
-    Route::put('/order/{order}/payment/cancel', [OrderController::class, 'makeUnPayed'])->name('order.payment.unpaid');
-    Route::put('/order/{order}/shipping/cancel', [OrderController::class, 'cancelShipping'])->name('order.shipping.cancel');
-    Route::delete('/order/{order}', [OrderController::class, 'destroy'])->name('order.destroy');
+    
+    // Dashboard
+    Route::get('/dashboard', [ProfileController::class, 'serveDashboard'])->name('dashboard');
+    
+    // Product Routes for Regular Users
+    Route::prefix('products')->name('products.')->group(function () {
+        Route::get('/', [ProductController::class, 'index'])->name('index');
+        Route::get('/search', [ProductController::class, 'search'])->name('search');
+        
+        // Product Image Routes
+        Route::get('/images/default', [ProductController::class, 'default_img'])->name('images.default');
+        Route::get('/image/{path}', [ProductImageController::class, 'show'])
+            ->where('path', '.*')->name('images.show');
+        Route::get('/thumbnail/{product}', [ProductImageController::class, 'thumbnail'])->name('thumbnail');
+        Route::get('/second-img/{product}', [ProductImageController::class, 'secondImg'])->name('second-img');
+        
+        // Product Detail & Checkout
+        Route::get('/{product}', [ProductController::class, 'show'])->name('product');
+        Route::get('/{product}/checkout', [ProductController::class, 'checkout'])->name('product.checkout');
+        Route::post('/{product}/checkout', [ProductController::class, 'processCheckout'])->name('product.checkout-process');
+    });
 });
 
-Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function () {
-    // User Management Routes
-    Route::get('/requests', [AdminController::class, 'getAdminReqsPage'])->name('requests');
-    Route::post('/requests/{user}/approve', [AdminController::class, 'approveAdminReq'])->name('requests.approve');
-    Route::delete('/requests/{user}/reject', [AdminController::class, 'rejectAdminReq'])->name('requests.reject');
-
-
-
-
-    Route::resource('shipping', ShippingController::class);
-
-    Route::prefix('users')->name('users.')->group(function () {
-        // Active users
-        Route::get('/', [AdminController::class, 'getUsersPage'])->name('index');
-        // Deleted users
-        Route::get('/deleted', [AdminController::class, 'getDeletedUsersPage'])->name('deleted');
-        Route::get('/search', [AdminController::class, 'getSearchedPage'])->name('search');
-        // User operations
-        Route::prefix('{user}')->group(function () {
-            // Edit user
-            Route::get('/edit', [AdminController::class, 'getEditUserPage'])->name('edit');
-            Route::put('/update', [AdminController::class, 'edit'])->name('update');
-            
-            // Verification
-            Route::patch('/verify', [AdminController::class, 'toggleVerification'])->name('verify');
-            
-            // Soft delete
-            Route::delete('/', [AdminController::class, 'destroy'])->name('destroy');
-            
-            // Restore
-            Route::post('/restore', [AdminController::class, 'restore'])->name('restore');
-            
-            // Force delete
-            Route::delete('/force', [AdminController::class, 'forceDelete'])->name('force-delete');
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'admin'])->group(function () {
+    // Admin Product Management
+    Route::prefix('products')->name('products.')->group(function () {
+        Route::get('/create', [ProductController::class, 'create'])->name('create');
+        Route::post('/', [ProductController::class, 'store'])->name('store');
+        Route::get('/{product}/edit', [ProductController::class, 'edit'])->name('product.edit');
+        Route::put('/{product}/update', [ProductController::class, 'update'])->name('product.update');
+        Route::delete('/{product}', [ProductController::class, 'destroy'])->name('product.destroy');
+        Route::delete('/images/{img}', [ProductImageController::class, 'destroy'])->name('images.destroy');
+    });
+    
+    // Admin Order Management
+    Route::prefix('orders')->name('orders.')->group(function () {
+        Route::get('/', [OrderController::class, 'index'])->name('index');
+        Route::get('/{order}', [OrderController::class, 'show'])->name('show');
+    });
+    
+    Route::prefix('order')->name('order.')->group(function () {
+        Route::delete('/{order}', [OrderController::class, 'destroy'])->name('destroy');
+        
+        // Order Status Management
+        Route::put('/{order}/reject', [OrderController::class, 'rejectOrder'])->name('reject');
+        Route::put('/{order}/accept', [OrderController::class, 'acceptOrder'])->name('accept');
+        
+        // Shipping Status Management
+        Route::prefix('{order}/shipping')->name('shipping.')->group(function () {
+            Route::put('/shipped', [OrderController::class, 'makeShipped'])->name('shipped');
+            Route::put('/delivered', [OrderController::class, 'makeDelivered'])->name('delivered');
+            Route::put('/cancel', [OrderController::class, 'cancelShipping'])->name('cancel');
+        });
+        
+        // Payment Status Management
+        Route::prefix('{order}/payment')->name('payment.')->group(function () {
+            Route::put('/pay', [OrderController::class, 'makePayed'])->name('paid');
+            Route::put('/cancel', [OrderController::class, 'makeUnPayed'])->name('unpaid');
         });
     });
     
-    // Products routes would go here
+    // Admin Panel Routes
+    Route::prefix('admin')->name('admin.')->group(function () {
+        // Admin Request Management
+        Route::prefix('requests')->name('requests.')->group(function () {
+            Route::get('/', [AdminController::class, 'getAdminReqsPage'])->name('index');
+            Route::post('/{user}/approve', [AdminController::class, 'approveAdminReq'])->name('approve');
+            Route::delete('/{user}/reject', [AdminController::class, 'rejectAdminReq'])->name('reject');
+        });
+        
+        // Shipping Management
+        Route::resource('shipping', ShippingController::class);
+        
+        // User Management
+        Route::prefix('users')->name('users.')->group(function () {
+            Route::get('/', [AdminController::class, 'getUsersPage'])->name('index');
+            Route::get('/deleted', [AdminController::class, 'getDeletedUsersPage'])->name('deleted');
+            Route::get('/search', [AdminController::class, 'getSearchedPage'])->name('search');
+            
+            // Individual User Operations
+            Route::prefix('{user}')->group(function () {
+                Route::get('/edit', [AdminController::class, 'getEditUserPage'])->name('edit');
+                Route::put('/update', [AdminController::class, 'edit'])->name('update');
+                Route::patch('/verify', [AdminController::class, 'toggleVerification'])->name('verify');
+                Route::delete('/', [AdminController::class, 'destroy'])->name('destroy');
+                Route::post('/restore', [AdminController::class, 'restore'])->name('restore');
+                Route::delete('/force', [AdminController::class, 'forceDelete'])->name('force-delete');
+            });
+        });
+    });
 });
 
-Route::middleware(['auth'])->group(function () {
-    Route::get("/dashboard", [ProfileController::class, 'serveDashboard'])->name('dashboard'); 
-    Route::post("/request-admin/{user}", [ProfileController::class, 'requestAdmin'])->name('request-admin'); 
-    Route::get("/profile", [ProfileController::class, 'index'])->name('profile'); 
-    Route::get("/wallet", [ProfileController::class, 'wallet'])->name('wallet'); 
-    Route::post("/profile/edit", [ProfileController::class, 'edit'])->name('profile.edit'); 
-
-
-
-
-
-    Route::get("/products", [ProductController::class, 'index'])->name('products.index');
-    Route::get("/products/{product}", [ProductController::class, 'show'])->name('products.product');
-    Route::get("/products/{product}/checkout", [ProductController::class, 'checkout'])->name('products.product.checkout');
-    Route::post("/products/{product}/checkout", [ProductController::class, 'processCheckout'])->name('products.product.checkout-process');
-
-    Route::get("/products/search", [ProductController::class, 'search'])->name('products.search');
-    
-    Route::get('products/images/default', [ProductController::class, 'default_img'])->name('products.images.default');
-    Route::get('products/image/{path}', [ProductImageController::class, 'show'])
-        ->where('path', '.*')->name('products.images.show');
-
-
-    Route::delete('products/images/{id}', [ProductImageController::class, 'destroy'])->name('products.images.destroy');
-
-    Route::get('products/thumbnail/{product}', [ProductImageController::class, 'thumbnail'])->name('products.thumbnail');
-    Route::get('products/second-img/{product}', [ProductImageController::class, 'secondImg'])->name('products.second-img');
-
-});
+/*
+|--------------------------------------------------------------------------
+| Fallback Route
+|--------------------------------------------------------------------------
+*/
+Route::fallback(function () {
+    return view('pages.error.error');
+})->name('error');

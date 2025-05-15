@@ -2,7 +2,7 @@
 
 namespace App\View\Components\Profile;
 
-use Closure;
+use PhpParser\Node\Expr\Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
@@ -21,6 +21,6 @@ class Index extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.profile.index');
+        return view('components.pages.profile.index');
     }
 }

@@ -13,14 +13,14 @@ class AuthController extends Controller
     public function getLoginPage(Request $req)
     {
         if (Auth::user())
-            return redirect("/dashboard");
-        return view("auth.login");
+            return redirect('/dashboard');
+        return view('pages.auth.login');
     }
     public function getRegisterPage(Request $req)
     {
         if (Auth::user())
-            return redirect("/dashboard");
-        return view("auth.register");
+            return redirect('/dashboard');
+        return view('pages.auth.register');
     }
     public function login(Request $req)
     {
@@ -45,7 +45,7 @@ class AuthController extends Controller
                 ->withInput();
         }
         $validated = $validator->validated();
-        if (Auth::attempt(['email' => $validated["email"], 'password' => $validated["password"]]))
+        if (Auth::attempt(['email' => $validated['email'], 'password' => $validated['password']]))
         {
             $req->session()->regenerate();
             return redirect()->intended('/dashboard')->with('success', 'تم تسجيل الدخول بنجاح');
@@ -112,6 +112,6 @@ class AuthController extends Controller
         $validated = $validator->validated();
         $user = User::create($validated);
         Auth::login($user);
-        return redirect("/dashboard");
+        return redirect('/dashboard');
     }
 }

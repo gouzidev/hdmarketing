@@ -13,12 +13,12 @@ class ShippingController extends Controller
     public function index()
     {
         $shippings = Shipping::paginate(10);
-        return view('admin.shipping.index', ["shippings" => $shippings]);
+        return view('pages.admin.shipping.index', ['shippings' => $shippings]);
     }
 
     public function create()
     {
-        return view('admin.shipping.create');
+        return view('pages.admin.shipping.create');
     }
 
     public function store(Request $request)
@@ -75,12 +75,12 @@ class ShippingController extends Controller
     public function show(Shipping $shipping)
     {
         
-        return view("admin.shipping.show", ['shipping' => $shipping]);
+        return view('pages.admin.shipping.show', ['shipping' => $shipping]);
     }
 
     public function edit(Shipping $shipping)
     {
-        return view("admin.shipping.edit", ["shipping" => $shipping]);
+        return view('pages.admin.shipping.edit', ['shipping' => $shipping]);
     }
 
     public function update(Request $request, Shipping $shipping)

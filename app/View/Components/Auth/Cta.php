@@ -2,7 +2,7 @@
 
 namespace App\View\Components\Auth;
 
-use Closure;
+use PhpParser\Node\Expr\Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 

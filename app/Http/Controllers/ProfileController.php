@@ -18,7 +18,7 @@ class ProfileController extends Controller
         {
             /** @var \App\Models\User $user */
             $user = Auth::user()->only(['name', 'email', 'phone', 'city', 'country']);
-            return view('profile.profile', ['user' => $user]);
+            return view('pages.profile.profile', ['user' => $user]);
         }
         return redirect()->route('login')->with('error', 'يجب تسجيل الدخول للوصول إلى صفحة الملف الشخصي');
     }
@@ -79,7 +79,7 @@ class ProfileController extends Controller
         ->exists();
         ;
         $orders = OrderController::getOrders($user_id);
-        return view("profile.dashboard", ['hasPendingRequest' => $hasPendingRequest]);
+        return view('pages.profile.dashboard', ['hasPendingRequest' => $hasPendingRequest]);
     }
     public function requestAdmin($id)
     {
@@ -139,7 +139,7 @@ class ProfileController extends Controller
                 $numNextOrders++;
                 $nextProfit += $tempSale - ($order->product->price * $order->quantity);
             }
-            return view('profile.wallet', [
+            return view('pages.profile.wallet', [
                 'user' => $user,
                 'numOrders' => $numOrders,
                 'orders' => $orders,

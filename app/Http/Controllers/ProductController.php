@@ -39,10 +39,10 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::with('images')->paginate(10);
-        return view('product.index', 
+        return view('pages.product.index', 
             [
-                "products" => $products,
-                "search" => ""
+                'products' => $products,
+                'search' => ''
             ]
         );
     }
@@ -51,7 +51,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('product.create');
+        return view('pages.product.create');
     }
 
     /**
@@ -165,13 +165,13 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         $product->category = ProductController::getTranslatedCategories($product->category);
-        return view('product.product', ['product' => $product]);
+        return view('pages.product.product', ['product' => $product]);
     }
 
     static public function default_img()
     {
         $storage = Storage::disk('public');
-        $img_path = "default-product.png";
+        $img_path = 'default-product.png';
         $fullpath = $storage->path($img_path);
         if ($storage->exists($img_path))
             return response()->file($fullpath);
@@ -182,7 +182,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view("product.edit", ['product' => $product]);
+        return view('pages.product.edit', ['product' => $product]);
     }
 
     public function checkout(Request $request, Product $product)
@@ -195,7 +195,7 @@ class ProductController extends Controller
         if (!Auth::user()->verified)
         return redirect('notverified');
         $shippings = Shipping::all();
-        return view("product.checkout", [
+        return view('pages.product.checkout', [
             'product' => $product,
             'shippings' => $shippings,
             'quantity' => $quantity
@@ -387,8 +387,8 @@ class ProductController extends Controller
                 ->withInput();
         }
         $search = $request->input('search');
-        $products = Product::with('images')->where('name', 'like', "%{$search}%")->paginate(10);
-        return view("product.index", 
+        $products = Product::with('images')->where('name', 'like', '%{$search}%')->paginate(10);
+        return view('pages.product.index', 
             ['products' => $products],
             ['search' => $search]);
     }

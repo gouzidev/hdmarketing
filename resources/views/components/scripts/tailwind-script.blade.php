@@ -5,6 +5,7 @@
             fontFamily: {
                 'kufi': ['"Noto Kufi Arabic"', 'sans-serif'],
                 'sans': ['"Noto Sans Arabic"', 'sans-serif'],
+                'tajawal': ['"Tajawal"', 'sans-serif'],
             },
         }
     },

@@ -140,7 +140,7 @@ class OrderController extends Controller
         'created_at'
         ])
         ->paginate(10);
-        return view('admin.orders.index', [
+        return view('pages.admin.orders.index', [
             'orders'=> $orders,
             'thisWeekOrderCount' => $thisWeekOrderCount,
             'orderCountPerc' => $orderCountPerc,
@@ -159,7 +159,7 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         $user_id = $order->affiliate_id;
-        return view('admin.orders.order', [
+        return view('pages.admin.orders.order', [
             'order' => $order,
             
         ]);
