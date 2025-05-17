@@ -1,17 +1,17 @@
 <?php
 
-namespace App\View\Components\Admin;
+namespace App\View\Components\Scripts;
 
-use PhpParser\Node\Expr\Closure;
+use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class UsersData extends Component
+class SidebarScript extends Component
 {
     /**
      * Create a new component instance.
      */
-    public function __construct(public $users, public $search)
+    public function __construct()
     {
         //
     }
@@ -21,6 +21,6 @@ class UsersData extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.admin.users-data');
+        return view('components.scripts.sidebar-script');
     }
 }

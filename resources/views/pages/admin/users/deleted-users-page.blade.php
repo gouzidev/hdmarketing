@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الحسابات المحذوفة</title>
-    <x-scripts.fonts-import />
+    <x-imports.index />
     <x-scripts.index />
 
 </head>
-<body class="font-sans antialiased bg-gray-50">
-    <x-layout.nav :isHome="false" />
+<body class="font-sans antialiased bg-dot-pat bg-gray-50">
+    <x-layout.nav :page="''" />
     <x-scripts.nav-script />
     <div class="min-h-screen">
         <!-- Page Heading -->
@@ -66,7 +66,7 @@
                                 <i class="fas fa-search"></i>
                             </button>
                         </div>
-                        <a href="{{ route('admin.users.index') }}" class="sm:w-1/6 inline-flex items-center px-4 py-2 w-full bg-gray-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 transition ease-in-out duration-150">
+                        <a href="{{ route('users.index') }}" class="sm:w-1/6 inline-flex items-center px-4 py-2 w-full bg-gray-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 transition ease-in-out duration-150">
                             <i class="fas fa-arrow-right mr-2"></i> العودة للحسابات النشطة
                         </a>
                     </div>
@@ -111,13 +111,13 @@
                                         {{ $user->deleted_at->format('Y/m/d H:i') }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <form action="{{ route('admin.users.restore', $user) }}" method="POST" class="inline-block">
+                                        <form action="{{ route('users.restore', $user) }}" method="POST" class="inline-block">
                                             @csrf
                                             <button type="submit" class="text-green-600 hover:text-green-900 ml-3">
                                                 <i class="fas fa-trash-restore"></i> استعادة
                                             </button>
                                         </form>
-                                        <button onclick="openModal('{{ route('admin.users.force-delete', $user) }}')" 
+                                        <button onclick="openModal('{{ route('users.force-delete', $user) }}')" 
                                                 class="text-red-600 hover:text-red-900 ml-3">
                                             <i class="fas fa-trash"></i> حذف نهائي
                                         </button>

@@ -26,5 +26,6 @@ class DatabaseSeeder extends Seeder
         // Finally seed orders which depend on all the above
         $this->call(OrderSeeder::class);
         // User::factory()->count(2)->create();
+        $this->call(FavoriteSeeder::class);
     }
 }

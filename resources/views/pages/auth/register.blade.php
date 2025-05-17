@@ -7,7 +7,7 @@
         <title>hdmarketing</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Configure Tailwind -->
-        <x-scripts.fonts-import />
+        <x-imports.index />
         <x-scripts.index />
 
     </head>

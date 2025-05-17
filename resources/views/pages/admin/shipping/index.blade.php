@@ -5,26 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>إدارة الشحن</title>
-    <x-scripts.fonts-import />
-    <x-scripts.index />
+    <x-imports.index />
 </head>
-<body class="font-sans antialiased bg-gray-100">
+<body class="font-sans antialiased bg-dot-pat bg-gray-50">
     <x-layout.nav :isHome='false'/>
+    <x-layout.sidebar />
+    <x-layout.header :headerText="'إدارة الشحن'" :btnText="'إضافة شحن جديد'"
+        :btnLink="route('shipping.create')"
+        :btnClass="'inline-flex items-center px-4 py-2 bg-yellow-600 border border-transparent rounded-md font-medium text-white hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 shadow-sm transition-colors'" 
+        :btnIcon="'fas fa-plus'"
+        :icon="'fas fa-truck'"
+    />
     
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <!-- Page Header -->
         <div class="bg-white shadow rounded-lg overflow-hidden mb-6 border border-gray-200">
-            <div class="p-6 border-b border-gray-200 bg-gradient-to-l from-yellow-50 to-white flex justify-between items-center">
-                <h1 class="text-2xl font-bold text-gray-900 flex items-center">
-                    <i class="fas fa-truck text-yellow-600 ml-3"></i>
-                    إدارة الشحن
-                </h1>
-                <a href="{{ route('admin.shipping.create') }}" class="inline-flex items-center px-4 py-2 bg-yellow-600 border border-transparent rounded-md font-medium text-white hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 shadow-sm transition-colors">
-                    <i class="fas fa-plus ml-2"></i>
-                    إضافة شحن جديد
-                </a>
-            </div>
-            
+         
             <!-- Stats Summary -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-6 bg-gray-50">
                 <div class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
@@ -71,7 +67,7 @@
                 <h2 class="text-lg font-medium text-gray-700">فلترة النتائج</h2>
             </div>
             <div class="p-4">
-                <form action="{{ route('admin.shipping.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <form action="{{ route('shipping.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div>
                         <label for="country" class="block text-sm font-medium text-gray-700 mb-1">الدولة</label>
                         <select id="country" name="country" class="w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring focus:ring-yellow-200">
@@ -175,10 +171,10 @@
                                 </td>
                                 <td class="px-2 py-4 whitespace-nowrap text-left text-sm font-medium">
                                     <div class="flex space-x-2 space-x-reverse">
-                                        <a href="{{ route('admin.shipping.show', $shipping) }}" class="text-blue-600 hover:text-blue-900 bg-blue-100 p-2 rounded-md" title="عرض">
+                                        <a href="{{ route('shipping.show', $shipping) }}" class="text-blue-600 hover:text-blue-900 bg-blue-100 p-2 rounded-md" title="عرض">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <a href="{{ route('admin.shipping.edit', $shipping) }}" class="text-yellow-600 hover:text-yellow-900 bg-yellow-100 p-2 rounded-md" title="تعديل">
+                                        <a href="{{ route('shipping.edit', $shipping) }}" class="text-yellow-600 hover:text-yellow-900 bg-yellow-100 p-2 rounded-md" title="تعديل">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         <button type="button" 
@@ -197,7 +193,7 @@
                                         <i class="fas fa-box-open text-gray-400 text-5xl mb-4"></i>
                                         <p class="text-xl font-medium">لا توجد بيانات شحن</p>
                                         <p class="mt-1">قم بإضافة بيانات شحن جديدة</p>
-                                        <a href="{{ route('admin.shipping.create') }}" class="mt-3 inline-flex items-center px-4 py-2 bg-yellow-600 border border-transparent rounded-md font-medium text-white hover:bg-yellow-700">
+                                        <a href="{{ route('shipping.create') }}" class="mt-3 inline-flex items-center px-4 py-2 bg-yellow-600 border border-transparent rounded-md font-medium text-white hover:bg-yellow-700">
                                             <i class="fas fa-plus ml-2"></i>
                                             إضافة شحن جديد
                                         </a>
@@ -293,6 +289,8 @@
                 closeModal();
             }
         }
+        
     </script>
+    <x-scripts.index />
 </body>
 </html>

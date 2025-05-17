@@ -1,12 +1,12 @@
 <?php
 
-namespace App\View\Components\Admin;
+namespace App\View\Components\Admin\Users;
 
-use PhpParser\Node\Expr\Closure;
+use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class EditUser extends Component
+class Search extends Component
 {
     /**
      * Create a new component instance.
@@ -21,6 +21,6 @@ class EditUser extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.admin.edit-user');
+        return view('components.users.search');
     }
 }

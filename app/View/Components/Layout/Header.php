@@ -19,6 +19,7 @@ class Header extends Component
         public string $btnText = '',
         public string $btnClass = '',
         public string $btnIcon = '',
+        public bool $showForUser = true,
         
     )
     {

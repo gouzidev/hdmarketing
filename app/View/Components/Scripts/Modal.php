@@ -1,12 +1,12 @@
 <?php
 
-namespace App\View\Components\Admin;
+namespace App\View\Components\Scripts;
 
-use PhpParser\Node\Expr\Closure;
+use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class UsersEditForm extends Component
+class Modal extends Component
 {
     /**
      * Create a new component instance.
@@ -21,6 +21,6 @@ class UsersEditForm extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.admin.users-edit-form');
+        return view('components.scripts.modal');
     }
 }

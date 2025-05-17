@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use Log;
+use Auth;
 use PHPUnit\Exception;
 use Storage;
 
@@ -32,7 +33,9 @@ class ProductImageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (!Auth::user()->is_admin)
+            abort(404);
+            dd($request);
     }
 
     /**

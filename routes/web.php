@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FavoriteController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
@@ -42,11 +43,15 @@ Route::middleware(['auth'])->group(function () {
     // Profile Routes
     Route::prefix('profile')->group(function () {
         Route::get('/', [ProfileController::class, 'index'])->name('profile');
-        Route::post('/edit', [ProfileController::class, 'edit'])->name('pages.profile.edit');
+        Route::post('/edit', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::get('/wallet', [ProfileController::class, 'wallet'])->name('wallet');
+        
         Route::post('/request-admin/{user}', [ProfileController::class, 'requestAdmin'])->name('request-admin');
     });
-    
+
+    Route::get('/affiliate/orders', [OrderController::class, 'userOrders'])->name('affiliate.orders');
+    Route::delete('/affiliate/{order}', [OrderController::class, 'destroy'])->name('affiliate.orders.destroy');
+
     // Dashboard
     Route::get('/dashboard', [ProfileController::class, 'serveDashboard'])->name('dashboard');
     
@@ -58,6 +63,7 @@ Route::middleware(['auth'])->group(function () {
         
         // Product Image Routes
         Route::get('/images/default', [ProductController::class, 'default_img'])->name('images.default');
+        Route::post('/images/store', [ProductImageController::class, 'store'])->name('images.store');
         Route::get('/image/{path}', [ProductImageController::class, 'show'])
             ->where('path', '.*')->name('images.show');
         Route::get('/thumbnail/{product}', [ProductImageController::class, 'thumbnail'])->name('thumbnail');
@@ -68,6 +74,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{product}/checkout', [ProductController::class, 'checkout'])->name('product.checkout');
         Route::post('/{product}/checkout', [ProductController::class, 'processCheckout'])->name('product.checkout-process');
     });
+
+    Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites');
 });
 
 /*
@@ -121,27 +129,27 @@ Route::middleware(['auth', 'admin'])->group(function () {
             Route::post('/{user}/approve', [AdminController::class, 'approveAdminReq'])->name('approve');
             Route::delete('/{user}/reject', [AdminController::class, 'rejectAdminReq'])->name('reject');
         });
+    });
+    // User Management
+    Route::prefix('users')->name('users.')->group(function () {
+        Route::get('/', [AdminController::class, 'getUsersPage'])->name('index');
+        Route::get('/deleted', [AdminController::class, 'getDeletedUsersPage'])->name('deleted');
+        Route::get('/search', [AdminController::class, 'getSearchedPage'])->name('search');
         
-        // Shipping Management
-        Route::resource('shipping', ShippingController::class);
-        
-        // User Management
-        Route::prefix('users')->name('users.')->group(function () {
-            Route::get('/', [AdminController::class, 'getUsersPage'])->name('index');
-            Route::get('/deleted', [AdminController::class, 'getDeletedUsersPage'])->name('deleted');
-            Route::get('/search', [AdminController::class, 'getSearchedPage'])->name('search');
-            
-            // Individual User Operations
-            Route::prefix('{user}')->group(function () {
-                Route::get('/edit', [AdminController::class, 'getEditUserPage'])->name('edit');
-                Route::put('/update', [AdminController::class, 'edit'])->name('update');
-                Route::patch('/verify', [AdminController::class, 'toggleVerification'])->name('verify');
-                Route::delete('/', [AdminController::class, 'destroy'])->name('destroy');
-                Route::post('/restore', [AdminController::class, 'restore'])->name('restore');
-                Route::delete('/force', [AdminController::class, 'forceDelete'])->name('force-delete');
-            });
+        // Individual User Operations
+        Route::prefix('{user}')->group(function () {
+            Route::get('/edit', [AdminController::class, 'edit'])->name('edit');
+            Route::put('/update', [AdminController::class, 'update'])->name('update');
+            Route::patch('/verify', [AdminController::class, 'toggleVerification'])->name('verify');
+            Route::delete('/', [AdminController::class, 'destroy'])->name('destroy');
+            Route::post('/restore', [AdminController::class, 'restore'])->name('restore');
+            Route::delete('/force', [AdminController::class, 'forceDelete'])->name('force-delete');
         });
     });
+
+    // Shipping Management
+    Route::resource('shipping', ShippingController::class);
+
 });
 
 /*

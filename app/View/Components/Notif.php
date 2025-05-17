@@ -2,18 +2,18 @@
 
 namespace App\View\Components;
 
-use PhpParser\Node\Expr\Closure;
+use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class Nav extends Component
+class Notif extends Component
 {
     /**
      * Create a new component instance.
      */
-    public function __construct(public string $page)
+    public function __construct()
     {
-
+        //
     }
 
     /**
@@ -21,6 +21,6 @@ class Nav extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.layout.nav');
+        return view('components.notif');
     }
 }

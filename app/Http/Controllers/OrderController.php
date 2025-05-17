@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Services\CountryService;
@@ -188,6 +189,10 @@ class OrderController extends Controller
 
     public function rejectOrder(Order $order)
     {
+        if ($order->payment_status == 'paid')
+        {
+            return back()->withErrors('فشلت عملية رفض الطلب, يجب إلغاء الدفع أولاً');
+        }
         if ($order->status != 'rejected')
         {
             $product = $order->product;
@@ -264,10 +269,19 @@ class OrderController extends Controller
 
     public function destroy(Order $order)
     {
+        if ($order->affiliate_id != Auth::user()->id)
+            return back()->withErrors('فشل في حذف الطلب');
         $product = $order->product();
         // Update product stock
         $product->increment('stock', $order->quantity);
         $order->delete();
         return redirect()->route('orders.index')->with('success', 'تم حذف الطلب بنجاح');
+    }
+
+    public function userOrders()
+    {
+        $user = Auth::user(); 
+        $orders = Order::with ('affiliate')->where('affiliate_id', $user->id)->get();
+        return view ('pages.affiliate.orders.index', ['orders' => $orders]);
     }
 }

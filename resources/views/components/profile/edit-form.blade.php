@@ -1,12 +1,6 @@
 
 
-<form class="flex flex-col items-center max-w-7xl mx-auto my-10" action="{{ route('pages.profile.edit') }}" method="POST">
-    <!-- Form Header -->
-    <div class="w-full mb-10 text-right">
-        <h2 class="text-2xl font-bold text-gray-800">تعديل الملف الشخصي</h2>
-        <p class="text-gray-600 mt-2">قم بتحديث معلوماتك الشخصية هنا</p>
-    </div>
-
+<form class="flex flex-col items-center max-w-7xl mx-auto my-10 bg-white rounded-xl p-5 shadow-lg" action="{{ route('profile.edit') }}" method="POST">
     <!-- Input Fields -->
     <div class="w-full mb-8 relative group">
         <label class="block text-right text-gray-700 mb-1 text-sm">اسم المستخدم</label>

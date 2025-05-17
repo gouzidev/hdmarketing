@@ -5,16 +5,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>إتمام الطلب - {{ $product->name }}</title>
         <x-scripts.index />
-    <x-scripts.fonts-import />
+    <x-imports.index />
 
     </head>
-<body class="font-sans antialiased bg-gray-100">
-    <x-layout.nav :isHome='false'/>
-    
+<body class="font-sans antialiased bg-dot-pat bg-gray-50">
+    <x-notif />
+    <x-layout.nav :page="'checkout'"/>
+
+    <x-layout.header :headerText="'إتمام الطلب'" :icon="'fas fa-shopping-cart'" />
+
+    <x-layout.sidebar />
+
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <!-- Page Title -->
         <div class="text-center mb-8">
-            <h2 class="text-2xl font-bold text-gray-800">إتمام الطلب</h2>
             <p class="text-gray-600 mt-2">أنت على بعد خطوات قليلة من الحصول على منتجك</p>
         </div>
         
@@ -97,7 +101,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="text-lg font-bold text-yellow-600">{{ number_format($product->price, 2) }} $</div>
+                            <div class="text-lg font-bold text-yellow-600">{{ number_format($product->price, 2) }} LYD</div>
                         </div>
                     </div>
                     
@@ -107,7 +111,7 @@
                                 <i class="fas fa-tag text-gray-500 ml-2"></i>
                                 سعر المنتج الأصلي
                             </span>
-                            <span class="font-medium">{{ number_format($product->price, 2) }} $</span>
+                            <span class="font-medium">{{ number_format($product->price, 2) }} LYD</span>
                         </div>
 
                         <div class="border-b border-gray-200 pb-4">
@@ -118,7 +122,7 @@
                                 </label>
                                 <div class="relative mt-1 rounded-md shadow-sm w-24">
                                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                                        <span class="text-gray-500 sm:text-sm">$</span>
+                                        <span class="text-gray-500 sm:text-sm">LYD</span>
                                     </div>
                                     <input
                                      dir="rtl" type="number" 
@@ -146,12 +150,12 @@
                                 <i class="fas fa-truck text-gray-500 ml-2"></i>
                                 الشحن
                             </span>
-                            <span class="font-medium" id="shipping-price">0.00 $</span>
+                            <span class="font-medium" id="shipping-price">0.00 LYD</span>
                         </div>
                         
                         <div class="flex justify-between pt-4 border-t border-gray-200 text-base font-bold">
                             <span class="text-gray-800">المجموع</span>
-                            <span class="text-yellow-600" id="total-price">{{ number_format($product->price, 2) }} $</span>
+                            <span class="text-yellow-600" id="total-price">{{ number_format($product->price, 2) }} LYD</span>
                         </div>
                         
                         <div class="text-xs text-gray-500 text-center mt-2 pt-3 border-t border-gray-200">
@@ -163,20 +167,6 @@
 
                 <div class="bg-white shadow rounded-lg overflow-hidden mt-4 border border-gray-200 p-4">
 
-                    @if ($errors->any())
-                        <div class="text-red-700 opacity-70 mb-5 text-right">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li class="mt-1">{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @elseif (session('success'))
-                        <div class="w-full mb-6 p-4 bg-green-50 border border-green-200 rounded-lg text-green-700">
-                            {{ session('success') }}
-                        </div>
-                    @endif
-                    
                     <h4 class="font-bold text-gray-700 flex items-center">
                         <i class="fas fa-headset text-yellow-600 ml-2"></i>
                         تحتاج للمساعدة؟
@@ -393,19 +383,7 @@
     </div>
 
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const notyf = new Notyf({
-            position: {x: 'center', y: 'top'},
-            duration: 3000
-        });
-  
-     // Usage
-            notyf.success('تمت العملية بنجاح!');
-            
-            notyf.error('حدث خطأ!');
-            });
-    </script>
+   
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         const quantityInput = document.getElementById('quantity-input');
@@ -477,7 +455,7 @@
                 
                 // Update shipping price
                 shippingPrice = price;
-                shippingPriceDisplay.textContent = price.toFixed(2) + ' $';
+                shippingPriceDisplay.textContent = price.toFixed(2) + ' LYD';
                 
                 // Update total price
                 updateTotalPrice();
@@ -509,7 +487,7 @@
         
         function updateTotalPrice() {
             const quantity = parseInt(quantityInput.value);
-            const currentAffiliatePrice = parseFloat(affiliatePriceInput.value);
+            const currentAffiliatePrice = parseFloat(affiliatePriceInput.value) || 0;
             
             // Update form values
             formAffiliatePrice.value = currentAffiliatePrice;
@@ -520,7 +498,7 @@
             const totalPrice = productTotal + shippingPrice;
             
             // Update displays
-            totalPriceDisplay.textContent = totalPrice.toFixed(2) + ' $';
+            totalPriceDisplay.textContent = totalPrice.toFixed(2) + ' LYD';
             buttonPriceDisplay.textContent = totalPrice.toFixed(2);
             
             // Update hidden form value
@@ -581,5 +559,6 @@
         });
     });
     </script>
+    <x-modal />
 </body>
 </html>

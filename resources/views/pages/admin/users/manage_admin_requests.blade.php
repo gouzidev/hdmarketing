@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>طلبات الصلاحيات الإدارية</title>
-    <x-scripts.fonts-import />
+    <x-imports.index />
     <x-scripts.index />
 </head>
-<body class="font-sans antialiased bg-gray-50">
+<body class="font-sans antialiased bg-dot-pat bg-gray-50">
     <x-layout.nav :isHome='false'/>
     <div class="min-h-screen">
         <x-layout.header :headerText="'طلبات الصلاحيات الإدارية'" :icon="'fas fa-user'" />

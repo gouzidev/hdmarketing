@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تفاصيل الطلب</title>
-    <x-scripts.fonts-import />
+    <x-imports.index />
     <x-scripts.index />
 </head>
-<body class="bg-gray-50 font-sans">
+<body class="bg-dot-pat bg-gray-50 font-sans">
     <!-- Navigation -->
-    <x-layout.nav :isHome="false" />
+    <x-layout.nav :page="''" />
 
+    <x-layout.sidebar />
     <!-- Page Heading -->
     <x-layout.header
         :headerText="'تفاصيل الطلب'"
@@ -27,53 +28,6 @@
             focus:outline-none focus:ring-2 focus:ring-yellow-500
             focus:ring-offset-2 transition ease-in-out duration-150'"
             />
-    <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col md:flex-row md:justify-between md:items-center space-y-3 md:space-y-0">
-            <div>
-                <h1 class="text-2xl font-bold text-gray-900 flex items-center">
-                    <i class="fas fa-shopping-bag text-indigo-600 ml-2"></i>
-                    تفاصيل الطلب #{{ $order->id }}
-                </h1>
-                <div class="flex items-center mt-2 space-x-2 space-x-reverse">
-                    <i class="far fa-clock text-gray-500"></i>
-                    <span class="text-sm text-gray-500">
-                        {{ $order->created_at->format('d M Y - h:i A') }}
-                    </span>
-                    <span class="px-2 py-1 text-xs font-semibold rounded-full 
-                        @if($order->status == 'completed') bg-green-100 text-green-800
-                        @elseif($order->status == 'shipped') bg-blue-100 text-blue-800
-                        @elseif($order->status == 'processing') bg-yellow-100 text-yellow-800
-                        @else bg-gray-100 text-gray-800 @endif">
-                        @if($order->status == 'completed') مكتمل
-                        @elseif($order->status == 'shipped') تم الشحن
-                        @elseif($order->status == 'processing') قيد المعالجة
-                        @else قيد الانتظار @endif
-                    </span>
-                </div>
-            </div>
-            <div class="flex space-x-3 space-x-reverse">
-                <button class="px-4 py-2 bg-white border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 transition duration-150 flex items-center shadow-sm">
-                    <i class="fas fa-print ml-2 text-gray-600"></i> طباعة
-                </button>
-                <button class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white rounded-md text-sm font-medium hover:from-indigo-700 hover:to-indigo-800 transition duration-150 flex items-center shadow-sm">
-                    <i class="fas fa-pen ml-2"></i> تعديل الطلب
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Breadcrumbs -->
-    <div class="sm:max-w-[90%] w-full mx-auto px-4 sm:px-0 lg:px-0 py-2">
-        <nav class="flex items-center text-sm text-gray-500">
-            <a href="{{ route('home') }}" class="hover:text-indigo-600">الرئيسية</a>
-            <i class="fas fa-chevron-left mx-2 text-xs"></i>
-            <a href="{{ route('orders.index') }}" class="hover:text-indigo-600">الطلبات</a>
-            <i class="fas fa-chevron-left mx-2 text-xs"></i>
-            <span class="text-gray-900">تفاصيل الطلب #{{ $order->id }}</span>
-        </nav>
-    </div>
-
-    {{-- bg-purple-100 sm:bg-red-100 md:bg-orange-100 lg:bg-yellow-100 xl:bg-green-100 --}}
     <!-- Main Content -->
     <main class=" sm:max-w-[90%] w-full mx-auto py-6 sm:px-0 lg:px-0">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -204,32 +158,47 @@
                                 معلومات الدفع
                             </h3>
                         </div>
-                        <div class="px-4 py-5 sm:p-6">
+                        <div class="px-4 py-5 sm:p-6 flex ">
                             <div class="space-y-4">
                                 <div class="flex flex-row gap-5 mx-2">
                                     <h4 class="text-sm font-medium text-gray-500 flex items-center">
                                         <i class="fas fa-receipt text-green-500 ml-1"></i>
                                         حالة الدفع
                                     </h4>
-                                    <p class="mt-1 text-sm text-gray-900">
+                                    <div class="mt-1 text-sm text-gray-900">
                                         @if($order->payment_status == 'paid')
                                             <div class="flex flex-col">
                                                 <span class="px-2 py-1 text-xs font-semibold rounded-full  bg-green-100 text-green-800">
                                                     تم الدفع
-                                                </span>
-                                                <i class="fas fa-calendar-check text-green-500 ml-1"></i>
-                                                    تاريخ الدفع 
-                                                <span class="">
-                                                    {{ $order->payment_date->format('d M Y - h:i A') }}
-                                                </span>
                                             </div>
                                        @else
                                             <span class="px-2 py-1 text-xs font-semibold rounded-full  bg-yellow-100 text-yellow-800">
                                                 قيد الدفع	
                                             </span>
                                         @endif
-                                    </p>
+                                    </div>
                                 </div>
+                                
+                                <div class="flex flex-row gap-5">
+                                    <h4 class="text-sm font-medium text-gray-500 flex items-center">
+                                        <i class="fas fa-calendar-check text-green-500 ml-1"></i>
+                                        تاريخ الدفع 
+                                    </h4>
+                                    <div class="mt-1 text-sm text-gray-900">
+                                        @if($order->payment_date)
+                                            <div class="flex flex-col">
+                                                <span class="px-2 py-1 text-xs font-semibold rounded-full  bg-green-100 text-green-800">
+                                                {{ $order->payment_date->format('D M Y - h:i') }}
+                                            </div>
+                                       @else
+                                            <span class="px-3 py-1 text-xs font-semibold rounded-full  bg-gray-100 text-gray-800">
+                                                قريباً...	
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+
+
                                 <div class="flex flex-row justify-between items-center mx-2">
                                     <h4 class="text-sm font-medium text-gray-500 flex items-center">
                                         <i class="fas fa-envelope text-green-500 ml-1"></i>
@@ -249,6 +218,7 @@
                                     </p>
                                 </div>
                             </div>
+
                         </div>
                     </div>
 
@@ -303,22 +273,52 @@
                                     <i class="fa-solid fa-user-tie text-teal-800"></i>
                                 </div>
                                 <div>
-                                    <h4 class="text-sm font-medium text-gray-900">{{ $order->affiliate->name }}</h4>
+                                    <h4 class="text-sm font-medium text-gray-900">
+                                        @if ($order->affiliate) 
+                                            {{ $order->affiliate->name }}
+                                        @else
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                                مجهول
+                                            </span>
+                                        @endif
+                                    </h4>
                                     <p class="text-xs text-gray-500">عميل</p>
                                 </div>
                             </div>
                             <div class="space-y-2 mt-3">
-                                <a href="mailto:{{ $order->affiliate->email }}" class="flex items-center p-2 hover:bg-gray-50 rounded-md transition duration-150 text-sm text-gray-700">
+                                <a href="mailto:{{ $order->affiliate->email ?? "" }}" class="flex items-center p-2 hover:bg-gray-50 rounded-md transition duration-150 text-sm text-gray-700">
                                     <i class="fas fa-envelope text-teal-500 ml-2 w-5 text-center"></i>
-                                    {{ $order->affiliate->email }}
+                                        @if ($order->affiliate) 
+                                           {{ $order->affiliate->email }}
+                                        @else
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                                مجهول
+                                            </span>
+                                        @endif
                                 </a>
                                 <a href="tel:{{ $order->phone }}" class="flex items-center p-2 hover:bg-gray-50 rounded-md transition duration-150 text-sm text-gray-700">
                                     <i class="fas fa-phone-alt text-teal-500 ml-2 w-5 text-center"></i>
-                                    {{ $order->affiliate->phone }}
+                                    @if ($order->affiliate) 
+                                        {{ $order->affiliate->phone }}
+                                    @else
+                                        <span
+                                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                            مجهول
+                                        </span>
+                                    @endif
                                 </a>
                                 <div class="flex items-center p-2 hover:bg-gray-50 rounded-md transition duration-150 text-sm text-gray-700">
                                     <i class="fas fa-map-marker-alt text-teal-500 ml-2 w-5 text-center"></i>
-                                    {{ $order->affiliate->getCountryCode() }}، {{ $order->affiliate->city }}
+                                    @if ($order->affiliate) 
+                                        {{ $order->affiliate->getCountryCode() }}، {{ $order->affiliate->city }}
+                                    @else
+                                        <span
+                                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                            مجهول
+                                        </span>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -384,7 +384,7 @@
                         <div class="flex flex-row justify-between ">
                             @if($order->status == 'pending')
                                 <label for="">الطلب</label>
-                                <div class="flex flex-row w-1/2 gap-5">
+                                <div class="flex flex-row w-full sm:w-1/2 gap-5">
                                     <form action="{{ route('order.accept', $order) }}" method="POST" class="w-1/2">
                                         @csrf
                                         @method('PUT')
@@ -402,7 +402,10 @@
                                 </div>
                             @elseif ($order->status == 'accepted')
                                 <label for="">الطلب</label>
-                                <div class="flex flex-row-reverse w-1/2 gap-5">
+                                <div class="flex flex-row w-full sm:w-1/2 gap-5">
+                                    <button class="w-full flex items-center justify-center gap-2 py-2 cursor-default rounded-md text-sm font-medium  border-4 shadow-sm text-green-800 border-green-800 bg-gradient-to-r bg-green-50  hover:to-green-200 transition duration-150 disabled opacity-50">
+                                        <i class="fas fa-check-circle "></i> مؤكد
+                                    </button>  
                                     <form action="{{ route('order.reject', $order) }}" method="post" class="w-full cursor-pointer">
                                         @csrf
                                         @method('PUT')
@@ -411,14 +414,11 @@
                                         </button>
                                     </form>
 
-                                    <button class="w-full flex items-center justify-center gap-2 py-2 cursor-default rounded-md text-sm font-medium  border-4 shadow-sm text-green-800 border-green-800 bg-gradient-to-r bg-green-50  hover:to-green-200 transition duration-150 disabled opacity-50">
-                                        <i class="fas fa-check-circle "></i> مؤكد
-                                    </button>  
                                 </div>
                             {{-- else -> rejected --}}
                             @else   
                                 <label for="">الطلب</label>
-                                <div class="flex flex-row-reverse w-1/2 gap-5">
+                                <div class="flex flex-row-reverse w-full sm:w-1/2 gap-5">
                                     <form action="{{ route('order.accept', $order) }}" method="post" class="w-full cursor-pointer">
                                         @csrf
                                         @method('PUT')

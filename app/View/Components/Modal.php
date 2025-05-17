@@ -1,17 +1,17 @@
 <?php
 
-namespace App\View\Components\Admin;
+namespace App\View\Components;
 
-use PhpParser\Node\Expr\Closure;
+use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class UsersTable extends Component
+class Modal extends Component
 {
     /**
      * Create a new component instance.
      */
-    public function __construct(public $users)
+    public function __construct()
     {
         //
     }
@@ -21,6 +21,6 @@ class UsersTable extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.admin.users-table');
+        return view('components.modal');
     }
 }

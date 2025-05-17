@@ -5,8 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{{ $product->name }} - متجرنا</title>
 
-        <x-scripts.index />
-    <x-scripts.fonts-import />
+        <x-imports.index />
 
         
         <style>
@@ -25,9 +24,10 @@
             }
         </style>
     </head>
-    <body class="font-sans antialiased bg-gray-100">
+    <body class="font-sans antialiased bg-dot-pat bg-gray-50">
         <x-layout.nav :isHome='false'/>
         
+        <x-layout.sidebar />
 
         <!-- Delete Confirmation Modal -->
         <div id="deleteModal" class="fixed z-50 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
@@ -68,7 +68,7 @@
             </div>
         </div>
 
-        <div class="max-w-7xl mx-auto mt-5">
+        <div class="max-w-7xl mx-auto">
 
             <!-- Main Product Section -->
             <div class="bg-white shadow rounded-lg overflow-hidden mb-6">
@@ -123,7 +123,7 @@
                         <!-- Price -->
                         <div class="py-2 border-t border-gray-200">
                             <div class="flex items-center">
-                                <span class="text-2xl font-bold text-gray-900">{{ number_format($product->price, 2) }} ر.س</span>
+                            <span class="text-2xl font-bold text-gray-900">{{ number_format($product->price, 2) }} LYD</span>
                             </div>
                         </div>
 
@@ -280,15 +280,6 @@
                             </div>
                             <div class="p-3">
                                 <h3 class="font-medium text-gray-900 text-sm mb-1 truncate">منتج مكمل {{ $i }}</h3>
-                                <div class="flex items-center mb-2">
-                                    <div class="text-yellow-400 text-xs">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                    </div>
-                                </div>
                                 <div class="flex items-center justify-between">
                                     <span class="font-bold text-gray-900 text-sm">{{ rand(50, 200) }} ر.س</span>
                                     <button class="text-yellow-600 hover:text-yellow-700 bg-yellow-100 hover:bg-yellow-200 p-1 rounded">
@@ -301,6 +292,8 @@
                 </div>
             </div>
         </div>
+
+        <x-scripts.index />
 
         <script>
             const showFullDesc = false;
@@ -372,5 +365,7 @@
                 }
             }
         </script>
+
+
     </body>
 </html>

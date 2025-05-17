@@ -1,17 +1,17 @@
 <?php
 
-namespace App\View\Components\Admin;
+namespace App\View\Components\Imports;
 
-use PhpParser\Node\Expr\Closure;
+use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class Users extends Component
+class Index extends Component
 {
     /**
      * Create a new component instance.
      */
-    public function __construct(public $users)
+    public function __construct()
     {
         //
     }
@@ -21,6 +21,6 @@ class Users extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.admin.users');
+        return view('components.imports.index');
     }
 }

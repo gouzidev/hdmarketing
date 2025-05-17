@@ -8,11 +8,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <x-scripts.tailwind-script />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <x-scripts.fonts-import />
+    <x-imports.index />
 </head>
 
-<body class="overflow-x-hidden relative">
-    <x-layout.nav :isHome="false"/>
+<body class="overflow-x-hidden relative bg-dot-pat bg-gray-50">
+    <x-layout.nav :page="''"/>
     {{-- form container --}}
     <x-layout.header :headerText="'تواصل معنا'" :icon="'fas fa-envelope'"/>
 

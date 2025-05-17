@@ -5,29 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>عفواً، الصفحة غير متوفرة</title>
+    <x-imports.index />
 
-
-    <x-scripts.index />
-    <x-scripts.fonts-import />
-
-
-    <style>
-        body {
-            font-family: 'Noto Kufi Arabic', sans-serif;
-        }
-        .animated-bg {
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-        }
-        @keyframes gradientBG {
-            0% {background-position: 0% 50%;}
-            50% {background-position: 100% 50%;}
-            100% {background-position: 0% 50%;}
-        }
-    </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
-    <div class="flex flex-col min-h-screen justify-center items-center p-6">
+<body class="bg-[radial-gradient(circle,#3b82f680_1px,transparent_1px)] bg-[size:30px_30px]">
+    <x-layout.nav :page="''" />
+    <x-layout.sidebar />
+    <div class="mt-10 flex flex-col min-h-screen justify-center items-center p-6">
         <!-- Logo Section -->
         <div class="w-full max-w-md mb-10 text-center">
             <a href="{{ route('home') }}">
@@ -120,5 +104,6 @@
             }
         });
     </script>
+    <x-scripts.index />
 </body>
 </html>

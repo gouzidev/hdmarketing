@@ -5,14 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>إدارة الشحن</title>
-    <x-scripts.fonts-import />
+    <x-imports.index />
     <x-scripts.index />
 </head>
-<body class="font-sans antialiased bg-gray-100">
+<body class="font-sans antialiased bg-dot-pat bg-gray-50">
     <x-layout.nav :isHome='false'/>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center mb-6">
-            <a href="{{ route('admin.shipping.index') }}" class="text-gray-600 hover:text-gray-900 ml-2">
+            <a href="{{ route('shipping.index') }}" class="text-gray-600 hover:text-gray-900 ml-2">
                 <i class="fas fa-arrow-right"></i>
             </a>
             <h2 class="text-2xl font-bold text-gray-800">تعديل طريقة الشحن</h2>
@@ -27,7 +27,7 @@
                 <p class="text-gray-600 mt-1">قم بتحديث معلومات طريقة الشحن</p>
             </div>
             
-            <form action="{{ route('admin.shipping.update', $shipping) }}" method="POST" class="p-6">
+            <form action="{{ route('shipping.update', $shipping) }}" method="POST" class="p-6">
                 @csrf
                 @method('PUT')
                 

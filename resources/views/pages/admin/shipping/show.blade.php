@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>عرض بيانات الشحن</title>
-    <x-scripts.fonts-import />
+    <x-imports.index />
     <x-scripts.index />
 </head>
-<body class="font-sans antialiased bg-gray-100">
+<body class="font-sans antialiased bg-dot-pat bg-gray-50">
     <x-layout.nav :isHome='false'/>
     
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -19,7 +19,7 @@
                     عرض بيانات الشحن
                 </h1>
                 <div class="flex space-x-2 space-x-reverse">
-                    <a href="{{ route('admin.shipping.edit', $shipping) }}" class="inline-flex items-center px-4 py-2 bg-yellow-600 border border-transparent rounded-md font-medium text-white hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 shadow-sm transition-colors">
+                    <a href="{{ route('shipping.edit', $shipping) }}" class="inline-flex items-center px-4 py-2 bg-yellow-600 border border-transparent rounded-md font-medium text-white hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 shadow-sm transition-colors">
                         <i class="fas fa-edit ml-2"></i>
                         تعديل
                     </a>
@@ -101,7 +101,7 @@
                 
                 <!-- Actions -->
                 <div class="flex justify-end space-x-3 space-x-reverse mt-6">
-                    <a href="{{ route('admin.shipping.index') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+                    <a href="{{ route('shipping.index') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
                         <i class="fas fa-arrow-right ml-2"></i>
                         العودة للقائمة
                     </a>
@@ -138,7 +138,7 @@
                     </div>
                 </div>
                 <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                    <form id="deleteForm" method="POST" action="{{ route('admin.shipping.destroy', $shipping) }}">
+                    <form id="deleteForm" method="POST" action="{{ route('shipping.destroy', $shipping) }}">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">

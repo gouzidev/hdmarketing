@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>إدارة المستخدمين</title>
-    <x-scripts.fonts-import />
+    <x-imports.index />
     <x-scripts.index />
 
     <style>
@@ -15,7 +15,7 @@
         }
     </style>
 </head>
-<body class="font-sans antialiased bg-gray-50">
+<body class="font-sans antialiased bg-dot-pat bg-gray-50">
     <x-layout.nav :isHome='false'/>
     
     <x-layout.header :headerText="'تعديل معلومات المستخدم'" :icon="'fas fa-user-edit'"/>
@@ -58,7 +58,7 @@
                 @if(auth()->user()->is_admin && !$user->is_admin)
                     <div class="flex space-x-3 space-x-reverse">
                         @if(!$user->verified)
-                            <form action="{{ route('admin.users.verify', $user->id) }}" method="POST">
+                            <form action="{{ route('users.verify', $user->id) }}" method="POST">
                                 @csrf
                                 @method('PATCH')
                                 <button type="submit" 
@@ -68,7 +68,7 @@
                                 </button>
                             </form>
                         @else
-                            <form action="{{ route('admin.users.verify', $user->id) }}" method="POST">
+                            <form action="{{ route('users.verify', $user->id) }}" method="POST">
                                 @csrf
                                 @method('PATCH')
                                 <button type="submit" 
@@ -85,7 +85,7 @@
 
         <!-- Main Edit Form (Separate from verification) -->
         <form class="w-full bg-white p-6 rounded-lg shadow border border-gray-200" 
-            action="{{ route('admin.users.update', $user) }}" method="POST">
+            action="{{ route('users.update', $user) }}" method="POST">
             <!-- Form Header -->
             <div class="w-full mb-6 text-right">
                 <h2 class="text-2xl font-bold text-gray-800">تعديل الملف الشخصي</h2>

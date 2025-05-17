@@ -14,18 +14,14 @@ class AdminController extends Controller
     public function getUsersPage(Request $req)
     {
         $users = User::paginate(10);
-        return view('pages.admin.index',
+        return view('pages.admin.users.index',
         ['users' => $users,
         'search' => '']);
-    }
-    public function getProductsPage(Request $req)
-    {
-        return view('pages.product.index');
     }
     public function getDeletedUsersPage(Request $req)
     {
         $users = User::onlyTrashed()->paginate(10);
-        return view('pages.admin.deleted-users-page', ['users' => $users]);
+        return view('pages.admin.users.deleted-users-page', ['users' => $users]);
     }
     public function destroy(User $user)
     {
@@ -44,7 +40,7 @@ class AdminController extends Controller
         $user = User::onlyTrashed()->findOrFail($id);
         $user->restore();
         
-        return redirect()->route('admin.users.deleted')
+        return redirect()->route('users.deleted')
                ->with('success', 'تم استعادة الحساب بنجاح');
     }
 
@@ -59,7 +55,7 @@ class AdminController extends Controller
         $user->forceDelete();
         return back()->with('success', 'تم الحذف النهائي للحساب');
     }
-    public function getEditUserPage(User $user)
+    public function edit(User $user)
     {
         if ($user->is_admin)
         {
@@ -67,7 +63,7 @@ class AdminController extends Controller
                 ->withErrors(['error' => 'لا يمكن تعديل حالة حساب مدير'])
                 ->withInput();
         }
-        return view('pages.admin.edit-user', ['user' => $user]);
+        return view('pages.admin.users.edit-user', ['user' => $user]);
     }
     public function toggleVerification(User $user)
     {
@@ -88,7 +84,7 @@ class AdminController extends Controller
         $status = $user->verified ? 'تم توثيق الحساب بنجاح' : 'تم إلغاء توثيق الحساب';
         return back()->with('success', $status);
     }
-    public function edit(Request $request, User $user)
+    public function update(Request $request, User $user)
     {
         if ($user->is_admin)
             return back()->with('error', 'لا يمكن تعديل حالة حساب مدير');
@@ -142,7 +138,7 @@ class AdminController extends Controller
         $search = $request->input('search');
         $users = User::where('name', 'like', '%{$search}%')
         ->orWhere('email', 'like', '%{$search}%')->paginate(10);
-        return view('pages.admin.index', 
+        return view('pages.admin.users.index', 
             ['users' => $users],
             ['search' => $search]);
     }
@@ -153,7 +149,7 @@ class AdminController extends Controller
                 $query->select('id', 'name', 'email'); // Only get these user fields
             }])
             ->paginate(10);
-        return view('pages.admin.manage_admin_requests', ['requests' => $requests_for_user]);
+        return view('pages.admin.users.manage_admin_requests', ['requests' => $requests_for_user]);
     }
 
     public function approveAdminReq(Request $request, $request_id)

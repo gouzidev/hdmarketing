@@ -387,7 +387,8 @@ class ProductController extends Controller
                 ->withInput();
         }
         $search = $request->input('search');
-        $products = Product::with('images')->where('name', 'like', '%{$search}%')->paginate(10);
+        $products = Product::with('images')->where('name', 'like', "%{$search}%")->paginate(10);
+        
         return view('pages.product.index', 
             ['products' => $products],
             ['search' => $search]);
